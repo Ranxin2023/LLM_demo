@@ -11,6 +11,7 @@ def quantization():
     quantized_model = torch.quantization.quantize_dynamic(
         model, {torch.nn.Linear}, dtype=torch.qint8
     )
+    
     def print_model_size(model, path):
         torch.save(model.state_dict(), path)
         size_mb = os.path.getsize(path) / 1e6
