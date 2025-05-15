@@ -1,2 +1,6 @@
 #env file
 .env
+# Python cache
+__pycache__/
+*.py[cod]
+*.pyo
