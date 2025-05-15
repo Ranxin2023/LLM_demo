@@ -5,4 +5,4 @@ Model size: 438.02 MB
 Model size: 181.50 MB
 
 Sample logits from quantized model:
-tensor([[-0.1035,  0.0702]])
+tensor([[0.1132, 0.2513]])
