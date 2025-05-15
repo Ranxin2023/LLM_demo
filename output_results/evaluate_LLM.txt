@@ -1,6 +1,11 @@
+Evaulate gpt 2......
 Perplexity: 90.30423138733119
-Generated Text: The capital of France is home to more than 800
+Generated Text: The capital of France is France. As the name
 Accuracy: 1.0
 F1 Score: 1.0
 BLEU Score: 0.0
 ROUGE Scores: {'rouge1': Score(precision=0.0, recall=0.0, fmeasure=0.0), 'rouge2': Score(precision=0.0, recall=0.0, fmeasure=0.0), 'rougeL': Score(precision=0.0, recall=0.0, fmeasure=0.0)}
+Evaluating gpt 4.......
+GPT-4 Output: The capital of France is Paris.
+BLEU Score: 29.071536848410968
+ROUGE Scores: {'rouge1': Score(precision=1.0, recall=1.0, fmeasure=1.0), 'rouge2': Score(precision=0.6, recall=0.6, fmeasure=0.6), 'rougeL': Score(precision=0.6666666666666666, recall=0.6666666666666666, fmeasure=0.6666666666666666)}
