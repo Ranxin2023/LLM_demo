@@ -1,15 +1,15 @@
-from openai import OpenAI
+
 from contextlib import redirect_stdout
-from dotenv import load_dotenv
+
 from rouge_score import rouge_scorer
 from sklearn.metrics import f1_score, accuracy_score
 # from nltk.translate.bleu_score import sentence_bleu, SmoothingFunction
 from transformers import GPT2Tokenizer, GPT2LMHeadModel, pipeline
+from demo_code.init_openai import query_gpt4
 import math
-import os
 import sacrebleu
 import torch
-load_dotenv()
+
 def evaluate_gpt_two():
     print("Evaulate gpt 2......")
     # Load model and tokenizer
@@ -65,20 +65,7 @@ def evaluate_gpt_two():
 
 def evaluate_gpt_four():
     print("Evaluating gpt 4.......")
-    openai_api_key=os.getenv("OPENAI_API_KEY")
-    openai_client = OpenAI(
-    
-        api_key=openai_api_key
-    )
-    def query_gpt4(prompt):
-        response = openai_client.chat.completions.create(
-            model="gpt-4",
-            messages=[{"role": "user", "content": prompt}],
-            temperature=0.7,
-            max_tokens=100
-        )
-        return response.choices[0].message.content.strip()
-    
+       
     def evaluate_output(reference, generated):
         reference = [" ".join(reference.strip().split())]
         hypothesis = " ".join(generated.strip().split())

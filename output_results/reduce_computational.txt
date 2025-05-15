@@ -1,0 +1,8 @@
+quantization...
+🔹 Original model:
+Model size: 438.02 MB
+🔹 Quantized model:
+Model size: 181.50 MB
+
+Sample logits from quantized model:
+tensor([[-0.1035,  0.0702]])
