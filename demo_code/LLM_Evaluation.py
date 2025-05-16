@@ -65,7 +65,20 @@ def evaluate_gpt_two():
 
 def evaluate_gpt_four():
     print("Evaluating gpt 4.......")
-       
+    def estimate_perplexity(output_text):
+        # Simulate perplexity by estimating based on token count (for demonstration only)
+        token_count = len(output_text.split())
+        # More tokens = more entropy; smaller result = lower perplexity
+        return math.exp(token_count / 2)  # Not mathematically accurate, but illustrative
+    
+    def calculate_accuracy_and_f1(expected, actual):
+        # Simulate binary classification (correct = 1, incorrect = 0)
+        y_true = [1]
+        y_pred = [1 if expected.lower() in actual.lower() else 0]
+        acc = accuracy_score(y_true, y_pred)
+        f1 = f1_score(y_true, y_pred)
+        return acc, f1
+    
     def evaluate_output(reference, generated):
         reference = [" ".join(reference.strip().split())]
         hypothesis = " ".join(generated.strip().split())
@@ -78,12 +91,20 @@ def evaluate_gpt_four():
     prompt = "What is the capital of France?"
     expected = "Paris is the capital of France."
 
-    gpt4_output = query_gpt4(prompt)
-    bleu_score, rouge_scores = evaluate_output(expected, gpt4_output)
+    gpt4_output = query_gpt4(prompt, temperature=0.7)
 
-    print("GPT-4 Output:", gpt4_output)
-    print("BLEU Score:", bleu_score)
-    print("ROUGE Scores:", rouge_scores)
+    # different scores
+    bleu_score, rouge_scores = evaluate_output(expected, gpt4_output)
+    accuracy, f1 = calculate_accuracy_and_f1(expected, gpt4_output)
+    perplexity = estimate_perplexity(gpt4_output)
+
+    # print part
+    print("🔹 GPT-4 Output:", gpt4_output)
+    print("🔸 Perplexity (simulated):", perplexity)
+    print("🔸 Accuracy:", accuracy)
+    print("🔸 F1 Score:", f1)
+    print("🔸 BLEU Score:", bleu_score)
+    print("🔸 ROUGE Scores:", rouge_scores)
 
 def evaluate_LLM():
     with open("./output_results/evaluate_LLM.txt", "w", encoding="utf-8") as f:

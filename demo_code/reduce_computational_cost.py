@@ -2,6 +2,7 @@ import os
 import torch
 from contextlib import redirect_stdout
 from transformers import BertForSequenceClassification, BertTokenizer
+from transformers import DistilBertTokenizer, DistilBertForSequenceClassification
 # 1. Model Pruning is in LLM Evaluation
 # 2. Quantization
 def quantization():
@@ -32,8 +33,28 @@ def quantization():
 
     print("\nSample logits from quantized model:")
     print(logits)
+# 3. distillation
+def distillation():
+    print("🧪 Loading DistilBERT tokenizer and model...")
+    tokenizer = DistilBertTokenizer.from_pretrained("distilbert-base-uncased")
+    model = DistilBertForSequenceClassification.from_pretrained("distilbert-base-uncased")
+    model.eval()
+    print("✅ Tokenizer and model loaded successfully.")
+    print("🧠 Model architecture:")
+    print(model)
+    # Sample input for testing
+    input_text = "This is a test for distilled model evaluation."
+    inputs = tokenizer(input_text, return_tensors="pt")
+
+    with torch.no_grad():
+        outputs = model(**inputs)
+        logits = outputs.logits
+
+    print("\n📊 Logits from the distilled model:")
+    print(logits)
 
 def five_method():
     with open("./output_results/reduce_computational.txt", "w", encoding="utf-8") as f:
         with redirect_stdout(f):
             quantization()
+            distillation()
