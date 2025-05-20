@@ -5,7 +5,7 @@ from rouge_score import rouge_scorer
 from sklearn.metrics import f1_score, accuracy_score
 # from nltk.translate.bleu_score import sentence_bleu, SmoothingFunction
 from transformers import GPT2Tokenizer, GPT2LMHeadModel, pipeline
-from demo_code.init_openai import query_gpt4
+from demo_code.init_openai import query_open_ai
 import math
 import sacrebleu
 import torch
@@ -91,7 +91,7 @@ def evaluate_gpt_four():
     prompt = "What is the capital of France?"
     expected = "Paris is the capital of France."
 
-    gpt4_output = query_gpt4(prompt, temperature=0.7)
+    gpt4_output = query_open_ai(prompt, temperature=0.7, model_name="gpt-4", max_tokens=100)
 
     # different scores
     bleu_score, rouge_scores = evaluate_output(expected, gpt4_output)
