@@ -1,0 +1,62 @@
+🧪 Running GPT-2 (local, max ~1024 tokens):
+🔹 Short context output:
+Once upon a time in a distant kingdom, the king of the land was a man of great wealth and power. He was a man of great wealth and power. He was a man of great wealth and power. He was a man of great wealth and power. He was a man of great
+🔹 Long context output:
+⚠️ Input too long (2409 tokens). Truncating to fit context window...
+ king had many sons. The king had many sons. The king had many sons. The king had many sons. The king had many sons. The king had many sons. The king had many sons. The king had many sons. The king had many sons. The king had many sons. The king had many sons. The king had many sons. The king had many sons. The king had many sons. The king had many sons. The king had many sons. The king had many sons. The king had many sons. The king had many sons. The king had many sons. The king had many sons. The king had many sons. The king had many sons. The king had many sons. The king had many sons. The king had many sons. The king had many sons. The king had many sons. The king had many sons. The king had many sons. The king had many sons. The king had many sons. The king had many sons. The king had many sons. The king had many sons. The king had many sons. The king had many sons. The king had many sons. The king had many sons. The king had many sons. The king had many sons. The king had many sons. The king had many sons. The king had many sons. The king had many sons. The king had many sons. The king had many sons. The king had many sons. The king had many sons. The king had many sons. The king had many sons. The king had many sons. The king had many sons. The king had many sons. The king had many sons. The king had many sons. The king had many sons. The king had many sons. The king had many sons. The king had many sons. The king had many sons. The king had many sons. The king had many sons. The king had many sons. The king had many sons. The king had many sons. The king had many sons. The king had many sons. The king had many sons. The king had many sons. The king had many sons. The king had many sons. The king had many sons. The king had many sons. The king had many sons. The king had many sons. The king had many sons. The king had many sons. The king had many sons. The king had many sons. The king had many sons. The king had many sons. The king had many sons. The king had many sons. The king had many sons. The king had many sons. The king had many sons. The king had many sons. The king had many sons. The king had many sons. The king had many sons. The king had many sons. The king had many sons. The king had many sons. The king had many sons. The king had many sons. The king had many sons. The king had many sons. The king had many sons. The king had many sons. The king had many sons. The king had many sons. The king had many sons. The king had many sons. The king had many sons. The king had many sons. The king had many sons. The king had many sons. The king had many sons. The king had many sons. The king had many sons. The king had many sons. The king had many sons. The king had many sons. The king had many sons. The king had many sons. The king had many sons. The king had many sons. The king had many sons. The king had many sons. The king had many sons. The king had many sons. The king had many sons. The king had many sons. The king had many sons. The king had many sons. The king had many sons. The king had many sons. The king had many sons. The king had many sons. The king had many sons. The king had many sons. The king had many sons. The king had many sons. The king had many sons. The king had many sons. The king had many sons. The king had many sons. The king had many sons. The king had many sons. The king had many sons. The king had many sons. The king had many sons. The king had many sons. The king had many sons. The king had many sons. The king had many sons. The king had many sons. The king had many sons. The king had many sons. The king had many sons. The king had many sons. The king had many sons. The king had many sons. The king had many sons. The king had many sons. The king had many sons. The king had many sons. The king had many sons. The king had many sons. The king had many sons. Once upon a time in a distant kingdom, a king had many sons. The king had many sons. The king had many sons. The king had many sons. The king had many sons. The king had many sons. The king had many sons. The king had many sons. The king
+
+🧪 Running GPT-3.5-turbo (max ~4,096 tokens):
+🔹 Short context output:
+there lived a king who ruled with kindness and wisdom. His people adored him for his fairness and generosity, and his kingdom flourished under his rule.
+
+One day, the king received news that a neighboring kingdom was planning to invade his lands. Without hesitation, he called upon his army and prepared for war. The king knew that he had to protect his people and his kingdom at all costs.
+
+As the enemy army approached, the king stood at the front lines with his soldiers, ready to defend their home. The battle was fierce and intense, but the king never wavered in his resolve to protect his kingdom.
+
+After a long and challenging fight, the king's army emerged victorious, and the enemy forces retreated in defeat. The people of the kingdom celebrated their victory, grateful for their king's brave leadership and unwavering determination.
+
+From that day on, the king was hailed as a hero, not only for his courage in battle but also for his dedication to his people. His reign continued to be marked by prosperity and peace, thanks to his wise and benevolent rule.
+
+And so, the king's legacy lived on in the hearts of his people, who remembered him as a true protector and leader of their beloved kingdom.
+🔹 Long context output:
+there was a king who had many sons. The king was proud of his sons and loved them all dearly. However, as the king grew older, he realized that he needed to choose a successor to the throne among his sons.
+
+The king decided to hold a tournament to determine who would be the next king. The tournament was fierce, with each son showing off their skills and abilities. In the end, it was the youngest son who emerged victorious, proving himself to be the most worthy of the crown.
+
+The king was overjoyed with his son's success and proudly announced him as the next king. The king's other sons were happy for their brother and pledged their loyalty to him. And so, the youngest son became the new king, ruling the kingdom with wisdom and compassion.
+
+And the king had many sons, but it was the youngest son who proved himself to be the greatest of them all.
+
+🧪 Running GPT-4-turbo (max ~128,000 tokens):
+🔹 Short context output:
+there was a quaint village named Eldoria, nestled between the whispering forests and the sparkling Silverlake. The village was known far and wide for its enchanting beauty and the legendary Silver Apples that grew only in its orchards. The apples were said to grant extraordinary wisdom and healing powers to those who ate them.
+
+In this village lived a young girl named Elara, known for her courage and kind heart. She was the daughter of a humble orchard keeper who tended the rare Silver Apple trees. The villagers believed that these trees were a gift from the celestial beings, and thus, they celebrated the Harvest Moon festival every year to honor these beings and thank them for their benevolence.
+
+One year, as the Harvest Moon neared, a great misfortune befell Eldoria. A fierce dragon, drawn by the scent of the Silver Apples, descended from the mountains and wreaked havoc upon the village. It burned down homes and terrified the villagers with its ferocious demeanor. It then took refuge in the ruins of Eldoria's ancient castle, threatening to return each day unless it was given a share of the Silver Apples.
+
+The villagers were in despair, fearing that their lives and their precious orchard would be forever under the shadow of this dragon. The king, in his efforts to protect Eldoria, called upon knights and sorcerers from distant lands, but none could defeat the dragon, for it was cunning and powerful.
+
+Elara, watching her beloved village suffer, decided that she could no longer stand idly by. She remembered an old legend passed down in her family about a hidden chamber beneath the ancient castle, where a magical artifact known as the Starlight Pendant was kept. This pendant was said to have the power to tame any beast and bring peace to the land.
+
+With determination in her heart, Elara embarked on a perilous journey to find the Starlight Pendant. She ventured into the castle's ruins, navigating through labyrinthine corridors and dodging the occasional fiery breath of the lurking dragon. After days of searching, Elara finally discovered the hidden chamber sealed by a puzzle that only the true-hearted could solve.
+
+Using her wits and the wisdom imparted by her father, Elara solved the puzzle and retrieved the Starlight Pendant. As she held it, the pendant began to glow with a soft, silvery light, soothing Elara's fears and filling her with hope. She returned to confront the dragon, her resolve as strong as ever.
+
+Standing before the fearsome creature, Elara held up the Starlight Pendant. The dragon, initially poised to attack, became strangely calm, its fiery eyes softening as the pendant's light enveloped it. Whispering words of peace and coexistence, Elara slowly approached the dragon, and to the amazement of all who watched from afar, the beast bowed its head in acquiescence.
+
+From that day on, the dragon lived peacefully with the villagers, guarding Eldoria and its orchards from any who would seek to harm them. Elara was celebrated as a hero, and under her gentle influence, the village flourished like never before. The people of Eldoria learned that bravery and kindness could indeed change the fate of their world, and they lived in harmony with all creatures great and small, under the watchful eyes of Elara and their new guardian, the dragon. And so, the kingdom was filled with stories of valor, spoken of for generations to come.
+🔹 Long context output:
+the king was known not only for his wise and just rule but also for his exceptionally large family. With such numerous progeny, the kingdom was buzzing with the energy and varying ambitions of these royal sons. Each prince had distinctive talents and dreams, shaping their paths in unique directions.
+
+The eldest son was a diplomat, gifted in languages and peacemaking, and he traveled to neighboring kingdoms to forge alliances. The second was a brave warrior, leading the army to defend the kingdom's territories. Another son was a scholar, spending his days immersed in books, seeking knowledge in both science and magic. Yet another was an artist, whose paintings and sculptures adorned the palace and were admired by all who visited.
+
+Over time, the king realized that managing such a large family and ensuring the kingdom's prosperity were monumental tasks. He decided that each son should engage more directly in managing parts of the kingdom, turning their talents to practical administration.
+
+Thus, the kingdom was divided into regions, each governed by one of the sons. The eldest prince took the capital, where he could exercise his diplomatic skills. The warrior prince managed the border territories, fortifying them against potential invaders. The scholar established a region of learning, founding schools and libraries. The artist adorned his region with beautiful artworks, attracting many tourists and boosting the local economy.
+
+Life in the kingdom flourished under the specialized care of each prince. Their diverse skills not only contributed to their respective regions but also brought about a stronger, more unified kingdom as they worked in harmony towards common goals.
+
+In their frequent gatherings, the sons shared insights and resources, understanding that despite their differences, their mutual support was vital for the kingdom's welfare. The king watched with pride as his sons grew into capable leaders, comforted by the knowledge that his legacy would be carried forward with wisdom and compassion.
+
+Thus, beneath the guidance of a revered father and the unique strengths of his many sons, the kingdom prospered, its people secure and content, knowing that their futures were in dedicated hands.

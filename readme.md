@@ -1,7 +1,15 @@
 # LLM DEMO
 ## Concepts
-### 1. **How do you measure the performance of an LLM?**
-#### 1.1 🔢 Perplexity
+### 3. What are some common pre-training objectives for LLMs, and how do they work?
+#### 3.1  Masked Language Modeling (MLM)
+- **Used in models like**: BERT, RoBERTa
+- **How it works**:
+    - Random tokens in a sentence are masked (replaced with `[MASK]`).
+    - The model is trained to predict the masked word using both left and right context (i.e., it's **bidirectional**).
+#### 3.2 Autoregressive Language Modeling (AR)
+- **Used in models like**: GPT, GPT-2, GPT-3, GPT-4
+### 4. **How do you measure the performance of an LLM?**
+#### 4.1 🔢 Perplexity
 - **definition**:
 Perplexity is a measurement of how well a language model predicts a sequence. It is the exponential of the average negative log-likelihood of the predicted tokens.
 - **formula**:
@@ -28,7 +36,7 @@ F1=(2*Precision*Recall)/(Precision+Recall)
 
 #### 1.4
 
-### 2. **Techniques for Controlling the Output of an LLM**
+### 5. **Techniques for Controlling the Output of an LLM**
 These methods let developers influence how a model responds, balancing between randomness, relevance, creativity, and determinism.
 #### 2.1 🔥 Temperature
 ##### **What it does:** 

@@ -33,6 +33,7 @@ def quantization():
 
     print("\nSample logits from quantized model:")
     print(logits)
+    
 # 3. distillation
 def distillation():
     print("🧪 Loading DistilBERT tokenizer and model...")

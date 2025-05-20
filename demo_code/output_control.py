@@ -1,9 +1,9 @@
 from contextlib import redirect_stdout
 from transformers import pipeline, set_seed
-from demo_code.init_openai import query_gpt4
+from demo_code.init_openai import query_open_ai
 def temperature():
     print("temperature......")
-    response = query_gpt4( temperature=0.2)
+    response = query_open_ai( temperature=0.2)
     print("Low Temperature Output:", response)
 def top_k_sampling():
     print("top k sampling......")
