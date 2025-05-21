@@ -8,6 +8,7 @@
     - The model is trained to predict the masked word using both left and right context (i.e., it's **bidirectional**).
 #### 3.2 Autoregressive Language Modeling (AR)
 - **Used in models like**: GPT, GPT-2, GPT-3, GPT-4
+
 ### 4. 📌 Fine-Tuning
 #### 4.1 What Is Fine-Tuning?
 **Fine-tuning** is the process of taking a pre-trained language model (e.g., BERT, GPT, etc.) and training it further on **a smaller, domain-specific dataset** to adapt it to a specific task (like sentiment classification or question answering).
@@ -15,6 +16,7 @@
 - When a model like DistilBERT is pre-trained:
     - It learns general knowledge of language patterns.
     - But it doesn’t know how to perform **task-specific** jobs like classifying IMDb reviews as positive or negative.
+
 ### 5. **How do you measure the performance of an LLM?**
 #### 5.1 🔢 Perplexity
 - **definition**:
