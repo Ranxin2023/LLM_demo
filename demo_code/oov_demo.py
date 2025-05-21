@@ -1,7 +1,7 @@
 from contextlib import redirect_stdout
 from transformers import BertTokenizer, GPT2Tokenizer
 def oov_demo():
-    with open("./output_results/output_control.txt", "w", encoding="utf-8") as f:
+    with open("./output_results/oov_demo.txt", "w", encoding="utf-8") as f:
         with redirect_stdout(f):
             # Example OOV-like word
             word = "transformerssaurus"  # Not in vocabulary
