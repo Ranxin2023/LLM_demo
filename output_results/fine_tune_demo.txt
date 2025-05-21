@@ -1,0 +1,24 @@
+fine tune the distilbert...
+📉 Before Fine-Tuning — Accuracy: 0.0025, F1: 0.0000
+{'loss': 0.2392, 'grad_norm': 0.31535595655441284, 'learning_rate': 4.775e-05, 'epoch': 0.05}
+{'loss': 0.0069, 'grad_norm': 0.060496240854263306, 'learning_rate': 4.525e-05, 'epoch': 0.1}
+{'loss': 0.0016, 'grad_norm': 0.025072475895285606, 'learning_rate': 4.275e-05, 'epoch': 0.15}
+{'loss': 0.0009, 'grad_norm': 0.014413094148039818, 'learning_rate': 4.025e-05, 'epoch': 0.2}
+{'loss': 0.0006, 'grad_norm': 0.011109751649200916, 'learning_rate': 3.775e-05, 'epoch': 0.25}
+{'loss': 0.0004, 'grad_norm': 0.00913123320788145, 'learning_rate': 3.525e-05, 'epoch': 0.3}
+{'loss': 0.0004, 'grad_norm': 0.009886429645121098, 'learning_rate': 3.275e-05, 'epoch': 0.35}
+{'loss': 0.0003, 'grad_norm': 0.007443052716553211, 'learning_rate': 3.025e-05, 'epoch': 0.4}
+{'loss': 0.0003, 'grad_norm': 0.007493643555790186, 'learning_rate': 2.7750000000000004e-05, 'epoch': 0.45}
+{'loss': 0.0003, 'grad_norm': 0.006695965770632029, 'learning_rate': 2.525e-05, 'epoch': 0.5}
+{'loss': 0.0002, 'grad_norm': 0.004011878278106451, 'learning_rate': 2.275e-05, 'epoch': 0.55}
+{'loss': 0.0002, 'grad_norm': 0.0040894122794270515, 'learning_rate': 2.025e-05, 'epoch': 0.6}
+{'loss': 0.0002, 'grad_norm': 0.003919042646884918, 'learning_rate': 1.775e-05, 'epoch': 0.65}
+{'loss': 0.0002, 'grad_norm': 0.003749704686924815, 'learning_rate': 1.525e-05, 'epoch': 0.7}
+{'loss': 0.0002, 'grad_norm': 0.004243853036314249, 'learning_rate': 1.2750000000000002e-05, 'epoch': 0.75}
+{'loss': 0.0002, 'grad_norm': 0.0039110444486141205, 'learning_rate': 1.025e-05, 'epoch': 0.8}
+{'loss': 0.0001, 'grad_norm': 0.0038499527145177126, 'learning_rate': 7.75e-06, 'epoch': 0.85}
+{'loss': 0.0001, 'grad_norm': 0.00378381903283298, 'learning_rate': 5.25e-06, 'epoch': 0.9}
+{'loss': 0.0001, 'grad_norm': 0.0035015540197491646, 'learning_rate': 2.7500000000000004e-06, 'epoch': 0.95}
+{'loss': 0.0001, 'grad_norm': 0.0036563833709806204, 'learning_rate': 2.5000000000000004e-07, 'epoch': 1.0}
+{'train_runtime': 2584.1501, 'train_samples_per_second': 0.619, 'train_steps_per_second': 0.077, 'train_loss': 0.012631653497810475, 'epoch': 1.0}
+📈 After Fine-Tuning — Accuracy: 1.0000, F1: 0.0000

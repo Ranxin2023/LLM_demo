@@ -1,5 +1,5 @@
 from contextlib import redirect_stdout
-from demo_code.init_openai import openai_client, query_open_ai
+from demo_code.init_openai import query_open_ai
 from transformers import GPT2Tokenizer, GPT2LMHeadModel
 
 def count_tokens(tokenizer, text):
