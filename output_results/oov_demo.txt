@@ -1,0 +1,8 @@
+
+🔹 Tokenization using BERT (WordPiece):
+Input: transformerssaurus
+Tokens: ['transformers', '##saurus']
+
+🔹 Tokenization using GPT-2 (BPE):
+Input: transformerssaurus
+Tokens: ['transform', 'ers', 's', 'aurus']
