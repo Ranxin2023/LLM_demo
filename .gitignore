@@ -4,3 +4,6 @@
 __pycache__/
 *.py[cod]
 *.pyo
+
+
+/output_results/fine_tune_result/
