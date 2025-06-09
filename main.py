@@ -8,11 +8,11 @@ from demo_code.oov_demo import oov_demo
 def main():
     # evaluate_LLM()
     # five_method()
-    # output_control_demo()
+    output_control_demo()
     # pre_trained_demo()
     # context_window_demo()
     # fine_tune_demo()
-    oov_demo()
+    # oov_demo()
 
 if __name__=='__main__':
     main()
