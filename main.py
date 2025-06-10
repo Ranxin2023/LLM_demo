@@ -3,7 +3,7 @@ from demo_code.reduce_computational_cost import five_method
 from demo_code.output_control import output_control_demo
 from demo_code.pre_trained_objectives import pre_trained_demo
 from demo_code.context_window_demo import context_window_demo
-from demo_code.fine_tune_demo import fine_tune_demo
+# from demo_code.fine_tune_demo import fine_tune_demo
 from demo_code.oov_demo import oov_demo
 def main():
     # evaluate_LLM()
