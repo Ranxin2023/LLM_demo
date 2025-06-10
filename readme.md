@@ -55,8 +55,38 @@ During generation, the model uses probabilities to decide the next token. Temper
 - A **lower value** (e.g., 0.2) sharpens the distribution — the model is more confident and **chooses the most likely next word**, producing **deterministic and repetitive** outputs.
 - A **higher value** (e.g., 1.0 or 1.5) flattens the distribution, allowing for more **diverse, creative, and unpredictable** text.
 
+##### 🧊 Low Temperature (temperature=0.2)
+- Explanation:
+    - The output is **coherent**, **rhythmic**, and **safe**.
+    - GPT-4 chooses tokens with the highest probability, so it sticks to standard poetic themes.
+    - Less creative surprises, but more syntactically correct and “professional” sounding.
+
+- ✅ Ideal for:
+    - Factual tasks
+    - Formal documentation
+    - Summarization
+    
+#####  High Temperature (temperature=1.0)
+- Explanation:
+    - The output is **more imaginative and colorful**.
+    - Words like "Emerald galaxies", "ink-black canvas" indicate a **creative leap**.
+
 #### 6.2 🎯 Top-K Sampling
 - **What it does**: Restricts the token selection pool to the **top K most probable tokens** at each generation step.
 - **How it works**: If `top_k=50`, the model only chooses from the top 50 most likely next tokens rather than considering all options.
 
+
+#### 6.3 Top-p Sampling
+##### 🔍 What Is Top-P Sampling?
+Top-P sampling chooses from the smallest set of tokens whose cumulative probability exceeds the threshold p. Lower values restrict choice to high-confidence tokens; higher values allow more diverse token selection.
+
+##### Explanation in Example
+- 0.3:
+    - **Summary**: Output is short and nearly identical to 0.6; it stops mid-sentence.
+    - **Behavior**: Most focused — selects tokens only from the top ~30% cumulative probability mass. Tends to be **highly relevant but less diverse**.
+- 0.6:
+    - **Summary**: Nearly identical to 0.3.
+    - **Behavior**: Balanced — more flexible than 0.3 but still somewhat focused, but still constrained to safe outputs.
+- 0.8 
+    - **Summary**: Output starts to diversify — adds some background explanation.
 ### 7. 

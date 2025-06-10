@@ -1,18 +1,48 @@
 temperature......
 Low Temperature Output: Beyond the veil of azure sky,
-Where the winged creatures freely fly,
-Lies a realm of mystery and grace,
-The boundless, timeless, cosmic space.
+Where earthly boundaries cease to lie,
+There exists a realm of silent grace,
+The cosmic ballet of infinite space.
 
-Galaxies twirl in a cosmic dance,
-Stars shimmer in a silent trance,
-Plan
+Galaxies twirling in a cosmic dance,
+Stars that shimmer in a timeless trance,
+Planets in orbits
+High Temperature Output: In the realm where silence is a song,
+Beyond the blue where we belong,
+In the profound void, vast and wide, 
+The universe in silence does confide. 
+
+Beneath the cosmic velvet veil,
+Stars shimmer fragile, delicate and frail
 top k sampling......
-Top-K Sampling Output: Once upon a time, what seems to you that the lightest person could make a living being with that power, you felt the power to control it."
+Top-K Sampling Output: Once upon a time, what was the best way to go about it?
 
+When I first started out, I was just a college student. I didn't know what to expect from a college student, so I always thought I would be a little bit more introverted, and maybe a little more introverted.
 
-A little later, with the arrival of the Great Black Lotus by his side, it
+I had a lot of friends in the beginning. I had a lot of friends who were basically older people, and they just didn't like me as much. So I started thinking about what I wanted to do in life, and they just didn't like it.
+
+I started doing things like what I was doing at a certain party, and I started hanging out with people I know. I tried doing things with a certain group of people, but I couldn't really get past the fact that I actually had a great time.
+
+I started hanging out, and I was in love with it, and I didn't have a lot of friends. I just started hanging out with a group of people who liked me, and I was like, "You know what, I'm going to be like that. I'm going to be like that." And I was like, "No, no, no, no." I was like, "No."
+
 top p sampling...
-Top-P Sampling Output: Quantum computing is a type of computing technology that uses quantum mechanics, a complex concept from physics. It's quite different from classical computing that we use every day, which uses bits in a state of 0s or 1s to process information.
 
-In quantum computing, we use quantum bits,
+--- Top-P = 0.3 ---
+Quantum computing is a type of computing technology that uses the principles of quantum mechanics. Unlike traditional computers that use bits (0s and 1s) to process information, quantum computers use quantum bits, or qubits. 
+
+A qubit can be both 0 and 1 at the same
+
+--- Top-P = 0.6 ---
+Quantum computing is a type of computing technology that uses the principles of quantum mechanics. Unlike traditional computers that use bits (0s and 1s) to process information, quantum computers use quantum bits or "qubits". 
+
+A qubit can be both 0 and 1 at the same
+
+--- Top-P = 0.8 ---
+Quantum computing is a type of computing technology that uses quantum mechanics principles (a field of physics that explains the behavior of particles at the smallest levels). It's like a super-powered version of regular computing.
+
+Regular computers use bits to process information, which can be either a 0 or a 1
+
+--- Top-P = 1.0 ---
+Quantum computing is a type of computing technology that uses the principles of quantum mechanics. 
+
+In traditional computing, data is processed in binary format, using bits which can only have a value of either 0 or 1. Quantum computing, on the other hand, uses quantum bits or 'qubits
