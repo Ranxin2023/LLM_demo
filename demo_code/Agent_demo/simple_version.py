@@ -3,9 +3,10 @@ from transformers import RagTokenizer, RagRetriever, RagSequenceForGeneration
 from datasets import Dataset, load_dataset
 import torch
 import os
+os.environ["HF_DATASETS_TRUST_REMOTE_CODE"] = "true"
 from contextlib import redirect_stdout
 
-dataset = load_dataset("wiki_dpr", "psgs_w100.nq.exact", trust_remote_code=True)
+# dataset = load_dataset("wiki_dpr", "psgs_w100.nq.exact", trust_remote_code=True)
 # Step 1: Use RAG to generate QA pairs from questions
 def generate_qa_pairs_from_rag(questions):
     os.environ["HF_DATASETS_TRUST_REMOTE_CODE"] = "true"
