@@ -2,7 +2,7 @@ import torch
 from transformers import BertTokenizer, BertForSequenceClassification
 from captum.attr import Saliency
 import matplotlib.pyplot as plt
-
+from contextlib import redirect_stdout
 def interpret_model():
     print("model interpretability demo......")
     model_name = "bert-base-uncased"
@@ -11,4 +11,6 @@ def interpret_model():
     model.eval()
 
 def redirect_output():
-    pass
+    with open("./output_results/interpret_model.txt", "w", encoding="utf-8") as f:
+        with redirect_stdout(f):
+            interpret_model()
