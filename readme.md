@@ -90,3 +90,21 @@ Top-P sampling chooses from the smallest set of tokens whose cumulative probabil
 - 0.8 
     - **Summary**: Output starts to diversify — adds some background explanation.
 ### 7. 
+
+### 8. How can you incorporate external knowledge into an LLM?
+####  Knowledge Graph Integration (Simplified)
+Use structured facts (triples or graphs `like France → Capital → Paris`) directly in the prompt. This adds factual grounding to help the model reason accurately.
+
+#### RAG
+##### **Retrieval-Augmented Generation (RAG)** is a hybrid approach that:
+
+1. Retrieves relevant documents from a large external knowledge base or corpus (like Wikipedia, PDFs, or internal files),
+
+2. Augments the prompt by inserting the retrieved text,
+
+3. Generates the answer using a generative language model (like GPT, BART, or T5).
+
+##### 🧠 How it works (step-by-step):
+1. User inputs a query
+    - → e.g., “What are the benefits of vitamin D?”
+2. 

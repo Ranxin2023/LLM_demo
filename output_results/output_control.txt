@@ -2,18 +2,17 @@ temperature......
 Low Temperature Output: Beyond the veil of azure sky,
 Where earthly boundaries cease to lie,
 There exists a realm of silent grace,
-The cosmic ballet of infinite space.
+A vast, mysterious, infinite space.
 
-Galaxies twirling in a cosmic dance,
-Stars that shimmer in a timeless trance,
-Planets in orbits
-High Temperature Output: In the realm where silence is a song,
-Beyond the blue where we belong,
-In the profound void, vast and wide, 
-The universe in silence does confide. 
+Galaxies twirl in cosmic dance,
+Stars ignite in radiant prance,
+Planets orbit in silent
+High Temperature Output: In the profound abyss of cosmic dust and hues,
+Where twinkling stars weave tales, old and new.
+A silent symphony, an ungoverned ballet,
+Old space whispers secrets in the milky way.
 
-Beneath the cosmic velvet veil,
-Stars shimmer fragile, delicate and frail
+Billions and billions of miles wide,
 top k sampling......
 Top-K Sampling Output: Once upon a time, what was the best way to go about it?
 
@@ -38,11 +37,11 @@ Quantum computing is a type of computing technology that uses the principles of 
 A qubit can be both 0 and 1 at the same
 
 --- Top-P = 0.8 ---
-Quantum computing is a type of computing technology that uses quantum mechanics principles (a field of physics that explains the behavior of particles at the smallest levels). It's like a super-powered version of regular computing.
+Quantum computing is a type of computing technology that uses the principles of quantum mechanics, which is a branch of physics that explores how the universe works on a very small scale, such as atoms and particles.
 
-Regular computers use bits to process information, which can be either a 0 or a 1
+In classical computing, the smallest piece of information (a bit) can be either a 0
 
 --- Top-P = 1.0 ---
 Quantum computing is a type of computing technology that uses the principles of quantum mechanics. 
 
-In traditional computing, data is processed in binary format, using bits which can only have a value of either 0 or 1. Quantum computing, on the other hand, uses quantum bits or 'qubits
+Traditional computers use bits to process information, which are in a state of 0 or 1. Quantum computers, on the other hand, use quantum bits, or 'qubits'. These can be both

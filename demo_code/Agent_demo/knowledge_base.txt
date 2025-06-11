@@ -1,0 +1,12 @@
+1. Alan Turing was a mathematician and a pioneer in computer science.
+2. Alan Turing developed the concept of the Turing Machine in 1936.
+3. The Turing Machine laid the foundation for modern computer algorithms.
+4. Artificial Intelligence is a field that builds on computer science.
+5. Alan Turing proposed the Turing Test as a criterion for machine intelligence.
+6. The Turing Test evaluates a machine's ability to exhibit human-like behavior.
+7. Turing worked at Bletchley Park to break Nazi encryption during WWII.
+8. Turing’s work led to early advancements in computational cryptanalysis.
+9. Neural networks are inspired by the structure of the human brain.
+10. Deep learning is a subset of machine learning using neural networks.
+11. Machine learning is a core component of artificial intelligence.
+12. Alan Turing's legacy influences AI ethics, algorithms, and theory.
