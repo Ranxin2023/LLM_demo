@@ -9,3 +9,20 @@ openai>=1.3.0
 captum>=0.6.0
 lime>=0.2.0.1
 keras==2.11.0
+
+# LangChain core (starting from v0.2.0)
+langchain==0.1.15
+
+# Split packages (mandatory since v0.2.0)
+
+langchain-community==0.0.38
+langchain-openai==0.0.6
+
+# OpenAI and environment management
+openai>=1.0.0
+python-dotenv>=1.0.0
+
+# External tools
+serpapi>=0.1.4
+google-search-results>=2.4.2  # Required by SerpAPI tools
+numexpr>=2.8.4                # Required by LLMMathTool in LangChain

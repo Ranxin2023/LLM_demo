@@ -108,3 +108,8 @@ Use structured facts (triples or graphs `like France → Capital → Paris`) dir
 1. User inputs a query
     - → e.g., “What are the benefits of vitamin D?”
 2. 
+
+
+### 9. Longchain
+#### What is LangChain?
+LangChain is a framework designed to build **context-aware**, intelligent applications powered by large language models (LLMs), like ChatGPT. It allows LLMs to go beyond simple text completion by:
