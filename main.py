@@ -6,6 +6,7 @@
 # # from demo_code.fine_tune_demo import fine_tune_demo
 # from demo_code.oov_demo import oov_demo
 from demo_code.Agent_demo.simple_version import simple_version
+from demo_code.LangChain.agent_demo import agent_demo_redirect
 def main():
     # evaluate_LLM()
     # five_method()
@@ -14,7 +15,8 @@ def main():
     # context_window_demo()
     # fine_tune_demo()
     # oov_demo()
-    simple_version()
+    # simple_version()
+    agent_demo_redirect()
 
 if __name__=='__main__':
     main()
