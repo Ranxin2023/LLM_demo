@@ -242,19 +242,41 @@ result = chain.invoke({"question": "What is 123 + 456?"})
 
 #### Key Components
 1. **Graph Structure**:
+![Graph structure](images/langgraph_graph_structure.png)
 Think of your application as a directed graph:
 - **Nodes** = **agents** (LLMs, tools, human input nodes, evaluators, etc.).
 - **Edges** = **communication channels** (the path data or decisions take from one agent to another).
+This setup lets you::
+- Chain together specialized agents (e.g., one generates answers, another checks correctness).
+- Introduce **cycles** for iterative refinement, such as a loop between a generator and a reviewer until quality criteria are met.
+- Visualize workflows in a modular way, like a flowchart for AI reasoning.
 
-2. 
+2. **State Managemet**:
+![Graph State Management](images/langgraphState_management.png)
+- A big challenge in multi-agent systems is keeping track of context across steps. LangGraph solves this with **automatic state management**:
+- The **state** contains accumulated messages, facts, or metadata.
+- Every time an agent acts, the state is updated — ensuring no history is lost.
+- The state can be checkpointed (saved at points in the graph) and even resumed later, which makes long-running or interruptible workflows reliable.
 
+3. **Coordination**:
+![Graph Coordination](images/langgraph_coordination.png)
+- LangGraph ensures that agents run in the **right order**.
+- It handles **conditional routing**, meaning an agent’s output can decide which path to follow (e.g., “If tool needed → Tool Agent, else → Planner”).
+- Coordination guarantees that information exchange is seamless (no dropped messages, no out-of-sync agents).
 
 #### Why Langgraph
 1. **Simplified development**
 - **What it means**: You describe what should happen (nodes + edges), and LangGraph handles how to run it (order, passing messages, resuming, retries).
 - **Why it’s simpler than hand-rolled logic**:
-- **GraphStructure**:
-![Graph structure](images/langgraph_graph_structure.png)
+
 2. **Flexibility**
 - **What it means**: You can compose any kind of node and route between them however you like.
-3. 
+- **Ways flexibility shows up**:
+    - Heterogeneous nodes: LLM agents, tools, evaluators, vector lookups, humans (approval steps), webhooks, your own Python.
+3. **Scalability**:
+- **What it means**: The runtime is built to handle lots of concurrent, long-running, or complex workflows.
+- How you scale in practice:
+    - Checkpointing to durable storage: Swap `MemorySaver` for Redis/Postgres-backed checkpointers so any worker can resume a session by thread_id.
+    - Horizontal workers: Run multiple stateless worker processes/containers pointing at the same checkpointer. Each takes a turn advancing a graph.
+4. **Fault tolerance**:
+- 
