@@ -110,6 +110,151 @@ Use structured facts (triples or graphs `like France → Capital → Paris`) dir
 2. 
 
 
-### 9. Longchain
+### 9. LangChain
 #### What is LangChain?
-LangChain is a framework designed to build **context-aware**, intelligent applications powered by large language models (LLMs), like ChatGPT. It allows LLMs to go beyond simple text completion by:
+LangChain is an open-source framework that helps developers build applications powered by Large Language Models (LLMs).
+Instead of coding every piece manually, LangChain provides ready-made tools, components, and APIs to:
+
+- Connect to language models
+- Manage prompts and conversations
+
+- Link external resources (databases, APIs, files, search engines, etc.)
+
+- Build complex workflows by chaining multiple steps together
+
+This makes it easier to move from “just calling an LLM” to building full, production-ready AI apps.
+
+#### ⚙️ Key Capabilities
+1. **Tailorable Prompts**:
+- You can design prompts dynamically.
+
+- Example: A customer support app could insert the customer’s name, order details, and conversation history into a template before sending it to the LLM.
+
+2. **Chain Link Components**:
+- LangChain allows you to connect different steps into a **chain**.
+- Example: First step → clean user input → second step → query a database → third step → summarize result.
+- This chaining is why it’s called LangChain.
+
+3. **Integration with External Models and Tools**:
+- It’s not limited to one LLM (like GPT).
+
+4. 
+#### 💡 Why it Matters
+- You need **more than just a single LLM call** (e.g., multi-step reasoning, API calls, retrieval from databases).
+- You want to integrate AI into real-world applications like chatbots, knowledge bases, assistants, or data pipelines.
+- You’re building something **scalable and reusable** instead of quick one-off scripts.
+#### 🛠️ Example Applications
+- **Chatbots** (customer service, Q&A)
+- **Virtual Assistants** (personalized scheduling, task management)
+- **Language Tools** (translation, summarization, rewriting)
+- Data Apps (RAG systems where the LLM retrieves info from your database or documents)
+- Sentiment/Analytics (combining LLM reasoning with ML models and dashboards)
+
+#### Key Components of LangChain
+##### components & chains
+- **definition**: “components” are small, focused pieces (models, prompts, retrievers, parsers). a chain wires them together so the output of one becomes the input of the next.
+- **when to use**: any multi-step flow (clean → prompt → LLM → parse → store).
+- **example**:
+```python
+from langchain_openai import ChatOpenAI
+from langchain_core.prompts import ChatPromptTemplate
+
+llm = ChatOpenAI(model="gpt-4o-mini")
+prompt = ChatPromptTemplate.from_messages([
+    ("system", "You are a concise assistant."),
+    ("human", "Summarize:\n{text}")
+])
+
+chain = prompt | llm  # pipe operator builds a chain
+
+chain.invoke({"text": "LangChain lets you mix & match components to build LLM apps."})
+
+```
+
+
+##### prompt templates
+- **definition**: reusable, parameterized prompts that turn variables into well-structured messages (great for consistency and guardrails).
+- **when to use**: you need dynamic content (user name, retrieved docs, tone, format).
+- **example**:
+```python
+from langchain_core.prompts import ChatPromptTemplate
+
+prompt = ChatPromptTemplate.from_messages([
+    ("system", "Act as a {role}. Keep answers under {limit} words."),
+    ("human", "{question}")
+])
+
+msg = prompt.format_messages(role="math tutor", limit="60", question="Explain eigenvalues.")
+
+```
+
+##### vector stores
+- **definition**: databases that store **embeddings** (numeric vectors) for semantic search (RAG).
+- **when to use**: you want the model to answer using your data (docs, tickets, wikis).
+- **example**:
+```python
+from langchain_openai import OpenAIEmbeddings
+from langchain_chroma import Chroma
+
+emb = OpenAIEmbeddings(model="text-embedding-3-small")
+vectordb = Chroma(collection_name="docs", embedding_function=emb)
+
+# add texts
+ids = vectordb.add_texts(["LangChain composes LLM apps.", "RAG adds private knowledge."])
+# similarity search
+docs = vectordb.similarity_search("How do I add my own data?", k=1)
+
+```
+##### example selectors
+- **definition**: automatically choose few-shot examples most similar/relevant to the user’s input (boosts accuracy).
+- **when to use**:tasks benefit from demonstrations (classification, style transfer, extraction).
+- 
+##### agents
+- **definition**: runtime systems that let LLMs **use tools** (web search, code, DB) and decide which tool to call next (e.g., ReAct-style reasoning). modern LangChain pairs agents with **LangGraph** for reliability, but you can still run simple tool-using chains in pure LangChain.
+- **when to use**: multi-step tasks with external actions (search → fetch → compute → answer).
+- **example**:
+```python
+from langchain_openai import ChatOpenAI
+from langchain_core.tools import tool
+from langchain_core.prompts import ChatPromptTemplate
+
+@tool
+def add(a: int, b: int) -> int:
+    "Add two integers."
+    return a + b
+
+llm = ChatOpenAI(model="gpt-4o-mini")
+prompt = ChatPromptTemplate.from_messages([
+    ("system", "You can use tools when needed. Think step-by-step."),
+    ("human", "{question}")
+])
+
+# Tool-calling chain (the LLM can decide to call `add`)
+chain = prompt | llm.bind_tools([add])
+
+result = chain.invoke({"question": "What is 123 + 456?"})
+# If the model calls the tool, LangChain will route, execute it, and return a final answer.
+
+```
+
+
+### 10. Langgraph
+
+#### Key Components
+1. **Graph Structure**:
+Think of your application as a directed graph:
+- **Nodes** = **agents** (LLMs, tools, human input nodes, evaluators, etc.).
+- **Edges** = **communication channels** (the path data or decisions take from one agent to another).
+
+2. 
+
+
+#### Why Langgraph
+1. **Simplified development**
+- **What it means**: You describe what should happen (nodes + edges), and LangGraph handles how to run it (order, passing messages, resuming, retries).
+- **Why it’s simpler than hand-rolled logic**:
+- **GraphStructure**:
+![Graph structure](images/langgraph_graph_structure.png)
+2. **Flexibility**
+- **What it means**: You can compose any kind of node and route between them however you like.
+3. 
