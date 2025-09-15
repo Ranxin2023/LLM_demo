@@ -138,7 +138,9 @@ This makes it easier to move from “just calling an LLM” to building full, pr
 3. **Integration with External Models and Tools**:
 - It’s not limited to one LLM (like GPT).
 
-4. 
+4. **Versatile, Mix-and-Match Components**:
+5. **Context Management**:
+
 #### 💡 Why it Matters
 - You need **more than just a single LLM call** (e.g., multi-step reasoning, API calls, retrieval from databases).
 - You want to integrate AI into real-world applications like chatbots, knowledge bases, assistants, or data pipelines.
@@ -252,7 +254,7 @@ This setup lets you::
 - Visualize workflows in a modular way, like a flowchart for AI reasoning.
 
 2. **State Managemet**:
-![Graph State Management](images/langgraphState_management.png)
+![Graph State Management](images/langgraph_state_management.png)
 - A big challenge in multi-agent systems is keeping track of context across steps. LangGraph solves this with **automatic state management**:
 - The **state** contains accumulated messages, facts, or metadata.
 - Every time an agent acts, the state is updated — ensuring no history is lost.
