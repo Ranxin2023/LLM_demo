@@ -1,4 +1,12 @@
 # LLM DEMO
+## Table Of Contents
+- [Concepts](#concepts)
+    - [Common pre-training objectives for LLM](#3-what-are-some-common-pre-training-objectives-for-llms-and-how-do-they-work)
+    - [LangChain](#9-langchain)
+    - [LangGraph](#10-langgraph)
+        - [Key Componnets](#key-components)
+        - [Fundamentals](#graph-fundamentals)
+        - [How to Build Graph](#graph-construction)
 ## Concepts
 ### 3. What are some common pre-training objectives for LLMs, and how do they work?
 #### 3.1  Masked Language Modeling (MLM)
@@ -308,13 +316,19 @@ g.add_edge("revise", "review")  # cycle until passes review
 ```
 3. **Tool & ToolNode**:
 - Tool = any external operation: web/API call, DB query, calculator, custom Python.
+
 4. **Message Types (LangChain / LangGraph)**:
-Messages are structured data units that travel in `state["messages"]`. They capture roles and special behaviors.
-- `HumanMessage` – user input (“What’s the weather in Paris?”).
-- `AIMessage` – LLM output (text and/or tool call instructions).
-- `SystemMessage` – instructions or policy that steer the LLM (“You are a helpful assistant…”).
-- `ToolMessage` – the result of executing a tool, sent back to the LLM to continue reasoning.
-- `RemoveMessage` – instructs the runtime/memory to drop prior messages (useful for context pruning/privacy).
+- Messages are structured data units that travel in `state["messages"]`. They capture roles and special behaviors.
+    - `HumanMessage` – user input (“What’s the weather in Paris?”).
+    - `AIMessage` – LLM output (text and/or tool call instructions).
+    - `SystemMessage` – instructions or policy that steer the LLM (“You are a helpful assistant…”).
+    - `ToolMessage` – the result of executing a tool, sent back to the LLM to continue reasoning.
+    - `RemoveMessage` – instructs the runtime/memory to drop prior messages (useful for context pruning/privacy).
+- Typical flow:
+    - Add a `HumanMessage`.
+    - LLM returns an `AIMessage` (may include a tool call).
+    - A tool executes; you add a `ToolMessage` with the result.
+    - 
 
 #### Why Langgraph
 1. **Simplified development**
@@ -342,3 +356,7 @@ Messages are structured data units that travel in `state["messages"]`. They capt
 2. **Adding Nodes and Edges**
 - Next, we add **nodes** (functional units) and **edges** (connections that determine flow).
 - Each node can represent an LLM call, an API call, or a custom function. Edges define how data flows between these nodes.
+3. **Special Nodes: START and END**
+- **START Node:** A special entry node that represents where the graph begins. User input or initial data is injected into the graph here.
+- **END Node:** A special terminal node that indicates where the workflow finishes.
+4. **Compiling the Graph**
