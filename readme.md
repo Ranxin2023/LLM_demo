@@ -328,8 +328,39 @@ g.add_edge("revise", "review")  # cycle until passes review
     - Add a `HumanMessage`.
     - LLM returns an `AIMessage` (may include a tool call).
     - A tool executes; you add a `ToolMessage` with the result.
-    - 
+    - LLM continues with the new context, producing the final `AIMessage`.
+- example:
+```python
+from langchain_core.messages import HumanMessage, AIMessage, ToolMessage
 
+state["messages"].append(HumanMessage(content="hello world from raj"))
+# -> LLM returns AIMessage with tool call
+state["messages"].append(ToolMessage(tool_call_id="call-1", content="{'temp': 22}"))
+
+```
+5. **react agent**
+- Now, we can extend this into a general Agent framework.
+- In the Agent router, when we call the model, if it chooses to call a tool, we will return a `ToolMessage` to the user.
+- But what happens if we instead pass this `ToolMessage` back into the model?
+- **Agent Router**: The Agent Router is responsible for deciding what the model should do with incoming input.
+    - If the model needs outside help (like using a calculator, searching the web, or querying a database), it doesn’t just respond directly — it calls a `Tool`.
+    - The result of this tool call is wrapped in a `ToolMessage`, which carries the result of that action.
+
+- **What if ToolMessage goes back to the model?** Instead of returning the raw ToolMessage directly to the user, we can feed it back into the LLM.
+    - This allows the LLM to **observe the tool’s output** and then **decide the next step**.
+    - This enables **multi-step reasoning** (instead of a single question–single answer cycle).
+- **The ReAct Paradigm**:
+    - ReAct = Reason + Act
+    - It’s a general agent framework that combines tool use (actions) with LLM reasoning.
+        - **act**: The model issues a command to call a tool (e.g., “search the web”).
+        - **observe**: The tool returns results, which the model can read.
+        - **reason**: The model thinks about the results and decides what to do next (either call another tool or respond to the user).
+
+6. **Agent and Memory**
+- Every step writes a checkpoint:
+    - After each advance of the graph, LangGraph saves a **snapshot of state** plus a bit of run metadata.
+- Checkpoints live inside a thread
+    - A thread is one ongoing session/run (a conversation, a job, etc.). All snapshots for that run are stored on a single timeline.
 #### Why Langgraph
 1. **Simplified development**
 - **What it means**: You describe what should happen (nodes + edges), and LangGraph handles how to run it (order, passing messages, resuming, retries).
