@@ -266,6 +266,56 @@ This setup lets you::
 - It handles **conditional routing**, meaning an agent’s output can decide which path to follow (e.g., “If tool needed → Tool Agent, else → Planner”).
 - Coordination guarantees that information exchange is seamless (no dropped messages, no out-of-sync agents).
 
+#### Graph Fundamentals
+1. **State**:
+- **definition**: a shared, evolving memory object that flows through your graph. Every node reads the current state and returns an **updated** state. LangGraph manages persistence/checkpoints so you can resume runs, branch, and inspect history.
+- **Typical contents**:
+    - `messages`: conversation history (`HumanMessage`, `AIMessage`, etc.)
+    - working variables: parsed fields, IDs, partial results
+    - control flags: scores, decisions, error info
+- **example**:
+```python
+from typing import TypedDict, List, Optional
+from langchain_core.messages import BaseMessage
+
+class State(TypedDict):
+    messages: List[BaseMessage]
+    facts: dict
+    decision: Optional[str]
+```
+
+2. **Edges & Conditional Edges**:
+- **Edges** connect nodes and define execution order.
+- **Conditional edges** are dynamic branches chosen at runtime from the current state.
+- **Cycles** allow iterative refinement (e.g., generate → critique → revise).
+- **example**:
+```python
+from langgraph.graph import StateGraph, END
+
+g = StateGraph(State)
+g.add_node("extract", extract_node)
+g.add_node("review", review_node)
+g.add_node("revise", revise_node)
+
+def route_after_review(state: State) -> str:
+    return "revise" if state["decision"] == "needs_changes" else "end"
+
+g.set_entry_point("extract")
+g.add_edge("extract", "review")
+g.add_conditional_edges("review", route_after_review, {"revise": "revise", "end": END})
+g.add_edge("revise", "review")  # cycle until passes review
+
+```
+3. **Tool & ToolNode**:
+- Tool = any external operation: web/API call, DB query, calculator, custom Python.
+4. **Message Types (LangChain / LangGraph)**:
+Messages are structured data units that travel in `state["messages"]`. They capture roles and special behaviors.
+- `HumanMessage` – user input (“What’s the weather in Paris?”).
+- `AIMessage` – LLM output (text and/or tool call instructions).
+- `SystemMessage` – instructions or policy that steer the LLM (“You are a helpful assistant…”).
+- `ToolMessage` – the result of executing a tool, sent back to the LLM to continue reasoning.
+- `RemoveMessage` – instructs the runtime/memory to drop prior messages (useful for context pruning/privacy).
+
 #### Why Langgraph
 1. **Simplified development**
 - **What it means**: You describe what should happen (nodes + edges), and LangGraph handles how to run it (order, passing messages, resuming, retries).
@@ -274,11 +324,21 @@ This setup lets you::
 2. **Flexibility**
 - **What it means**: You can compose any kind of node and route between them however you like.
 - **Ways flexibility shows up**:
-    - Heterogeneous nodes: LLM agents, tools, evaluators, vector lookups, humans (approval steps), webhooks, your own Python.
+    - **Heterogeneous nodes**: LLM agents, tools, evaluators, vector lookups, humans (approval steps), webhooks, your own Python.
 3. **Scalability**:
 - **What it means**: The runtime is built to handle lots of concurrent, long-running, or complex workflows.
 - How you scale in practice:
     - Checkpointing to durable storage: Swap `MemorySaver` for Redis/Postgres-backed checkpointers so any worker can resume a session by thread_id.
     - Horizontal workers: Run multiple stateless worker processes/containers pointing at the same checkpointer. Each takes a turn advancing a graph.
 4. **Fault tolerance**:
-- 
+- **definition**: When something fails, you don’t lose the whole run—and you can intentionally handle failures.
+- **Mechanisms & patterns**:
+    - **Per-node checkpoints**: On crash/restart, resume from the last finished node with the saved state.
+
+#### Graph Construction
+1. **Using the `StateGraph` class**
+- LangGraph provides the `StateGraph` class as a base for building graphs.
+- We begin by initializing a `StateGraph` using the previously defined State class. This ensures that all nodes
+2. **Adding Nodes and Edges**
+- Next, we add **nodes** (functional units) and **edges** (connections that determine flow).
+- Each node can represent an LLM call, an API call, or a custom function. Edges define how data flows between these nodes.
