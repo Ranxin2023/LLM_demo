@@ -261,6 +261,7 @@ This setup lets you::
 - Introduce **cycles** for iterative refinement, such as a loop between a generator and a reviewer until quality criteria are met.
 - Visualize workflows in a modular way, like a flowchart for AI reasoning.
 
+
 2. **State Managemet**:
 ![Graph State Management](images/langgraph_state_management.png)
 - A big challenge in multi-agent systems is keeping track of context across steps. LangGraph solves this with **automatic state management**:
@@ -292,6 +293,74 @@ class State(TypedDict):
     decision: Optional[str]
 ```
 
+- **TypeDict**:
+    - **definition**: TypedDict lets you declare the expected keys and value types of a plain Python dict. It’s a type hint only:
+    - **basic syntax**:
+    ```python
+    from typing import TypedDict, Literal, Optional
+
+    class State(TypedDict):
+        name: str
+        mood: Literal["happy", "sorrow"]
+        note: Optional[str]  # may be None
+
+    ```
+    - **usage**:
+    ```python
+    s: State = {"name": "Alice", "mood": "happy", "note": None}
+    ```
+    - **example**:
+    ```python
+    from typing import TypedDict, List
+    from langgraph.graph import StateGraph, END
+
+    class LGState(TypedDict):
+        messages: List[str]
+        decision: str | None
+
+    def node1(s: LGState) -> LGState:
+        return {**s, "messages": s["messages"] + ["node1 ran"]}
+
+    def node2(s: LGState) -> LGState:
+        # defensive access to avoid KeyError if key might be optional
+        msgs = s.get("messages", [])
+        return {**s, "messages": msgs + ["node2 ran"], "decision": "done"}
+
+    g = StateGraph(LGState)
+    g.add_node("node1", node1)
+    g.add_node("node2", node2)
+    g.set_entry_point("node1")
+    g.add_edge("node1", "node2")
+    g.add_edge("node2", END)
+
+    ```
+- **Dataclass**
+    - **What is a Dataclass in Python?**
+        - A **Dataclass** is a decorator (`@dataclass`) provided by Python’s `dataclasses` module.
+        - It gives you a simple and concise way to define classes that mainly store data.
+        - Instead of writing boilerplate code like `__init__`, `__repr__`, or `__eq__`, Python will auto-generate them for you.
+    - **The Example Code Breakdown**
+    ```python
+    from dataclasses import dataclass
+
+    @dataclass
+    class DataclassState:
+        name: str
+        mood: Literal["happy", "sorrow"]
+
+    ```
+    - **The Example Code Breakdown**
+    ```python
+    from dataclasses import dataclass
+
+    @dataclass
+    class DataclassState:
+        name: str
+        mood: Literal["happy", "sorrow"]
+
+    ```
+    - **3. Why Use Dataclass Instead of a Dictionary?**:
+    
 2. **Edges & Conditional Edges**:
 - **Edges** connect nodes and define execution order.
 - **Conditional edges** are dynamic branches chosen at runtime from the current state.
@@ -316,7 +385,39 @@ g.add_edge("revise", "review")  # cycle until passes review
 ```
 3. **Tool & ToolNode**:
 - Tool = any external operation: web/API call, DB query, calculator, custom Python.
+- Two common ways to use tools:
+    - Call tools inside your own node (most control).
+    - Use `ToolNode` to automatically execute tools requested by the LLM.
+- example:
+```python
+# 2) ToolNode pattern (LLM decides which tool to call)
+from langgraph.prebuilt import ToolNode
+from langchain_core.tools import tool
+from langchain_openai import ChatOpenAI
 
+@tool
+def fetch_weather(city: str) -> str:
+    return f"Sunny today in {city}"
+
+tools = [fetch_weather]
+llm = ChatOpenAI(model="gpt-4o-mini").bind_tools(tools)
+
+def llm_node(state: State) -> State:
+    # produce an AIMessage possibly containing tool calls
+    ai_msg = llm.invoke(state["messages"])
+    state["messages"].append(ai_msg)
+    return state
+
+tool_node = ToolNode(tools)  # executes pending tool calls from messages
+
+g = StateGraph(State)
+g.add_node("llm", llm_node)
+g.add_node("tools", tool_node)
+g.set_entry_point("llm")
+g.add_edge("llm", "tools")
+g.add_edge("tools", "llm")  # loop until no more tool calls
+
+```
 4. **Message Types (LangChain / LangGraph)**:
 - Messages are structured data units that travel in `state["messages"]`. They capture roles and special behaviors.
     - `HumanMessage` – user input (“What’s the weather in Paris?”).
@@ -333,7 +434,7 @@ g.add_edge("revise", "review")  # cycle until passes review
 ```python
 from langchain_core.messages import HumanMessage, AIMessage, ToolMessage
 
-state["messages"].append(HumanMessage(content="hello world from raj"))
+state["messages"].append(HumanMessage(content="hello world"))
 # -> LLM returns AIMessage with tool call
 state["messages"].append(ToolMessage(tool_call_id="call-1", content="{'temp': 22}"))
 
@@ -361,6 +462,8 @@ state["messages"].append(ToolMessage(tool_call_id="call-1", content="{'temp': 22
     - After each advance of the graph, LangGraph saves a **snapshot of state** plus a bit of run metadata.
 - Checkpoints live inside a thread
     - A thread is one ongoing session/run (a conversation, a job, etc.). All snapshots for that run are stored on a single timeline.
+- You address a run by `thread_id`
+    - Pass the same `thread_id` later to resume, continue, or inspect that session.
 #### Why Langgraph
 1. **Simplified development**
 - **What it means**: You describe what should happen (nodes + edges), and LangGraph handles how to run it (order, passing messages, resuming, retries).
@@ -391,3 +494,5 @@ state["messages"].append(ToolMessage(tool_call_id="call-1", content="{'temp': 22
 - **START Node:** A special entry node that represents where the graph begins. User input or initial data is injected into the graph here.
 - **END Node:** A special terminal node that indicates where the workflow finishes.
 4. **Compiling the Graph**
+- Once nodes and edges are added, we **compile** the graph.
+- Compiling performs a **basic structure check** to ensure the workflow is valid before execution.
