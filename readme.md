@@ -9,6 +9,7 @@
         - [How to Build Graph](#graph-construction)
 - [Setup](#setup)
 ## Concepts
+### 1. Basic Concepts
 ### 3. What are some common pre-training objectives for LLMs, and how do they work?
 #### 3.1  Masked Language Modeling (MLM)
 - **Used in models like**: BERT, RoBERTa
@@ -20,12 +21,45 @@
 
 ### 4. 📌 Fine-Tuning
 #### 4.1 What Is Fine-Tuning?
-- **Fine-tuning** is the process of taking a pre-trained language model (like GPT, BERT, or T5) and training it further on a smaller, domain-specific dataset to make it perform better on a specific task or language style.
+- **Fine-tuning** is the process of taking a **pre-trained** language model (like GPT, BERT, or T5) and training it further on a **smaller**, **domain-specific** dataset to make it perform better on a **specific task or language style**.
+- A pre-trained model has already learned:
+    - grammar, syntax, and general world knowledge
+    - context relationships between words and phrases
+    - reasoning patterns and text structure
+- However, it doesn’t yet “know” how to handle **specialized tasks**, like:
+    - classifying sentiment (e.g., positive/negative reviews),
+    - generating medical summaries,
+    - extracting entities from legal documents,
+    - or answering customer queries in a specific tone.
+- Fine-tuning adapts this general knowledge to **task-specific objectives**.
 
 #### 🧠 4.2 Why Fine-Tuning Works
 - When a model like DistilBERT is pre-trained:
     - It learns general knowledge of language patterns.
     - But it doesn’t know how to perform **task-specific** jobs like classifying IMDb reviews as positive or negative.
+
+#### ⚙️ 4.3 Types of Fine-Tuning
+- **Full Fine-Tuning**
+    - The **entire model’s parameters** are updated on the new dataset.
+    - Pros:
+        - Maximum flexibility and task adaptation.
+    - Cons:
+        - Requires large compute resources (GPUs/TPUs).
+        - Risk of **catastrophic forgetting** (losing general knowledge).
+
+- **Parameter-Efficient Fine-Tuning (PEFT)**
+#### 🔍 4.4 Fine-Tuning Workflow
+1. **Start from a pre-trained base model (e.g., `bert-base-uncased`, `gpt-3.5-turbo`).**
+2. **Prepare your dataset:**
+- Input–output pairs, labeled text, or conversation data.
+- Split into train/validation sets.
+3. Choose the fine-tuning method:
+- Full fine-tuning, PEFT, or instruction tuning.
+4. **Train the model:**
+- Define hyperparameters (learning rate, epochs, batch size).
+- Use frameworks like Hugging Face Transformers or OpenAI Fine-tuning API.
+5. Evaluate:
+- Metrics: accuracy, F1 score, BLEU, or perplexity (depending on the task).
 
 ### 5. **How do you measure the performance of an LLM?**
 #### 5.1 🔢 Perplexity
