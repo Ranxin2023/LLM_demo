@@ -7,6 +7,7 @@
         - [Key Componnets](#key-components)
         - [Fundamentals](#graph-fundamentals)
         - [How to Build Graph](#graph-construction)
+- [Setup](#setup)
 ## Concepts
 ### 3. What are some common pre-training objectives for LLMs, and how do they work?
 #### 3.1  Masked Language Modeling (MLM)
@@ -19,7 +20,8 @@
 
 ### 4. 📌 Fine-Tuning
 #### 4.1 What Is Fine-Tuning?
-**Fine-tuning** is the process of taking a pre-trained language model (e.g., BERT, GPT, etc.) and training it further on **a smaller, domain-specific dataset** to adapt it to a specific task (like sentiment classification or question answering).
+- **Fine-tuning** is the process of taking a pre-trained language model (like GPT, BERT, or T5) and training it further on a smaller, domain-specific dataset to make it perform better on a specific task or language style.
+
 #### 🧠 4.2 Why Fine-Tuning Works
 - When a model like DistilBERT is pre-trained:
     - It learns general knowledge of language patterns.
@@ -496,3 +498,18 @@ state["messages"].append(ToolMessage(tool_call_id="call-1", content="{'temp': 22
 4. **Compiling the Graph**
 - Once nodes and edges are added, we **compile** the graph.
 - Compiling performs a **basic structure check** to ensure the workflow is valid before execution.
+
+## Setup
+1. Clone the Repository
+```sh
+git clone https://github.com/Ranxin2023/LLM_demo.git
+```
+2. Install dependencies
+```sh
+pip install -r requirements.txt
+```
+3. Set Up Environment Variables
+Create a `.env` file in the project root:
+```bash
+OPENAI_API_KEY=your_api_key_here
+```
