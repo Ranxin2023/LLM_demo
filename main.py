@@ -7,7 +7,8 @@
 # from demo_code.oov_demo import oov_demo
 # from demo_code.Agent_demo.simple_version import simple_version
 # from demo_code.LangChain.agent_demo import agent_demo_redirect
-from demo_code.LangChain.langchain_agent2 import langchain2_redirect
+# from demo_code.LangChain.langchain_agent2 import langchain2_redirect
+from demo_code.LLMConceptsDemo.mitigate_bias import mitigate_bias_output
 def main():
     # evaluate_LLM()
     # five_method()
@@ -18,7 +19,8 @@ def main():
     # oov_demo()
     # simple_version()
     # agent_demo_redirect()
-    langchain2_redirect()
+    # langchain2_redirect()
+    mitigate_bias_output()
 
 if __name__=='__main__':
     main()

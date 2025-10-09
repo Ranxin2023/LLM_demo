@@ -2,11 +2,15 @@
 ## Table Of Contents
 - [Concepts](#concepts)
     - [Common pre-training objectives for LLM](#3-what-are-some-common-pre-training-objectives-for-llms-and-how-do-they-work)
+    - [Fine-Tuning](#4-fine-tuning)
     - [LangChain](#9-langchain)
     - [LangGraph](#10-langgraph)
         - [Key Componnets](#key-components)
         - [Fundamentals](#graph-fundamentals)
         - [How to Build Graph](#graph-construction)
+        - [How can bias in prompt-based learning be mitigated?](#11-how-can-bias-in-prompt-based-learning-be-mitigated)
+        - [Catastrophic Forgetting](#12-catastrophic-forgetting)
+        - [PEFT](#13-peft)
 - [Setup](#setup)
 ## Concepts
 ### 1. Basic Concepts
@@ -533,6 +537,105 @@ state["messages"].append(ToolMessage(tool_call_id="call-1", content="{'temp': 22
 - Once nodes and edges are added, we **compile** the graph.
 - Compiling performs a **basic structure check** to ensure the workflow is valid before execution.
 
+### 11. How can bias in prompt-based learning be mitigated?
+#### 1. Prompt Calibration
+- This involves carefully designing and testing prompts so that the LLM produces balanced, unbiased responses.
+- For example, if a model tends to associate certain professions with specific genders, you can test multiple prompt formulations and adjust phrasing to reduce bias.
+- **Example**:
+    - Uncalibrated: “The nurse said he…” → likely produces bias.
+    - Calibrated: “A person working as a nurse said…” → reduces gender association.
+
+#### 2. Fine-Tuning
+- Fine-tuning retrains a pre-trained model on **diverse and balanced datasets**.
+- This process teaches the model to correct its biased patterns learned during pretraining.
+
+#### 3. Data Augmentation
+- This expands your dataset with **synthetic or mirrored examples** that counteract bias.
+- For example:
+    - If 70% of your data says “doctor → he,” generate more examples with “doctor → she.”
+    - Use paraphrasing or back-translation to diversify data linguistically.
+
+### 12. catastrophic forgetting
+#### Definition:
+- Catastrophic forgetting (or catastrophic interference) is the phenomenon where a neural network **forgets previously learned tasks** after being fine-tuned on new data.
+- In the context of LLMs, it means:
+    - When you fine-tune a model (like GPT, BERT, or T5) on a new dataset or task, its performance on older tasks suddenly drops dramatically.
+
+#### ⚙️ Why It Happens (Mechanism):
+1. **Shared Parameters**
+- In deep neural networks, the same weights are used across many tasks.
+- When fine-tuning, backpropagation updates these shared parameters to fit the new task.
+2. **No Replay Memory**:
+- Unlike humans, models don’t “remember” earlier tasks unless we retrain them together.
+- They only see the new task’s dataset — and gradients push them entirely toward that new distribution.
+3. **High Capacity Models Still Forget**:
+- Even very large LLMs (billions of parameters) are not immune.
+- Their large capacity helps, but without constraints or regularization, they still optimize for the current objective and drift away from older ones.
+#### 🧩 Mitigation Techniques
+| **Technique**                                  | **How It Works**                                                                        | **Why It Helps**                                                                |
+| ------------------------------------------ | ----------------------------------------------------------------------------------- | --------------------------------------------------------------------------- |
+| **PEFT (Parameter-Efficient Fine-Tuning)** | Freezes most weights and trains small adapter modules (like LoRA or prefix tuning). | Preserves old knowledge in frozen weights.                                  |
+| **EWC (Elastic Weight Consolidation)**     | Penalizes changes to parameters that are important for old tasks.                   | Uses Fisher Information Matrix to identify which parameters are “critical.” |
+| **Replay / Rehearsal**                     | Mixes data from old and new tasks during fine-tuning.                               | Helps maintain representation balance.                                      |
+| **Regularization Methods**                 | Adds penalty terms that discourage large weight shifts.                             | Keeps parameters near their old values.                                     |
+
+#### 🧮 Intuitive Analogy
+- Think of the model’s parameters as a **shared whiteboard**:
+    - During pretraining, it writes general knowledge.
+    - During fine-tuning, it writes notes for new tasks.
+- If you erase and overwrite everything for the new topic (without saving the old ones), you lose the old knowledge — that’s catastrophic forgetting.
+- Techniques like PEFT or EWC act like:
+    - **PEFT**: “Write on sticky notes” (small, new parameters) — don’t touch the main whiteboard.
+    - **EWC**: “Highlight what’s important and don’t erase it” — preserve critical parts of the old notes.
+
+### 13. PEFT
+#### What is PEFT?
+- **Parameter-Efficient Fine-Tuning (PEFT)** adapts a frozen pretrained model by training only a small set of extra parameters (or a tiny subset of existing ones). The backbone weights stay fixed, so you keep the general knowledge while learning a new task/domain cheaply.
+#### Major PEFT families (how they plug in)
+##### **LoRA (Low-Rank Adapters)**
+Learn two small matrices \( A \in \mathbb{R}^{d \times r} \), \( B \in \mathbb{R}^{r \times d} \) and add their product to a frozen weight \( W \):
+
+\[
+W' = W + \alpha \cdot A B
+\]
+
+Usually applied to attention projections (**q/v**).  
+Only \( A, B \) train (rank \( r \ll d \)).
+
+---
+
+##### **Adapters (Bottleneck Blocks)**
+Insert a tiny MLP after (or inside) Transformer sublayers:
+
+\[
+h \mapsto h + W_\text{up} \, \sigma(W_\text{down} \, \text{LN}(h))
+\]
+
+Initialize near identity so the model starts as the base model; only adapter weights train.
+
+---
+
+##### **Prefix / Prompt / P-Tuning**
+Learn a small set of **virtual tokens** (or key/value *prefixes*) prepended per layer or sequence — only these embeddings are trainable.
+
+---
+
+##### **IA³ / Gating / BitFit**
+Learn per-channel scaling vectors (**IA³**) or just biases (**BitFit**).  
+Extremely small parameter count.
+#### Why PEFT prevents catastrophic forgetting
+- **Catastrophic forgetting** happens when you update the shared backbone and overwrite features needed for older tasks. PEFT avoids that by design:
+    - **Parameter isolation**:
+        - The backbone is frozen. New knowledge lives in the tiny trainable pieces (LoRA `𝐴`,`𝐵`, adapter layers, prefixes). Old capabilities aren’t overwritten because their weights never change.
+    - **Identity initialization**:
+        - Adapters/LoRA start as (near) identity/zero-update, so training nudges behavior locally instead of globally rewriting representations.
+    - **Low-rank / low-capacity updates**
+        - Constraining updates (e.g., low rank 𝑟) regularizes changes; you can’t drastically deform the function even if you try.
+    - **Task modularity**:
+        - You can **keep one adapter per task**. Switching tasks is swapping small modules—no retraining, no interference. (If you fine-tune Task B, Task A’s adapter is untouched.)
+    - **Reversibility**:
+        - With LoRA you can “merge” or simply **detach** the adapters; the original backbone remains intact on disk.
+- 
 ## Setup
 1. Clone the Repository
 ```sh

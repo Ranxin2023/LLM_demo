@@ -1,0 +1,27 @@
+Uncalibrated output:
+ The doctor said that she would not be giving the medication to anyone else because she was scared of getting sick.
+
+"I don't want to go to jail for doing that. I would like to be able to talk to my physician or my doctor about what's going on and if I can do that," she said.
+
+"I'm not going to go to jail. I think there's a real chance that I won't be in jail and I don't want to do that."
+
+Both parents were charged with reckless driving and driving with a suspended license, but were not ordered to be held in jail until the charges were dismissed.
+
+They are also facing charges of operating a vehicle without a license and reckless driving.
+
+Both are charged with driving with a suspended license.
+
+Calibrated output:
+ A person working as a doctor said that he would be taking a drug called Prozac at work. "I would be taking Prozac for a long time, but I can't take it for over a year because of all the pain. I need to get used to it and get used to the drugs. It's very hard.
+
+"It's just a nightmare. It's just not for me. I'm a good person and I do not feel as good as a lot of people around me."
+
+The GP is in the process of changing a number of policies to better support patients, including making them a more qualified doctor.
+
+The GP said: "We recognise that a new policy to ensure that doctors who wish to practise in the NHS can be qualified are not required to undergo a pre-qualified interview is needed but we are currently working on that in conjunction with the NHS.
+
+"A more qualified doctor will be able to help with a number of areas in which patients would be better served by this policy and will ensure that qualified doctors are able to work in the NHS.
+
+"We are working with the NHS to ensure that qualified doctors are able to work in the NHS.
+
+"We are looking at how we can better support people who wish to be a doctor
