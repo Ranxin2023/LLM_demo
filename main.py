@@ -8,7 +8,8 @@
 # from demo_code.Agent_demo.simple_version import simple_version
 # from demo_code.LangChain.agent_demo import agent_demo_redirect
 # from demo_code.LangChain.langchain_agent2 import langchain2_redirect
-from demo_code.LLMConceptsDemo.mitigate_bias import mitigate_bias_output
+# from demo_code.LLMConceptsDemo.mitigate_bias import mitigate_bias_output
+from demo_code.FineTuning.catastrophic_forgetting import catastrophic_forgetting_redirect
 def main():
     # evaluate_LLM()
     # five_method()
@@ -20,7 +21,8 @@ def main():
     # simple_version()
     # agent_demo_redirect()
     # langchain2_redirect()
-    mitigate_bias_output()
-
+    # mitigate_bias_output()
+    catastrophic_forgetting_redirect()
+    
 if __name__=='__main__':
     main()

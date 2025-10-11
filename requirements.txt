@@ -30,3 +30,5 @@ streamlit
 
 langgraph
 datasets
+matplotlib
+peft
