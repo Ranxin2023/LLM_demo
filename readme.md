@@ -4,7 +4,9 @@
     - [Basic Concepts](#1-basic-concepts)
         - [Token](#11-token)
         - [Parameters](#12-parameters)
-        - 
+        - [Embeddings](#13-embeddings)
+        - [Transformer Architecture](#14-transformer-architecture)
+        - [Fine Tuning](#15-fine-tuning)
     - [Common pre-training objectives for LLM](#3-what-are-some-common-pre-training-objectives-for-llms-and-how-do-they-work)
     - [Fine-Tuning](#4-fine-tuning)
         - [What is Fine-Tuning](#41-what-is-fine-tuning)
@@ -66,13 +68,14 @@ They define how the model transforms input tokens into contextual representation
 - **Definition**:
     - The proportion of correct predictions out of all predictions.
     - Often used in classification tasks (e.g., sentiment analysis).
-- 
+- **Formula**:
+
 #### 1.8 F1 Score
 - **Definition**:
     - Combines **precision** and **recall** into a single metric for evaluating classification performance.
     - Useful when data is imbalanced.
 - **Formula**:
-    - F1=2×Precision+Recall/(Precision×Recall)
+    - F1=2×(Precision*Recall)/(Precision+Recall)
     - ​
 #### 1.9 Recall
 - **Definition**:
@@ -85,7 +88,29 @@ They define how the model transforms input tokens into contextual representation
 - **Definition**:
     - BLEU is a **text generation quality metric**, originally for machine translation.
     - It measures **n-gram overlap** between model-generated text and reference text.
+- **Interpretation**:
+    - BLEU = 1 (or 100) → perfect match with reference.
+    - BLEU ≈ 0 → little to no overlap.
+- **Used for**:
+    - Translation, summarization, dialogue systems.
 
+#### 1.11 ROUGE
+- **Definition**:
+    - ROUGE (Recall-Oriented Understudy for Gisting Evaluation) evaluates **how much of the reference text is captured** in the generated text.
+- **Types**:
+    - ROUGE-1 → unigram overlap
+    - ROUGE-2 → bigram overlap
+    - ROUGE-L → longest common subsequence
+- **Used for**:
+    - Summarization and paraphrasing evaluation.
+#### 1.12 Prompt
+- **Definition**:
+    - A **prompt** is the input text or instruction given to the LLM to guide its output.
+    - The quality and structure of the prompt significantly affect model performance.
+- ****:
+#### 1.13 Hyperparameters
+- **Definition**:
+    - 
 ### 3. What are some common pre-training objectives for LLMs, and how do they work?
 #### 3.1  Masked Language Modeling (MLM)
 - **Used in models like**: BERT, RoBERTa
@@ -438,6 +463,13 @@ In contrast, MoE distributes the workload across multiple smaller subnetworks �
 - As pre-trained models grow larger and larger, fine-tuning all parameters for each downstream task becomes both expensive and time-consuming.
 - To address this, the authors proposed **Adapter Tuning** — a technique that inserts adapter layers into pre-trained models. These adapters contain a small number of task-specific parameters (about 3.6% of the full model size).
 - During fine-tuning, the **original model parameters remain frozen**, and only the adapter layers are trained for the downstream task. This significantly reduces computational cost.
+#### 15.2 Technical Principle
+- **Adapter Tuning** (from the paper Parameter-Efficient Transfer Learning for NLP) introduces an **adapter structure** into each Transformer layer.
+- Specifically, two adapter modules are added to each Transformer layer —
+    - one **after the multi-head attention block**,
+    - and another **after the feed-forward network**.
+- During fine-tuning, the pre-trained model’s original parameters remain **frozen**.
+- Only the parameters in the **new adapter modules** and the **Layer Normalization layers** are updated.
 ## Setup
 1. Clone the Repository
 ```sh
