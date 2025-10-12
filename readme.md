@@ -40,7 +40,16 @@ They define how the model transforms input tokens into contextual representation
     - Semantic search
     - Text similarity
     - Retrieval-Augmented Generation (RAG)
-#### 1.4 
+#### 1.4 Transformer Architecture
+- **Definition**:
+    - The **Transformer** is the backbone of modern LLMs. It uses self-attention to model relationships between all tokens in a sequence simultaneously.
+- **Key Components**:
+    - **Encoder**: Reads and understands context (used in BERT, T5).
+    - **Decoder**: Generates text autoregressively (used in GPT).
+    - **Encoder-Decoder**: Both read and generate (used in T5, BART).
+#### 1.5 Fine-Tuning
+- **Definition**:
+    - Fine-tuning is the process of **adapting a pre-trained model** (e.g., GPT or BERT) to a specific domain or task by continuing its training on a smaller, focused dataset.
 ### 3. What are some common pre-training objectives for LLMs, and how do they work?
 #### 3.1  Masked Language Modeling (MLM)
 - **Used in models like**: BERT, RoBERTa
@@ -237,7 +246,7 @@ Use structured facts (triples or graphs `like France → Capital → Paris`) dir
     - **PEFT**: “Write on sticky notes” (small, new parameters) — don’t touch the main whiteboard.
     - **EWC**: “Highlight what’s important and don’t erase it” — preserve critical parts of the old notes.
 
-### 13. LoRA
+### 11. LoRA
 #### What is Low-Rank Adaptation (LoRA)?
 
 **Low-Rank Adaptation (LoRA)** is a **parameter-efficient fine-tuning (PEFT)** technique designed to adapt large pre-trained models for specific tasks **without significantly increasing computational or memory costs**.
@@ -285,7 +294,7 @@ Only \( A \) and \( B \) are trained, while \( W \) remains frozen — significa
    - Fine-tune only the low-rank matrices for a specific task (like sentiment analysis or translation).  
    - The model learns the new task efficiently while maintaining previous capabilities.
 
-### 14. PEFT
+### 12. PEFT
 #### What is PEFT?
 - **Parameter-Efficient Fine-Tuning (PEFT)** adapts a frozen pretrained model by training only a small set of extra parameters (or a tiny subset of existing ones). The backbone weights stay fixed, so you keep the general knowledge while learning a new task/domain cheaply.
 #### Major PEFT families (how they plug in)
@@ -336,7 +345,7 @@ Extremely small parameter count.
 - Huge domain shift or very complex tasks → increase LoRA rank / adapter width, or fall back to partial/full fine-tuning.
 - If you keep updating the **same** adapter sequentially across tasks, you can still forget—use separate adapters or multi-task training.
 
-### 15. Vector Store Use Case
+### 13. Vector Store Use Case
 #### 🧠 Detailed Explanation
 - A **vector store** (or **vector database**) stores embeddings — numerical representations of text that capture semantic meaning rather than literal words.
 - This allows the model to **search by meaning** (semantic similarity) instead of by exact keyword matches.
@@ -349,12 +358,50 @@ Extremely small parameter count.
 - **Reason**:
     - LLMs have limited context windows and can’t remember all your documents.
     - A vector store allows dynamic retrieval of relevant text based on embeddings created by models like text-embedding-3-small.
-### 16. MoE
+
+#### When You Don’t Need a Vector Store
+- Tasks like:
+    - **Text summarization**
+    - **Translation**
+    - **Paraphrasing**
+    - **Sentiment classification**
+    - **Simple conversation flows**
+
+#### ⚖️ Summary Table
+| Task Type               | Requires Vector Store? | Why                            |
+| ----------------------- | ---------------------- | ------------------------------ |
+| Document Q&A / RAG      | ✅ Yes                 | Needs semantic retrieval       |
+| Knowledge-grounded chat | ✅ Yes                 | Pulls facts from stored data   |
+| Summarization           | ❌ No                  | Uses text directly             |
+| Translation             | ❌ No                  | Pure sequence-to-sequence task |
+| Sentiment analysis      | ❌ No                  | Only depends on input text     |
+    
+### 14. MoE
 #### 🧠 What Is Mixture of Experts (MoE)?
 - **Mixture of Experts (MoE)** is an advanced neural network architecture designed to make large models more efficient and scalable by activating only a subset of the model’s parameters for each input, instead of using the entire model every time.
 - In traditional dense models (like GPT-3 or BERT), **all parameters are active** for every input token.
 In contrast, MoE distributes the workload across multiple smaller subnetworks — called experts — and selectively activates only the most relevant ones.
 
+#### 🔄How It Works (Step-by-Step)
+1. **Input arrives** (e.g., a token embedding or hidden state).
+2. The **gating network** analyzes the input and assigns weights to each expert (e.g., “Expert 3: 0.8, Expert 7: 0.6, others: near 0”).
+3. Only the **top-k experts** (usually 1–2) are activated to process this input.
+4. Their outputs are combined (weighted sum) and passed to the next layer.
+
+#### ⚡ Why MoE Improves Efficiency
+1. **Sparse Activation**:
+- Only a fraction (e.g., 10–20%) of parameters are used per token → less computation.
+2. **Scalability**:
+- You can scale up total parameters (e.g., to 1 trillion) while keeping runtime cost close to a smaller dense model.
+3. **Specialization**:
+- Experts learn to handle specific kinds of data — e.g., “mathematical reasoning,” “dialogue tone,” or “code generation.”
+4. **Parallelization**:
+- Different experts can run on different hardware shards or GPUs.
+### 15. Adapter Tuning
+#### 15.1 Background
+- As pre-trained models grow larger and larger, fine-tuning all parameters for each downstream task becomes both expensive and time-consuming.
+- To address this, the authors proposed **Adapter Tuning** — a technique that inserts adapter layers into pre-trained models. These adapters contain a small number of task-specific parameters (about 3.6% of the full model size).
+- 
 ## Setup
 1. Clone the Repository
 ```sh
