@@ -40,6 +40,7 @@ They define how the model transforms input tokens into contextual representation
     - Semantic search
     - Text similarity
     - Retrieval-Augmented Generation (RAG)
+
 #### 1.4 Transformer Architecture
 - **Definition**:
     - The **Transformer** is the backbone of modern LLMs. It uses self-attention to model relationships between all tokens in a sequence simultaneously.
@@ -50,6 +51,41 @@ They define how the model transforms input tokens into contextual representation
 #### 1.5 Fine-Tuning
 - **Definition**:
     - Fine-tuning is the process of **adapting a pre-trained model** (e.g., GPT or BERT) to a specific domain or task by continuing its training on a smaller, focused dataset.
+- **Purpose**:
+    - Improves model performance for specific goals like sentiment analysis, summarization, or domain adaptation (e.g., legal or medical texts).
+#### 1.6 Perplexity
+- **Definition**:
+    - Perplexity measures **how well a language model predicts text**.
+    - It’s the exponential of the average negative log-likelihood of the predicted tokens.
+- **Formula**:
+    - Perplexity=e^Loss
+- **Interpretation**:
+    - Low perplexity → confident and accurate predictions.
+    - High perplexity → model is “surprised” by the actual text.
+#### 1.7 Accuracy
+- **Definition**:
+    - The proportion of correct predictions out of all predictions.
+    - Often used in classification tasks (e.g., sentiment analysis).
+- 
+#### 1.8 F1 Score
+- **Definition**:
+    - Combines **precision** and **recall** into a single metric for evaluating classification performance.
+    - Useful when data is imbalanced.
+- **Formula**:
+    - F1=2×Precision+Recall/(Precision×Recall)
+    - ​
+#### 1.9 Recall
+- **Definition**:
+    - Recall measures how well the model identifies all relevant instances from the data.
+    - It’s the proportion of actual positives that the model correctly predicts as positive.
+- **Formula**:
+    - Recall=(True Positives + False Negatives)/True Positives​
+- 
+#### 1.10 BLEU (Bilingual Evaluation Understudy)
+- **Definition**:
+    - BLEU is a **text generation quality metric**, originally for machine translation.
+    - It measures **n-gram overlap** between model-generated text and reference text.
+
 ### 3. What are some common pre-training objectives for LLMs, and how do they work?
 #### 3.1  Masked Language Modeling (MLM)
 - **Used in models like**: BERT, RoBERTa
@@ -401,7 +437,7 @@ In contrast, MoE distributes the workload across multiple smaller subnetworks �
 #### 15.1 Background
 - As pre-trained models grow larger and larger, fine-tuning all parameters for each downstream task becomes both expensive and time-consuming.
 - To address this, the authors proposed **Adapter Tuning** — a technique that inserts adapter layers into pre-trained models. These adapters contain a small number of task-specific parameters (about 3.6% of the full model size).
-- 
+- During fine-tuning, the **original model parameters remain frozen**, and only the adapter layers are trained for the downstream task. This significantly reduces computational cost.
 ## Setup
 1. Clone the Repository
 ```sh
