@@ -259,11 +259,18 @@ Top-P sampling chooses from the smallest set of tokens whose cumulative probabil
 - This structure makes KGs not just data stores, but **semantic networks** — they understand meaning and relationships, not just raw text.
 
 ##### 🔍 Key Features of Knowledge Graphs
-1. Semantic Relationships
+1. **Semantic Relationships**
 - KGs capture **meaningful connections** between entities, based on **semantics** rather than just keyword matching.
 - For instance, a KG understands that “Paris” and “France” are related through the relationship “is capital of,” which is very different from a simple co-occurrence in text.
 - This semantic layer enables logical reasoning, contextual search, and better inference by LLMs.
 
+2. **Queryable Structures**
+- Knowledge graphs are typically stored in graph databases such as **Neo4j** or **Amazon Neptune**.
+- These databases support **graph query languages** such as **SPARQL** (for RDF-based graphs) and **Cypher** (for property graphs).
+- Such queries can perform complex reasoning, e.g.:
+    - “Find all scientists born in Germany who won a Nobel Prize.”
+
+3. Scalability for Handling Vast Information
 
 #### 8.2 RAG
 ##### Concept
@@ -277,6 +284,12 @@ Top-P sampling chooses from the smallest set of tokens whose cumulative probabil
 #### 8.3 Fine-Tuning with Domain-Specific Data
 - **Concept**:
     - Fine-tuning allows an LLM to specialize in a specific domain — for example, medical terminology, legal reasoning, or software engineering — by training it further on curated datasets.
+    - This approach **changes model weights** to integrate domain expertise permanently.
+- **Process**:
+1. Collect domain-specific training data (e.g., Q&A pairs).
+2. Format it properly (JSONL for supervised fine-tuning).
+3. Train the model using frameworks like Hugging Face Transformers.
+
 #### 8.4 Prompt Engineering
 ##### 🧩 Definition and Core Concepts
 - Prompt engineering is the **art and science of designing prompts**—structured questions or instructions—to guide an AI model, especially a Large Language Model (LLM), toward a desired output.
@@ -289,7 +302,20 @@ Top-P sampling chooses from the smallest set of tokens whose cumulative probabil
 1. **Model Architectures**
 - Large Language Models like GPT, BERT, or LLaMA are built on Transformer architectures.
 - Transformers use **self-attention mechanisms** to understand context by weighing the importance of each word in a sequence relative to others.
-
+- Understanding this helps prompt engineers design better context-driven inputs:
+    - Place key information at the **beginning** of the prompt.
+    - Maintain consistent **instruction** → **context** → **question** flow.
+    - Avoid overly long or redundant inputs that dilute attention focus.
+2. **Training Data and Tokenization**
+- LLMs are trained on massive datasets and process text as **tokens**—smaller units of meaning.
+- The model’s understanding of a prompt depends on **how it tokenizes** words.
+- For instance:
+    - "ChatGPT" might be one token in one model, two in another.
+    - Token limits (like 4096 or 8192) also affect how much context fits in memory.
+3. **Model Parameters**:
+- Each LLM has millions or billions of parameters that determine its learned representations.
+- During fine-tuning, these parameters adjust how the model responds to instructions.
+- While users can’t modify parameters directly, understanding their role helps interpret **model bias**, **style**, and **confidence**.
 
 ### 8Extra. Comparison between RAG and Fine-tuning
 - Both **Fine-Tuning** and **Retrieval-Augmented Generation (RAG)** are powerful strategies for adapting and improving Large Language Models (LLMs).
@@ -301,8 +327,25 @@ Top-P sampling chooses from the smallest set of tokens whose cumulative probabil
 | **Goal**             | Embed new knowledge *inside* model weights.                                                                     | Provide up-to-date or specialized knowledge *from external sources* without retraining.                              |
 | **Knowledge Source** | Static — knowledge becomes part of model parameters after training.                                             | Dynamic — knowledge retrieved in real time from databases or documents.                                              |
 | **Example Use**      | A medical chatbot trained specifically on clinical notes.                                                       | A legal assistant retrieving the latest laws and case summaries.                                                     |
-#### ⚙️ How Each Works
 
+#### ⚙️ How Each Works
+- **Fine-Tuning Process**:
+1. Gather a **labeled dataset** relevant to the domain (e.g., customer support dialogues).
+2. Use supervised training to adjust model weights.
+3. Evaluate and deploy the fine-tuned model for consistent, domain-specific tasks.
+- **RAG Process**:
+1. **Retriever** component searches a vector database or knowledge graph for relevant context.
+2. The retrieved information is inserted into the model prompt.
+3. The **generator** (LLM) uses this context to produce a more factual and context-aware response.
+
+#### ⚡ Key Benefits of RAG
+1. **Dynamic Knowledge Integration** – RAG can access real-time or evolving information from external databases, APIs, or documents.
+2. **Contextual Relevance** – It enhances model outputs by adding retrieved evidence or context directly into prompts.
+3. **Versatility** – Works well across diverse or open-ended tasks where fine-tuning data might be limited or unavailable.
+#### 🧠 Key Benefits of Fine-Tuning
+1. **Deep Domain Specialization** – Embeds domain-specific knowledge directly into model parameters.
+2. **Custom Behavior Control** – Tailors model tone, format, and reasoning style for specialized applications.
+3. **Offline Operation** – Once trained, fine-tuned models can operate without external knowledge sources.
 ### 9. How can bias in prompt-based learning be mitigated?
 #### 1. Prompt Calibration
 - This involves carefully designing and testing prompts so that the LLM produces balanced, unbiased responses.
