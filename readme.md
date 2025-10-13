@@ -12,6 +12,12 @@
         - [What is Fine-Tuning](#41-what-is-fine-tuning)
         - [Why Fine-Tuning Works](#-42-why-fine-tuning-works)
         - [Types of Fine-Tuning](#️-43-types-of-fine-tuning)
+    - [How can you incorporate external knowledge into an LLM](#8-how-can-you-incorporate-external-knowledge-into-an-llm)
+        - [Knowledge Graph](#81-knowledge-graph-integration)
+        - [RAG](#82-rag)
+        - [Fine Tuning](#83-fine-tuning-with-domain-specific-data)
+        - [Prompt Engineering](#84-prompt-engineering)
+    - [Comparison Between RAG and Fine-tuning](#8extra-comparison-between-rag-and-fine-tuning)
     - [How can bias in prompt-based learning be mitigated?](#9-how-can-bias-in-prompt-based-learning-be-mitigated)
     - [Catastrophic Forgetting](#10-catastrophic-forgetting)
     - [LoRA](#13-lora)
@@ -237,24 +243,65 @@ Top-P sampling chooses from the smallest set of tokens whose cumulative probabil
 ### 7. 
 
 ### 8. How can you incorporate external knowledge into an LLM?
-####  Knowledge Graph Integration (Simplified)
-Use structured facts (triples or graphs `like France → Capital → Paris`) directly in the prompt. This adds factual grounding to help the model reason accurately.
+- LLMs (Large Language Models) are trained on vast corpora of text, but their knowledge is static — limited to what they saw during training.
+- To make them useful in **real-world**, **dynamic**, or **domain-specific applications**, we can inject external knowledge in several ways:
+#### 8.1 Knowledge Graph Integration
+##### 🧠 What Are Knowledge Graphs?
+- A **Knowledge Graph (KG)** is a structured representation of information that uses graph-based data structures to describe how different entities (like people, places, or things) are connected to one another.
+- It serves as a **knowledge base** that represents facts in the form of nodes and edges:
+    - **Nodes** = entities (e.g., “Paris”, “France”, “Eiffel Tower”)
+    - **Edges** = relationships between those entities (e.g., “is located in”, “was built in”)
+- For example:
+```scss
+    (Paris) — [is the capital of] → (France)
+    (Eiffel Tower) — [is located in] → (Paris)
+```
+- This structure makes KGs not just data stores, but **semantic networks** — they understand meaning and relationships, not just raw text.
 
-#### RAG
-##### **Retrieval-Augmented Generation (RAG)** is a hybrid approach that:
-
-1. Retrieves relevant documents from a large external knowledge base or corpus (like Wikipedia, PDFs, or internal files),
-
-2. Augments the prompt by inserting the retrieved text,
-
-3. Generates the answer using a generative language model (like GPT, BART, or T5).
-
-##### 🧠 How it works (step-by-step):
-1. User inputs a query
-    - → e.g., “What are the benefits of vitamin D?”
-2. 
+##### 🔍 Key Features of Knowledge Graphs
+1. Semantic Relationships
+- KGs capture **meaningful connections** between entities, based on **semantics** rather than just keyword matching.
+- For instance, a KG understands that “Paris” and “France” are related through the relationship “is capital of,” which is very different from a simple co-occurrence in text.
+- This semantic layer enables logical reasoning, contextual search, and better inference by LLMs.
 
 
+#### 8.2 RAG
+##### Concept
+- RAG combines **retrieval** (finding relevant data) with **generation** (LLM producing output).
+- When the user asks a question, the system first retrieves documents or passages from a **vector database(VDB)** — such as FAISS or Chroma — and then **feeds those retrieved chunks** into the prompt context for the LLM to generate a grounded answer.
+- **Pipeline**:
+1. Embed all documents into vectors and store in a database.
+2. Convert the user query to an embedding vector.
+3. Retrieve similar chunks using cosine similarity.
+4. Pass retrieved chunks + question → LLM for response.
+#### 8.3 Fine-Tuning with Domain-Specific Data
+- **Concept**:
+    - Fine-tuning allows an LLM to specialize in a specific domain — for example, medical terminology, legal reasoning, or software engineering — by training it further on curated datasets.
+#### 8.4 Prompt Engineering
+##### 🧩 Definition and Core Concepts
+- Prompt engineering is the **art and science of designing prompts**—structured questions or instructions—to guide an AI model, especially a Large Language Model (LLM), toward a desired output.
+- It acts as the **interface between human intent and machine output**, determining how clearly the model understands and executes a task.
+- Think of prompt engineering like teaching a child through questions:
+    - A vague prompt (“Tell me about space”) yields a generic answer.
+    - A refined prompt (“Explain how black holes distort space-time using an analogy”) guides reasoning toward a **specific goal**.
+##### ⚙️ The Technical Side of Prompt Engineering
+- Prompt engineering is not only about wording—it also relies on an understanding of **LLM internals**, which influence how prompts are processed and interpreted.
+1. **Model Architectures**
+- Large Language Models like GPT, BERT, or LLaMA are built on Transformer architectures.
+- Transformers use **self-attention mechanisms** to understand context by weighing the importance of each word in a sequence relative to others.
+
+
+### 8Extra. Comparison between RAG and Fine-tuning
+- Both **Fine-Tuning** and **Retrieval-Augmented Generation (RAG)** are powerful strategies for adapting and improving Large Language Models (LLMs).
+- They differ in **how** they enhance model performance and **when** each is best used.
+#### Concept Overview:
+| Aspect               | **Fine-Tuning**                                                                                                 | **Retrieval-Augmented Generation (RAG)**                                                                             |
+| -------------------- | --------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------- |
+| **Definition**       | Involves retraining a pre-trained model on domain-specific labeled data to specialize it for a particular task. | Combines a retriever (that fetches relevant external information) with a generator (that produces the final output). |
+| **Goal**             | Embed new knowledge *inside* model weights.                                                                     | Provide up-to-date or specialized knowledge *from external sources* without retraining.                              |
+| **Knowledge Source** | Static — knowledge becomes part of model parameters after training.                                             | Dynamic — knowledge retrieved in real time from databases or documents.                                              |
+| **Example Use**      | A medical chatbot trained specifically on clinical notes.                                                       | A legal assistant retrieving the latest laws and case summaries.                                                     |
+#### ⚙️ How Each Works
 
 ### 9. How can bias in prompt-based learning be mitigated?
 #### 1. Prompt Calibration
@@ -470,6 +517,8 @@ In contrast, MoE distributes the workload across multiple smaller subnetworks �
     - and another **after the feed-forward network**.
 - During fine-tuning, the pre-trained model’s original parameters remain **frozen**.
 - Only the parameters in the **new adapter modules** and the **Layer Normalization layers** are updated.
+- This ensures training efficiency and avoids catastrophic forgetting.
+- 
 ## Setup
 1. Clone the Repository
 ```sh
