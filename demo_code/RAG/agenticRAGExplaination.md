@@ -23,3 +23,16 @@ def planner(user_query: str) -> List[Dict[str, Any]]:
     ]
 
 ```
+
+## 3. Executor
+```python
+def execute_plan(plan):
+    evidence = {}
+    for step in plan:
+        if step["tool"] == "vector":
+            evidence[step["id"]] = vector_kb_search(step["query"])
+        ...
+    return evidence
+
+```
+- Runs each step and **maps evidence by sub-id** (`Q1`, `Q2`, `Q3`).

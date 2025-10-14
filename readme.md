@@ -347,11 +347,12 @@ Top-P sampling chooses from the smallest set of tokens whose cumulative probabil
 1. **Deep Domain Specialization** – Embeds domain-specific knowledge directly into model parameters.
 2. **Custom Behavior Control** – Tailors model tone, format, and reasoning style for specialized applications.
 3. **Offline Operation** – Once trained, fine-tuned models can operate without external knowledge sources.
+
 ### 9. Agentic RAG
 #### What is Agentic-RAG
 ##### **🧠 Overview**
-    - Agentic RAG (Retrieval-Augmented Generation) is an advanced evolution of the traditional RAG framework.
-    - It integrates the reasoning and autonomy of AI agents with the retrieval power of RAG, creating intelligent systems that can plan, retrieve, and reason proactively rather than reactively.
+- Agentic RAG (Retrieval-Augmented Generation) is an advanced evolution of the traditional RAG framework.
+- It integrates the reasoning and autonomy of AI agents with the retrieval power of RAG, creating intelligent systems that can plan, retrieve, and reason proactively rather than reactively.
 ##### **⚙️ Core Components of Agentic RAG**:
 - Agentic RAG combines two foundational AI concepts: AI Agents and RAG.
 1. **AI Agent**:
@@ -361,7 +362,20 @@ Top-P sampling chooses from the smallest set of tokens whose cumulative probabil
     - **Taking actions** through tools, APIs, or retrieval systems,
     - **Evaluating outcomes** and improving over time.
 2. **Retrieval-Augmented Generation (RAG)**:
-- 
+- **RAG** bridges the gap between static AI models and dynamic, real-world data.
+- Instead of relying solely on pre-trained knowledge, RAG systems:
+    - **Retrieve** up-to-date, factual information from sources such as APIs, databases, or knowledge graphs.
+    - **Augment** the prompt context with this retrieved content.
+    - **Generate** a response that is both accurate and grounded in real data.
+- This makes RAG powerful in domains like healthcare, finance, and education, where **real-time data** accuracy is crucial.
+##### 🤝 The Fusion: How Agentic RAG Combines Both
+| Concept                        | Role in Agentic RAG                                                                              |
+| ------------------------------ | ------------------------------------------------------------------------------------------------ |
+| **Autonomy**                   | The agent decides what steps to take next without explicit instruction.                          |
+| **Dynamic Retrieval**          | The system pulls the most relevant, real-time data from multiple sources.                        |
+| **Reasoning + Planning**       | The agent decomposes complex queries into smaller subtasks and selects tools dynamically.        |
+| **Feedback + Self-Reflection** | The model evaluates its own answers, re-queries when uncertain, and iteratively refines outputs. |
+
 #### How Does Agentic RAG Work?
 - **Agentic RAG** builds on standard Retrieval-Augmented Generation by adding agency — that is, autonomous decision-making, adaptive retrieval, and iterative improvement.
 - It operates through four foundational pillars:
@@ -382,9 +396,18 @@ Top-P sampling chooses from the smallest set of tokens whose cumulative probabil
 3. **Augmented Generation**
 - Retrieved data isn’t simply pasted into the output — it’s **processed**, **contextualized**, and **reasoned over**.
     - The system fuses **external factual data** with its **internal model reasoning**.
-    - 
+    - This produces **coherent**, **contextually rich answers** that combine accuracy and natural language fluency.
+    - It essentially upgrades the model from a “retriever + generator” to an **intelligent reasoning assistant**.
+4. **Continuous Feedback Loop**:
+- The feedback mechanism allows the system to **evaluate and refine** its own outputs.
+    - After generating a response, it checks for factual gaps or reasoning errors.
+    - The feedback layer can automatically re-query missing information or replan steps.
+    - Over time, this loop helps the model **learn from prior runs**, improving performance and adaptability.
+- **Exapmle**:
+    - If an answer receives low confidence or contradicts earlier retrieved evidence, the feedback loop triggers a refinement step — fetching additional context and regenerating a more accurate response.
+    
 #### Comparison Between Agentic RAG and Traditional RAG
-##### 🧩 Conceptual Overview**:
+##### Conceptual Overview:
 - Traditional RAG (Retrieval-Augmented Generation) systems work in a reactive manner — they depend on explicit human queries and predefined retrieval rules. In contrast, Agentic RAG introduces autonomy, context-awareness, and self-directed reasoning, enabling the model to decide what to retrieve, when, and why without needing continuous user guidance.
 ##### ⚙️ Traditional RAG
 - Traditional RAG systems:
@@ -395,7 +418,7 @@ Top-P sampling chooses from the smallest set of tokens whose cumulative probabil
     - Depend on human input for error correction or deeper exploration.
 - **Analogy**:
     - Traditional RAG is like visiting a library with a list of book titles — it retrieves exactly what you ask for, but won’t help you interpret, expand, or cross-reference the material.
-##### 🤖 Agentic RAG
+##### Agentic RAG
 - Agentic RAG systems, on the other hand, are **proactive and self-managing**:
     - Include **autonomous agents** (Planner, Retriever, Synthesizer, Critic) that collaborate dynamically.
     - Continuously analyze user intent, **decompose complex questions**, and route subtasks to specialized retrievers or APIs.
