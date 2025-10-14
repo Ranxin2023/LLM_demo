@@ -12,6 +12,7 @@
         - [What is Fine-Tuning](#41-what-is-fine-tuning)
         - [Why Fine-Tuning Works](#-42-why-fine-tuning-works)
         - [Types of Fine-Tuning](#️-43-types-of-fine-tuning)
+    - [Techiques for controlling the out of an LLM](#6-techniques-for-controlling-the-output-of-an-llm)
     - [How can you incorporate external knowledge into an LLM](#8-how-can-you-incorporate-external-knowledge-into-an-llm)
         - [Knowledge Graph](#81-knowledge-graph-integration)
         - [RAG](#82-rag)
@@ -346,7 +347,43 @@ Top-P sampling chooses from the smallest set of tokens whose cumulative probabil
 1. **Deep Domain Specialization** – Embeds domain-specific knowledge directly into model parameters.
 2. **Custom Behavior Control** – Tailors model tone, format, and reasoning style for specialized applications.
 3. **Offline Operation** – Once trained, fine-tuned models can operate without external knowledge sources.
-### 9. How can bias in prompt-based learning be mitigated?
+### 9. Agentic RAG
+#### What is Agentic-RAG
+##### **🧠 Overview**
+    - Agentic RAG (Retrieval-Augmented Generation) is an advanced evolution of the traditional RAG framework.
+    - It integrates the reasoning and autonomy of AI agents with the retrieval power of RAG, creating intelligent systems that can plan, retrieve, and reason proactively rather than reactively.
+##### **⚙️ Core Components of Agentic RAG**:
+- Agentic RAG combines two foundational AI concepts: AI Agents and RAG.
+1. **AI Agent**:
+- An AI agent is an autonomous entity capable of:
+    - **Perceiving its environment** (input, data sources, user intent),
+    - **Making decisions** about what to do next,
+    - **Taking actions** through tools, APIs, or retrieval systems,
+    - **Evaluating outcomes** and improving over time.
+2. **Retrieval-Augmented Generation (RAG)**:
+- 
+#### How Does Agentic RAG Work?
+- **Agentic RAG** builds on standard Retrieval-Augmented Generation by adding agency — that is, autonomous decision-making, adaptive retrieval, and iterative improvement.
+- It operates through four foundational pillars:
+1. **Autonomy**
+- The agent takes full control of the entire process — from identifying what’s missing to producing the final answer.
+    - It doesn’t wait for explicit human instructions.
+    - If it detects incomplete data or unclear context, it autonomously determines what additional information is needed.
+    - This independence makes it a **proactive problem-solver** rather than a reactive one.
+- **Example**:
+    - When asked a question that requires up-to-date statistics, an Agentic RAG agent identifies the data gap, queries an external API for current information, and integrates it — all without manual prompting.
+2. **Dynamic Retrieval**
+- Unlike traditional RAG (which retrieves from static corpora), Agentic RAG performs **real-time**, **adaptive data retrieval**.
+    - It dynamically selects which retrieval pipeline to use (e.g., vector DB, API, or web search).
+    - It can query APIs, databases, or knowledge graphs to fetch the **most relevant and recent data**.
+    - The agent optimizes retrieval based on context, domain, and task complexity.
+- **Example**:
+    - For a financial report generator, Agentic RAG fetches the latest stock prices and quarterly data rather than relying on stale embeddings.
+3. **Augmented Generation**
+- Retrieved data isn’t simply pasted into the output — it’s **processed**, **contextualized**, and **reasoned over**.
+    - The system fuses **external factual data** with its **internal model reasoning**.
+    - 
+### 10. How can bias in prompt-based learning be mitigated?
 #### 1. Prompt Calibration
 - This involves carefully designing and testing prompts so that the LLM produces balanced, unbiased responses.
 - For example, if a model tends to associate certain professions with specific genders, you can test multiple prompt formulations and adjust phrasing to reduce bias.
@@ -364,7 +401,7 @@ Top-P sampling chooses from the smallest set of tokens whose cumulative probabil
     - If 70% of your data says “doctor → he,” generate more examples with “doctor → she.”
     - Use paraphrasing or back-translation to diversify data linguistically.
 
-### 10. catastrophic forgetting
+### 11. catastrophic forgetting
 #### Definition:
 - Catastrophic forgetting (or catastrophic interference) is the phenomenon where a neural network **forgets previously learned tasks** after being fine-tuned on new data.
 - In the context of LLMs, it means:
@@ -397,7 +434,7 @@ Top-P sampling chooses from the smallest set of tokens whose cumulative probabil
     - **PEFT**: “Write on sticky notes” (small, new parameters) — don’t touch the main whiteboard.
     - **EWC**: “Highlight what’s important and don’t erase it” — preserve critical parts of the old notes.
 
-### 11. LoRA
+### 12PreKnowledge. LoRA
 #### What is Low-Rank Adaptation (LoRA)?
 
 **Low-Rank Adaptation (LoRA)** is a **parameter-efficient fine-tuning (PEFT)** technique designed to adapt large pre-trained models for specific tasks **without significantly increasing computational or memory costs**.
@@ -562,6 +599,33 @@ In contrast, MoE distributes the workload across multiple smaller subnetworks �
 - Only the parameters in the **new adapter modules** and the **Layer Normalization layers** are updated.
 - This ensures training efficiency and avoids catastrophic forgetting.
 - 
+### 16. Chain-of-Thought (CoT) Prompting
+#### Definition:
+- **Chain-of-Thought (CoT) prompting** is a technique that improves the reasoning ability of Large Language Models (LLMs) by asking them to explain their reasoning steps before producing the final answer.
+- Instead of directly predicting an answer, the model thinks step-by-step, mimicking how humans reason through complex problems.
+#### Why It Works
+- **Human-like reasoning**: It encourages the model to reason explicitly (e.g., “First, compute this → Then that → So the answer is…”).
+- **Decomposition**: Breaks complex tasks into smaller logical substeps, reducing errors in multi-step problems.
+- **Interpretability**: You can see how the model reached its conclusion.
+- **Improved accuracy**: Especially beneficial in arithmetic, logic, and commonsense reasoning tasks.
+#### 🧩 Example Comparison
+- Without CoT Prompting
+```pgsql
+Q: If a banana costs 2 dollars and an apple costs 3 dollars, how much do 3 bananas and 2 apples cost?
+
+A: 10
+
+```
+- With CoT Prompting
+```pgsql
+Q: If a banana costs 2 dollars and an apple costs 3 dollars, how much do 3 bananas and 2 apples cost?
+Let's think step by step.
+A: A banana costs 2 dollars. 3 bananas = 3 × 2 = 6 dollars.
+An apple costs 3 dollars. 2 apples = 2 × 3 = 6 dollars.
+Total = 6 + 6 = 12 dollars.
+Answer: 12
+
+```
 ## Setup
 1. Clone the Repository
 ```sh

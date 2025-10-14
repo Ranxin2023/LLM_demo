@@ -1,0 +1,11 @@
+PLAN: [{'id': 'Q1', 'tool': 'vector', 'query': 'KB overview and domains'}, {'id': 'Q2', 'tool': 'sql', 'query': 'Ticket analytics for last 6 months (mix, paraphrase rate)'}, {'id': 'Q3', 'tool': 'web', 'query': 'BM25 vs dense retrieval for FAQs; evidence on hybrid'}] 
+
+User query: Compare vector search vs keyword search for our support KB and recommend a strategy, metrics to track, and a rollout plan with risks.
+
+Evidence — KB: Our KB covers billing, account, and product setup. Many duplicate Q&A.
+Evidence — Tickets: Tickets: 42% billing, 35% setup, 23% account; 28% contain paraphrased intents
+Evidence — Studies: Study A: hybrid improves top1-hit by 8–15% on FAQ corpora Case study: vector-only strong on paraphrases; BM25 strong on short keyword queries
+
+Recommendation: adopt a HYBRID retriever (BM25 + vector). Rationale: BM25 excels for short keyword queries and known FAQs; vector handles paraphrases and semantically vague tickets. Given ~28% paraphrased intents, hybrid balances precision and recall.
+Track: top1-hit, MRR@k, deflection rate, mean handle time, and failure analysis by intent type. Run a 2-week A/B with 50/50 traffic; success = +10% top1-hit and -8% handle time.
+Risks: index drift (embed model/versioning), cost spikes from dense search, and degraded performance on very short queries if vector-only routing is used.

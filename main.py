@@ -10,6 +10,7 @@
 # from demo_code.LangChain.langchain_agent2 import langchain2_redirect
 # from demo_code.LLMConceptsDemo.mitigate_bias import mitigate_bias_output
 from demo_code.FineTuning.catastrophic_forgetting import catastrophic_forgetting_redirect
+from demo_code.RAG.AgenticRAGDemo import run_agentic_RAG
 def main():
     # evaluate_LLM()
     # five_method()
@@ -22,7 +23,7 @@ def main():
     # agent_demo_redirect()
     # langchain2_redirect()
     # mitigate_bias_output()
-    catastrophic_forgetting_redirect()
-    
+    # catastrophic_forgetting_redirect()
+    run_agentic_RAG()
 if __name__=='__main__':
     main()
