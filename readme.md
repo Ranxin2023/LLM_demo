@@ -383,6 +383,27 @@ Top-P sampling chooses from the smallest set of tokens whose cumulative probabil
 - Retrieved data isn’t simply pasted into the output — it’s **processed**, **contextualized**, and **reasoned over**.
     - The system fuses **external factual data** with its **internal model reasoning**.
     - 
+#### Comparison Between Agentic RAG and Traditional RAG
+##### 🧩 Conceptual Overview**:
+- Traditional RAG (Retrieval-Augmented Generation) systems work in a reactive manner — they depend on explicit human queries and predefined retrieval rules. In contrast, Agentic RAG introduces autonomy, context-awareness, and self-directed reasoning, enabling the model to decide what to retrieve, when, and why without needing continuous user guidance.
+##### ⚙️ Traditional RAG
+- Traditional RAG systems:
+    - Follow a fixed pipeline: Retrieve → Generate → Respond.
+    - Require **explicit**, **well-structured user queries**.
+    - Retrieve information based only on static embeddings or indexes.
+    - Lack contextual adaptability — they do not replan or refine when retrieval fails.
+    - Depend on human input for error correction or deeper exploration.
+- **Analogy**:
+    - Traditional RAG is like visiting a library with a list of book titles — it retrieves exactly what you ask for, but won’t help you interpret, expand, or cross-reference the material.
+##### 🤖 Agentic RAG
+- Agentic RAG systems, on the other hand, are **proactive and self-managing**:
+    - Include **autonomous agents** (Planner, Retriever, Synthesizer, Critic) that collaborate dynamically.
+    - Continuously analyze user intent, **decompose complex questions**, and route subtasks to specialized retrievers or APIs.
+    - Integrate data from **multiple sources** — databases, web, APIs, knowledge graphs — in real time.
+    - Employ a **feedback loop** to self-correct, re-query, or refine answers if evidence is weak or inconsistent.
+    - Produce **coherent**, **multi-layered**, and **contextually enriched** responses.
+- **Analogy**:
+    - Agentic RAG is like hiring a research assistant who not only finds the most relevant books but also reads them, summarizes the findings, cross-checks facts, and delivers a polished report — saving both time and effort.
 ### 10. How can bias in prompt-based learning be mitigated?
 #### 1. Prompt Calibration
 - This involves carefully designing and testing prompts so that the LLM produces balanced, unbiased responses.
