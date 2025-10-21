@@ -21,8 +21,14 @@
     - [Comparison Between RAG and Fine-tuning](#8extra-comparison-between-rag-and-fine-tuning)
     - [How can bias in prompt-based learning be mitigated?](#9-how-can-bias-in-prompt-based-learning-be-mitigated)
     - [Catastrophic Forgetting](#10-catastrophic-forgetting)
-    - [LoRA](#13-lora)
-    - [PEFT](#14-peft)
+    - [LoRA](#12preknowledge-lora)
+    - [PEFT](#12-peft)
+    - [CoT Prompting](#16-chain-of-thought-cot-prompting)
+    - [Hallucination](#17-hallucinations)
+        - [Definition](#definition)
+        - [3 Main Types of Hallucinations](#three-main-types-of-hallucinations)
+        - [How are LLM Hallucinations Detected](#how-are-llm-hallucinations-detected)
+    - [Knowledge Distillation](#18-knowledge-distillation)
 - [Setup](#setup)
 
 ## Concepts
@@ -429,6 +435,18 @@ Top-P sampling chooses from the smallest set of tokens whose cumulative probabil
     - Produce **coherent**, **multi-layered**, and **contextually enriched** responses.
 - **Analogy**:
     - Agentic RAG is like hiring a research assistant who not only finds the most relevant books but also reads them, summarizes the findings, cross-checks facts, and delivers a polished report — saving both time and effort.
+### 9Extra. Planner
+#### Question:How does the planner agent in AgenticRAG handle complex queries?
+1. **Decomposition**
+    - It converts the single complex query into a set of **manageable**, **dependency-aware sub-queries**. This prevents one monolithic retrieval step from missing critical evidence.
+2. **Specialized routing**
+    - Each sub-query is mapped to the **best retrieval pipeline**: vector DB for semantic needs, BM25 for keyword-exact matches, SQL for analytics, KG for relationship queries, code search for repos, or external APIs (web, Github, Jira).
+3. **Parallel + staged execution**
+    - Independent sub-queries run **in parallel** for speed; dependent ones wait for upstream evidence (e.g., use ticket analytics to parameterize later searches).
+4. **Adaptive refinement**
+    - If a sub-query returns weak/conflicting evidence, the planner can **replan**: widen time windows, change retrievers (e.g., try hybrid), increase top-k, or add a new sub-query (e.g., “look for failure modes in billing tickets”).
+5. **Budgeting & guardrails**
+    - It enforces limits (tokens, calls, top-k) and uses early-stop criteria when confidence is high enough—important for cost and latency.
 ### 10. How can bias in prompt-based learning be mitigated?
 #### 1. Prompt Calibration
 - This involves carefully designing and testing prompts so that the LLM produces balanced, unbiased responses.
@@ -631,6 +649,7 @@ In contrast, MoE distributes the workload across multiple smaller subnetworks �
 - Experts learn to handle specific kinds of data — e.g., “mathematical reasoning,” “dialogue tone,” or “code generation.”
 4. **Parallelization**:
 - Different experts can run on different hardware shards or GPUs.
+
 ### 15. Adapter Tuning
 #### 15.1 Background
 - As pre-trained models grow larger and larger, fine-tuning all parameters for each downstream task becomes both expensive and time-consuming.
@@ -645,6 +664,7 @@ In contrast, MoE distributes the workload across multiple smaller subnetworks �
 - Only the parameters in the **new adapter modules** and the **Layer Normalization layers** are updated.
 - This ensures training efficiency and avoids catastrophic forgetting.
 - 
+
 ### 16. Chain-of-Thought (CoT) Prompting
 #### Definition:
 - **Chain-of-Thought (CoT) prompting** is a technique that improves the reasoning ability of Large Language Models (LLMs) by asking them to explain their reasoning steps before producing the final answer.
@@ -655,14 +675,16 @@ In contrast, MoE distributes the workload across multiple smaller subnetworks �
 - **Interpretability**: You can see how the model reached its conclusion.
 - **Improved accuracy**: Especially beneficial in arithmetic, logic, and commonsense reasoning tasks.
 #### 🧩 Example Comparison
-- Without CoT Prompting
-```pgsql
-Q: If a banana costs 2 dollars and an apple costs 3 dollars, how much do 3 bananas and 2 apples cost?
+- **Without CoT Prompting**
+    ```pgsql
+    Q: If a banana costs 2 dollars and an apple costs 3 dollars, how much do 3 bananas and 2 apples cost?
 
-A: 10
+    A: 10
 
-```
-- With CoT Prompting
+    ```
+    - The model explicitly reasons through the problem and produces the correct answer.
+- **With CoT Prompting**
+    - 
 ```pgsql
 Q: If a banana costs 2 dollars and an apple costs 3 dollars, how much do 3 bananas and 2 apples cost?
 Let's think step by step.
@@ -672,6 +694,26 @@ Total = 6 + 6 = 12 dollars.
 Answer: 12
 
 ```
+#### Variants of CoT Prompting
+1. **Zero-Shot CoT**
+    - Add “Let’s think step by step” directly to the user prompt — no examples needed.
+    ```python
+    Q: Tom has twice as many apples as Sarah. Sarah has 3 apples. How many does Tom have?
+    A: Let’s think step by step.
+
+    ```
+2. **Few-Shot CoT**
+    - Provide **example reasoning traces** before asking the main question. This helps the model learn how to reason.
+    ```python
+    examples = """
+    Q: If 2 + 2 = ?
+    A: Let's think step by step. 2 + 2 = 4.
+
+    Q: If a pen costs $3 and you buy 5 pens, how much total?
+    A: Let's think step by step. 3 * 5 = 15. Answer: $15.
+    """
+
+    ```
 ### 17. Hallucinations
 #### Definition
 - An AI hallucination refers to an output generated by an AI model that **deviates from reality or lacks a factual basis**.
@@ -737,7 +779,11 @@ Answer: 12
         - Instead of asking:
 
 - **b. Few-Shot Prompting**
-    - 
+    - Few-shot prompting involves showing the model **a few examples** of how you want it to respond **within the prompt**.
+    - These examples guide the model toward the correct style, tone, and factual precision.
+        - This narrows down the model’s possible outputs.
+        - The model learns “what a correct answer looks like” and imitates that style.
+        
 2. **Retrieval-Augmented Generation (RAG)**
 - **Definition**:
     - **RAG** combines **information retrieval** (from external sources) with **text generation** to ensure that the AI’s answers are grounded in real, verifiable facts.
@@ -752,6 +798,27 @@ Answer: 12
     - To fix this, researchers use **evaluation benchmarks** to measure how well RAG prevents hallucinations:
         - **RGB (Retrieval-Augmented Generation Benchmark)**:
             - A dataset used for testing RAG systems in English and Chinese.
+3. **Few-Shot and Zero-Shot Learning**
+- **Few-Shot Learning**
+    - The model is given **a few examples** before performing a task.
+    - These examples help the model infer **patterns**, **tone**, and **factual context**.
+    - It minimizes errors that arise when the model misunderstands the desired output or context.
+- **Zero-Shot Learning**
+    - The model receives **no examples**, but relies on its general language knowledge.
+    - This is useful when examples aren’t available or for new types of tasks.
+    - Despite not being explicitly trained, zero-shot learning still allows LLMs to reason based on prior linguistic patterns — helping them avoid unsupported assumptions.
+4. **Fine-Tuning LLMs**
+- **Definition**:
+    - Fine-tuning means **retraining an existing LLM** on a **smaller**, **domain-specific** dataset that contains verified, factual, and updated information.
+    - This process aligns the model’s outputs with a specific **domain**, **task**, or **knowledge base**, improving accuracy and reducing outdated or incorrect claims.
+- **How Fine-Tuning Reduces Hallucination:**
+    - It corrects or updates the model’s internal knowledge.
+    - It reinforces factual grounding and discourages speculative answers.
+    - It helps the model learn contextual nuances (e.g., medical, legal, or scientific language).
+
+### 18. Knowledge Distillation
+#### Definition of Knowledge Distillation (KD)
+- **Knowledge Distillation (KD)** is a **model compression technique** in which a **smaller and faster “student” model** learns to reproduce the behavior of a **larger, more accurate “teacher” model**.
 ## Setup
 1. Clone the Repository
 ```sh

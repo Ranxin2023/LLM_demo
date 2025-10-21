@@ -11,6 +11,7 @@
 # from demo_code.LLMConceptsDemo.mitigate_bias import mitigate_bias_output
 from demo_code.FineTuning.catastrophic_forgetting import catastrophic_forgetting_redirect
 from demo_code.RAG.AgenticRAGDemo import run_agentic_RAG
+from demo_code.LLMConceptsDemo.CoTDemo import CoT_redirect_output
 def main():
     # evaluate_LLM()
     # five_method()
@@ -24,6 +25,7 @@ def main():
     # langchain2_redirect()
     # mitigate_bias_output()
     # catastrophic_forgetting_redirect()
-    run_agentic_RAG()
+    # run_agentic_RAG()
+    CoT_redirect_output()
 if __name__=='__main__':
     main()
