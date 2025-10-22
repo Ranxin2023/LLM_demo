@@ -30,7 +30,9 @@
         - [How are LLM Hallucinations Detected](#how-are-llm-hallucinations-detected)
     - [Knowledge Distillation](#18-knowledge-distillation)
         - [Definition of Knowledge Distillation](#definition-of-knowledge-distillation-kd)
-        - []
+        - [Purpose](#purpose)
+        - [Benefits of Distillation](#benefits-of-distillation)
+        - [Application of Distilled LLMs](#applications-of-distilled-llms)
 - [Setup](#setup)
 
 ## Concepts
