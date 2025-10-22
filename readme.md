@@ -770,7 +770,18 @@ Answer: 12
 - Detecting hallucinations means checking whether the model’s output is trustworthy, factual, and consistent.
 1. **Cross-Referencing with Trusted Sources**
 - This method involves comparing the model’s generated text against reliable external databases or factual sources.
-- 
+    - The goal is to see if the model’s claims can be **verified**.
+    - Trusted sources include:
+        - **Structured factual databases** (like Wikidata or DBpedia),
+        - **Reputable news sites** (for recent events),
+        - **Peer-reviewed journals** (for scientific facts).
+2. **Out-of-Distribution (OOD) Detection**
+- This approach detects hallucinations by checking when the model is **less confident** or when an input is **unfamiliar** (outside the type of data the model was trained on).
+3. **Combining Both Approaches**
+- Modern hallucination detection often combines:
+    - **Automated factual validation** (checking against databases or APIs),
+    - **OOD uncertainty estimation**, and
+    - **Human evaluation**, especially for nuanced or context-based answers.
 #### Strategies to reduce LLM hallucinations
 1. **Advanced Prompting Methods** 
 - **Definition**:
@@ -859,8 +870,8 @@ Answer: 12
 3. **Knowledge Transfer Process (Middle Section)**
 - This is the **core of distillation**, where knowledge flows from teacher → student.
 - **Step 1: Distill**
-- The teacher’s output (logits or probabilities) is passed through a **softmax function** with a temperature 𝑇 > 1. 
-- This softens the output probabilities so that smaller differences between classes are preserved.\n
+    - The teacher’s output (logits or probabilities) is passed through a **softmax function** with a temperature 𝑇 > 1. 
+    - This softens the output probabilities so that smaller differences between classes are preserved.\n
 
     | Class  | Hard Label | Teacher (Soft, T=2) |
     | ------ | ---------- | ------------------- |
@@ -869,13 +880,13 @@ Answer: 12
     | Rabbit | 0          | 0.10                |
     - This “softer” probability distribution provides more information about inter-class relationships than a hard one-hot label.
 - **Step 2: Transfer**
-- The **student model** is trained to **mimic** these soft probabilities.
-- A **Knowledge Distillation loss function** (typically KL Divergence) measures how close the student’s outputs are to the teacher’s outputs.
-- Mathematically:
-$$
-    L_{KD} = \alpha \cdot T^2 \cdot KL(p_{teacher}(T) \parallel p_{student}(T)) + (1 - \alpha) \cdot CE(y_{true}, p_{student})
-$$
-- Explanation of Terms:\n
+    - The **student model** is trained to **mimic** these soft probabilities.
+    - A **Knowledge Distillation loss function** (typically KL Divergence) measures how close the student’s outputs are to the teacher’s outputs.
+    - Mathematically:\n
+    $$
+        L_{KD} = \alpha \cdot T^2 \cdot KL(p_{teacher}(T) \parallel p_{student}(T)) + (1 - \alpha) \cdot CE(y_{true}, p_{student})
+    $$
+    - Explanation of Terms:\n
 
 | **Symbol**                    | **Meaning**                                                               |
 |-------------------------------|---------------------------------------------------------------------------|
@@ -970,7 +981,7 @@ $$
         - Uses a distilled GPT model to answer FAQs about account balance, loans, and transactions.
         - Runs on a lightweight server (no GPU required).
         - Responds instantly — improving user experience while saving cloud costs.
-
+### 19. Model Uncertainty
 ## Setup
 1. Clone the Repository
 ```sh
