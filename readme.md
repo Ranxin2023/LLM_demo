@@ -860,7 +860,8 @@ Answer: 12
 - This is the **core of distillation**, where knowledge flows from teacher → student.
 - **Step 1: Distill**
 - The teacher’s output (logits or probabilities) is passed through a **softmax function** with a temperature 𝑇 > 1. 
-- This softens the output probabilities so that smaller differences between classes are preserved.
+- This softens the output probabilities so that smaller differences between classes are preserved.\n
+
     | Class  | Hard Label | Teacher (Soft, T=2) |
     | ------ | ---------- | ------------------- |
     | Cat    | 1          | 0.60                |
@@ -874,7 +875,7 @@ Answer: 12
 $$
     L_{KD} = \alpha \cdot T^2 \cdot KL(p_{teacher}(T) \parallel p_{student}(T)) + (1 - \alpha) \cdot CE(y_{true}, p_{student})
 $$
-- Explanation of Terms:
+- Explanation of Terms:\n
 
 | **Symbol**                    | **Meaning**                                                               |
 |-------------------------------|---------------------------------------------------------------------------|
