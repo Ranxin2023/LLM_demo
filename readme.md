@@ -29,6 +29,8 @@
         - [3 Main Types of Hallucinations](#three-main-types-of-hallucinations)
         - [How are LLM Hallucinations Detected](#how-are-llm-hallucinations-detected)
     - [Knowledge Distillation](#18-knowledge-distillation)
+        - [Definition of Knowledge Distillation](#definition-of-knowledge-distillation-kd)
+        - []
 - [Setup](#setup)
 
 ## Concepts
@@ -857,8 +859,8 @@ Answer: 12
 3. **Knowledge Transfer Process (Middle Section)**
 - This is the **core of distillation**, where knowledge flows from teacher → student.
 - **Step 1: Distill**
-    - The teacher’s output (logits or probabilities) is passed through a **softmax function** with a temperature 𝑇 > 1. 
-    - This softens the output probabilities so that smaller differences between classes are preserved.
+- The teacher’s output (logits or probabilities) is passed through a **softmax function** with a temperature 𝑇 > 1. 
+- This softens the output probabilities so that smaller differences between classes are preserved.
     | Class  | Hard Label | Teacher (Soft, T=2) |
     | ------ | ---------- | ------------------- |
     | Cat    | 1          | 0.60                |
@@ -866,23 +868,25 @@ Answer: 12
     | Rabbit | 0          | 0.10                |
     - This “softer” probability distribution provides more information about inter-class relationships than a hard one-hot label.
 - **Step 2: Transfer**
-    - The **student model** is trained to **mimic** these soft probabilities.
-    - A **Knowledge Distillation loss function** (typically KL Divergence) measures how close the student’s outputs are to the teacher’s outputs.
-    - Mathematically:
-    $$
+- The **student model** is trained to **mimic** these soft probabilities.
+- A **Knowledge Distillation loss function** (typically KL Divergence) measures how close the student’s outputs are to the teacher’s outputs.
+- Mathematically:
+$$
     L_{KD} = \alpha \cdot T^2 \cdot KL(p_{teacher}(T) \parallel p_{student}(T)) + (1 - \alpha) \cdot CE(y_{true}, p_{student})
-    $$
-    - Explanation of Terms
-    | **Symbol**                    | **Meaning**                                                               |
-    | ----------------------------- | ------------------------------------------------------------------------- |
-    | ( L_{KD} )                    | Total Knowledge Distillation loss                                         |
-    | ( \alpha )                    | Balance factor between teacher imitation and true label learning          |
-    | ( T )                         | Temperature — controls the softness of the teacher’s output probabilities |
-    | ( KL(\cdot \parallel \cdot) ) | Kullback–Leibler Divergence between teacher and student distributions     |
-    | ( CE(\cdot, \cdot) )          | Cross-Entropy loss using ground-truth labels                              |
-    | ( p_{teacher}(T) )            | Teacher’s softened probability distribution                               |
-    | ( p_{student}(T) )            | Student’s softened probability distribution                               |
-    | ( y_{true} )                  | True label of the data sample                                             |
+$$
+- Explanation of Terms:
+
+| **Symbol**                    | **Meaning**                                                               |
+|-------------------------------|---------------------------------------------------------------------------|
+| ( L_{KD} )                    | Total Knowledge Distillation loss                                         |
+| ( \alpha )                    | Balance factor between teacher imitation and true label learning          |
+| ( T )                         | Temperature — controls the softness of the teacher’s output probabilities |
+| ( KL(\cdot \parallel \cdot) ) | Kullback–Leibler Divergence between teacher and student distributions     |
+| ( CE(\cdot, \cdot) )          | Cross-Entropy loss using ground-truth labels                              |
+| ( p_{teacher}(T) )            | Teacher’s softened probability distribution                               |
+| ( p_{student}(T) )            | Student’s softened probability distribution                               |
+| ( y_{true} )                  | True label of the data sample                                             |
+
 4. **Student Model (Right Section)**
 - The **Student Model** is a smaller, more compact neural network — fewer layers and parameters.
 - It learns to imitate the teacher’s “behavior” rather than memorizing labels.
@@ -891,13 +895,13 @@ Answer: 12
     - The student model’s predictions become nearly identical to the teacher’s.
     - It requires less memory, less power, and runs much faster — perfect for **edge devices** or **real-time applications**.
 5. **Outcome (Top-Level Summary)**
-| Step | Component          | Role                                              |
-| ---- | ------------------ | ------------------------------------------------- |
-| 1️⃣  | Teacher            | Provides deep, soft knowledge                     |
-| 2️⃣  | Data               | Feeds input examples to both models               |
-| 3️⃣  | Distill & Transfer | Passes teacher’s soft knowledge                   |
-| 4️⃣  | Student            | Learns a compressed representation of the teacher |
-| ✅    | Result             | Smaller, faster, and still accurate model         |
+| **Step** | **Component**         | **Role**                                          |
+|----------|-----------------------|-------------------------------------------------- |
+| 1️        | Teacher               | Provides deep, soft knowledge                     |
+| 2️        | Data                  | Feeds input examples to both models               |
+| 3️        | Distill & Transfer    | Passes teacher’s soft knowledge                   |
+| 4️        | Student               | Learns a compressed representation of the teacher |
+| 5        | Result                | Smaller, faster, and still accurate model         |
 
 #### Benefits of Distillation
 1. **Reduced Model Size**
