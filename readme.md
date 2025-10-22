@@ -884,10 +884,10 @@ Answer: 12
 - **Step 2: Transfer**
     - The **student model** is trained to **mimic** these soft probabilities.
     - A **Knowledge Distillation loss function** (typically KL Divergence) measures how close the student’s outputs are to the teacher’s outputs.
-    - Mathematically:\n
-    $$
-        L_{KD} = \alpha \cdot T^2 \cdot KL(p_{teacher}(T) \parallel p_{student}(T)) + (1 - \alpha) \cdot CE(y_{true}, p_{student})
-    $$
+    - Mathematically:\n\n
+$$
+    L_{KD} = \alpha \cdot T^2 \cdot KL(p_{teacher}(T) \parallel p_{student}(T)) + (1 - \alpha) \cdot CE(y_{true}, p_{student})
+$$
     - Explanation of Terms:\n
 
 | **Symbol**                    | **Meaning**                                                               |
@@ -908,7 +908,7 @@ Answer: 12
 - After training:
     - The student model’s predictions become nearly identical to the teacher’s.
     - It requires less memory, less power, and runs much faster — perfect for **edge devices** or **real-time applications**.
-5. **Outcome (Top-Level Summary)**
+5. **Outcome (Top-Level Summary)**\n
 | **Step** | **Component**         | **Role**                                          |
 |----------|-----------------------|-------------------------------------------------- |
 | 1️        | Teacher               | Provides deep, soft knowledge                     |
