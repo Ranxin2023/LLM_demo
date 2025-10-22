@@ -664,7 +664,10 @@ In contrast, MoE distributes the workload across multiple smaller subnetworks �
 - Only the parameters in the **new adapter modules** and the **Layer Normalization layers** are updated.
 - This ensures training efficiency and avoids catastrophic forgetting.
 - 
-
+#### 15.3 Detailed Explanation
+- Each Adapter module mainly consists of **two feed-forward sub-layers**:
+    - The **first sub-layer (down-project)** takes the output of the Transformer block as input.
+    - It projects the original high-dimensional feature (dimension 𝑑) **down to a smaller dimension** 𝑚(low-dimensional space),
 ### 16. Chain-of-Thought (CoT) Prompting
 #### Definition:
 - **Chain-of-Thought (CoT) prompting** is a technique that improves the reasoning ability of Large Language Models (LLMs) by asking them to explain their reasoning steps before producing the final answer.
@@ -819,6 +822,101 @@ Answer: 12
 ### 18. Knowledge Distillation
 #### Definition of Knowledge Distillation (KD)
 - **Knowledge Distillation (KD)** is a **model compression technique** in which a **smaller and faster “student” model** learns to reproduce the behavior of a **larger, more accurate “teacher” model**.
+- Instead of training only on the original dataset and hard labels (e.g., “dog” vs “cat”), the student is trained to mimic the soft output probabilities of the teacher model — these contain richer information about how the teacher interprets patterns and relationships between classes.
+- **In short**:
+    - Knowledge Distillation = transferring the “knowledge” of a large model into a smaller one, so that it performs nearly as well but runs much faster and uses fewer resources.
+#### Purpose
+- LLM distillation focuses on:
+    - **Reducing computational demands** (less memory, faster inference)
+    - **Maintaining performance** (comparable accuracy to the original model)
+    - **Enabling deployment** on limited hardware (like mobile phones, browsers, or edge devices)
+- This makes distillation crucial in the production phase of AI systems — when large-scale models need to serve millions of users quickly.
+#### Question: What is the role of Knowledge Distillation in improving LLM deployment?
+- **Detailed Explanation**
+    - Large Language Models (LLMs) like GPT, BERT, or T5 often have **billions of parameters**, making them extremely powerful but also **computationally expensive**. Running or deploying them on smaller devices (like phones, IoT devices, or low-latency cloud environments) is often impractical.
+    - Knowledge Distillation solves this problem by **creating smaller models** that **inherit the intelligence of larger ones**, leading to more efficient and scalable deployment.
+
+#### Step-by-Step Explanation of the Diagram
+![Distillation Workflow](images/DistillationWorkflow.png)
+1. **Teacher Model (Left Section)**
+- The **Teacher Model** is a **large**, **pre-trained** network with many layers and parameters.
+- It has already learned deep and complex relationships from a large dataset.
+- In the diagram:
+    - The **red**, **orange**, and **blue nodes** represent neurons across layers.
+    - The teacher is **rich in knowledge** — it knows not only the right answers but also how confident it is about each class (its probability distribution).
+- **Example**：
+    - For a text classification task:
+    ```yaml
+    Input: "The movie was amazing!"
+    Teacher output probabilities:
+    Positive: 0.90, Neutral: 0.08, Negative: 0.02
+    ```
+2. **Data Feeding (Bottom Arrow)**
+- The same **training data** (or unlabeled data) is used by both models.
+- This ensures that both teacher and student see identical examples and contexts during training.
+3. **Knowledge Transfer Process (Middle Section)**
+- This is the **core of distillation**, where knowledge flows from teacher → student.
+- **Step 1: Distill**
+    - The teacher’s output (logits or probabilities) is passed through a **softmax function** with a temperature 𝑇 > 1. 
+    - This softens the output probabilities so that smaller differences between classes are preserved.
+    | Class  | Hard Label | Teacher (Soft, T=2) |
+    | ------ | ---------- | ------------------- |
+    | Cat    | 1          | 0.60                |
+    | Dog    | 0          | 0.30                |
+    | Rabbit | 0          | 0.10                |
+    - This “softer” probability distribution provides more information about inter-class relationships than a hard one-hot label.
+- **Step 2: Transfer**
+    - The **student model** is trained to **mimic** these soft probabilities.
+    - A **Knowledge Distillation loss function** (typically KL Divergence) measures how close the student’s outputs are to the teacher’s outputs.
+    - Mathematically:
+    $$
+    L_{KD} = \alpha \cdot T^2 \cdot KL(p_{teacher}(T) \parallel p_{student}(T)) + (1 - \alpha) \cdot CE(y_{true}, p_{student})
+    $$
+    - Explanation of Terms
+    | **Symbol**                    | **Meaning**                                                               |
+    | ----------------------------- | ------------------------------------------------------------------------- |
+    | ( L_{KD} )                    | Total Knowledge Distillation loss                                         |
+    | ( \alpha )                    | Balance factor between teacher imitation and true label learning          |
+    | ( T )                         | Temperature — controls the softness of the teacher’s output probabilities |
+    | ( KL(\cdot \parallel \cdot) ) | Kullback–Leibler Divergence between teacher and student distributions     |
+    | ( CE(\cdot, \cdot) )          | Cross-Entropy loss using ground-truth labels                              |
+    | ( p_{teacher}(T) )            | Teacher’s softened probability distribution                               |
+    | ( p_{student}(T) )            | Student’s softened probability distribution                               |
+    | ( y_{true} )                  | True label of the data sample                                             |
+4. **Student Model (Right Section)**
+- The **Student Model** is a smaller, more compact neural network — fewer layers and parameters.
+- It learns to imitate the teacher’s “behavior” rather than memorizing labels.
+- Despite being lightweight, it retains most of the teacher’s decision-making intelligence.
+- After training:
+    - The student model’s predictions become nearly identical to the teacher’s.
+    - It requires less memory, less power, and runs much faster — perfect for **edge devices** or **real-time applications**.
+#### Benefits of Distillation
+1. **Reduced Model Size**
+- **What It Means**
+    - One of the most immediate outcomes of distillation is a dramatic reduction in model parameters.
+    - For example:
+        - **BERT-base** → 110 million parameters
+        - **DistilBERT** → 66 million parameters
+- **Why It Matters**
+    - **Faster Inference**: Smaller models have fewer layers and operations to compute, so they process data faster.
+    - **Reduced Storage**: They consume less disk space and RAM, allowing deployment on devices with limited storage (e.g., smartphones, IoT devices, or microcontrollers).
+2. **Improved Inference Speed**
+- **What It Means**
+    - Inference speed refers to **how fast a model can generate predictions** once trained.
+    - Since a distilled model has fewer parameters and layers, it computes outputs significantly faster.
+- **Technical Reason**
+    - Every neural layer in an LLM adds latency during prediction.
+    - Removing redundant layers (via distillation) reduces both **forward-pass time** and **memory transfer time**.
+3. **Lower Computational Costs**
+- **What It Means**
+    - Large LLMs require massive computational resources — expensive GPUs, high energy, and large-scale data centers.
+    - Distilled models, being smaller, **consume less power and cost far less to operate**.
+- **Cost Advantages**
+    - **Cloud Environments**:
+        - Smaller models mean fewer GPUs or TPUs are needed, lowering both hardware and energy costs.
+        - Example: Running BERT-large on AWS can cost 5× more than DistilBERT for the same workload.
+    - **On-Premise Deployments:**
+        - Organizations that host models locally (banks, hospitals, etc.) can reduce infrastructure and maintenance costs significantly.
 ## Setup
 1. Clone the Repository
 ```sh
