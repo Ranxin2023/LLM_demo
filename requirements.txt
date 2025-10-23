@@ -32,3 +32,4 @@ langgraph
 datasets
 matplotlib
 peft
+rouge_score

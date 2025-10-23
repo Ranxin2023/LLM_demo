@@ -9,3 +9,4 @@ __pycache__/
 /output_results/fine_tune_result/
 
 .mailmap
+*.pth

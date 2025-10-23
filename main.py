@@ -12,6 +12,7 @@
 from demo_code.FineTuning.catastrophic_forgetting import catastrophic_forgetting_redirect
 from demo_code.RAG.AgenticRAGDemo import run_agentic_RAG
 from demo_code.LLMConceptsDemo.CoTDemo import CoT_redirect_output
+from demo_code.FineTuning.KnowledgeDistillation import knowledge_distillation_redirect
 def main():
     # evaluate_LLM()
     # five_method()
@@ -26,6 +27,7 @@ def main():
     # mitigate_bias_output()
     # catastrophic_forgetting_redirect()
     # run_agentic_RAG()
-    CoT_redirect_output()
+    # CoT_redirect_output()
+    knowledge_distillation_redirect()
 if __name__=='__main__':
     main()

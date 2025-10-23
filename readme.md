@@ -885,10 +885,11 @@ Answer: 12
     - The **student model** is trained to **mimic** these soft probabilities.
     - A **Knowledge Distillation loss function** (typically KL Divergence) measures how close the student’s outputs are to the teacher’s outputs.
     - Mathematically:\n\n
+
 $$
     L_{KD} = \alpha \cdot T^2 \cdot KL(p_{teacher}(T) \parallel p_{student}(T)) + (1 - \alpha) \cdot CE(y_{true}, p_{student})
 $$
-    - Explanation of Terms:\n
+- Explanation of Terms:\n
 
 | **Symbol**                    | **Meaning**                                                               |
 |-------------------------------|---------------------------------------------------------------------------|
@@ -908,7 +909,8 @@ $$
 - After training:
     - The student model’s predictions become nearly identical to the teacher’s.
     - It requires less memory, less power, and runs much faster — perfect for **edge devices** or **real-time applications**.
-5. **Outcome (Top-Level Summary)**\n
+5. **Outcome (Top-Level Summary)**
+
 | **Step** | **Component**         | **Role**                                          |
 |----------|-----------------------|-------------------------------------------------- |
 | 1️        | Teacher               | Provides deep, soft knowledge                     |
@@ -955,6 +957,7 @@ $$
     - **Edge Devices:**
         - Running models locally (on devices like IoT hubs or drones) means data doesn’t have to travel to the cloud.
         - This enhances **privacy** and **reduces network latency**.
+        
 #### Applications of Distilled LLMs
 1. **Efficient NLP Tasks**
 - **What It Means**
@@ -983,6 +986,7 @@ $$
         - Uses a distilled GPT model to answer FAQs about account balance, loans, and transactions.
         - Runs on a lightweight server (no GPU required).
         - Responds instantly — improving user experience while saving cloud costs.
+
 ### 19. Model Uncertainty
 ## Setup
 1. Clone the Repository
