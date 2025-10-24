@@ -31,8 +31,9 @@ class TeacherNet(nn.Module):
         self.fc4 = nn.Linear(512, 10)
 
 ```
-- This is the teacher model — a large, powerful network that already knows how to perform a classification task.
-- It serves as the knowledge source for distillation.
+- **Purpose**
+    - This is the **teacher model** — a large, powerful network that already knows how to perform a classification task.
+    - It serves as the knowledge source for distillation.
 ### Components
 
 | Layer                  | Function        | Explanation                                                                 |
@@ -55,6 +56,31 @@ def forward(self, x):
     return self.fc4(x)
 
 ```
+## 2. `StudentNet` Class
+```python
+class StudentNet(nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.fc1 = nn.Linear(784, 512)
+        self.fc2 = nn.Linear(512, 256)
+        self.fc3 = nn.Linear(256, 10)
+    def forward(self, x):
+        x = F.relu(self.fc1(x))
+        x = F.relu(self.fc2(x))
+        return self.fc3(x)
+
+```
+- **Purpose**
+    - This is the student model — much smaller and faster.
+    - It learns to replicate the teacher’s predictions.
+- **Differences from Teacher**
+| **Feature**    | **TeacherNet**      | **StudentNet**         |
+| -------------- | ------------------- | ---------------------- |
+| Layers         | 4 (deep, wide)      | 3 (simpler)            |
+| Hidden sizes   | 2048 → 1024 → 512   | 512 → 256              |
+| Regularization | BatchNorm + Dropout | None                   |
+| Parameters     | Millions            | A few hundred thousand |
+
 ## 3. `kd_loss()` Function
 ```python
 def kd_loss(student_logits, teacher_logits, true_labels, T=3.5, alpha=0.6):
@@ -66,7 +92,7 @@ def kd_loss(student_logits, teacher_logits, true_labels, T=3.5, alpha=0.6):
     return alpha * loss_kl + (1 - alpha) * loss_ce
 
 ```
-- This defines the Knowledge Distillation loss, which combines:
+- This defines the **Knowledge Distillation loss**, which combines:
     - **KL Divergence (teacher–student imitation)**
     - **Cross-Entropy (true label learning)**
 ### Parameters
@@ -78,3 +104,83 @@ def kd_loss(student_logits, teacher_logits, true_labels, T=3.5, alpha=0.6):
 | `student_logits` | Student’s outputs                                                  |
 | `true_labels`    | Actual labels (for supervised learning)                            |
 ## 4. train_knowledge_distillation_lowest() Function
+- Formula
+- Where:
+    - 𝑝𝑡(𝑇): (T): teacher probabilities softened by temperature
+```python
+def train_knowledge_distillation_lowest(teacher, student):
+    optimizer = optim.AdamW(student.parameters(), lr=6e-4, weight_decay=1e-5)
+    scheduler = OneCycleLR(
+        optimizer,
+        max_lr=6e-4,
+        epochs=150,
+        steps_per_epoch=16,
+        pct_start=0.3,
+        anneal_strategy='cos',
+        div_factor=20,
+        final_div_factor=100
+    )
+
+```
+- **Purpose**
+    - This is the **main training function** that performs KD training and aims for the lowest possible loss.
+- **Step-by-Step Breakdown**
+1. **Optimizer + Scheduler**
+- `AdamW`: Stable version of Adam with weight decay for better generalization.
+- `OneCycleLR`: Smoothly increases and decreases learning rate to accelerate convergence and prevent overfitting.
+2. **Freeze Teacher**
+```python
+for p in teacher.parameters():
+    p.requires_grad = False
+
+```
+- Teacher is static; only the student is updated.
+3. **Create Training Data**
+```python
+x = torch.randn(1024, 784)
+y = torch.randint(0, 10, (1024,))
+
+```
+- Dummy data (in real training, use MNIST or CIFAR).
+- Each epoch uses small random batches to simulate feature patterns.
+4. **Training Loop**
+```python
+for epoch in range(num_epochs):
+    ...
+    for i in range(0, len(x), batch_size):
+        ...
+        with torch.no_grad():
+            teacher_logits = teacher(inputs)
+
+        student_logits = student(inputs)
+        loss = kd_loss(student_logits, teacher_logits, labels)
+
+```
+- Teacher produces soft targets (no gradient).
+- Student tries to mimic teacher + true labels.
+5. **Optimization Step**
+```python
+optimizer.zero_grad()
+loss.backward()
+torch.nn.utils.clip_grad_norm_(student.parameters(), max_norm=1.0)
+optimizer.step()
+scheduler.step()
+
+```
+- Backprop on the student only.
+- **Gradient clipping** avoids exploding gradients.
+- Scheduler adjusts learning rate dynamically each batch.
+6. **Logging**
+```python
+avg_loss = total_loss / num_batches
+lr_now = scheduler.get_last_lr()[0]
+print(f"Epoch [{epoch+1}/{num_epochs}] | KD Loss: {avg_loss:.4f} | LR: {lr_now:.6f}")
+
+```
+- Displays loss and learning rate per epoch to monitor convergence.
+7. **Save Final Model**
+```python
+torch.save(student.state_dict(), "distilled_student_model_lowest.pth")
+
+```
+- Saves the compressed student model for deployment.

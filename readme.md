@@ -850,7 +850,18 @@ Answer: 12
 - **Detailed Explanation**
     - Large Language Models (LLMs) like GPT, BERT, or T5 often have **billions of parameters**, making them extremely powerful but also **computationally expensive**. Running or deploying them on smaller devices (like phones, IoT devices, or low-latency cloud environments) is often impractical.
     - Knowledge Distillation solves this problem by **creating smaller models** that **inherit the intelligence of larger ones**, leading to more efficient and scalable deployment.
+#### Step-by-Step Explanation
+1. **Teacher Model Training**
+- A large, pre-trained model (the teacher) is trained on a big dataset until it achieves high accuracy and captures complex patterns in the data.
+2. **Soft Label Generation**
+- The teacher’s output probabilities (called **soft targets**) show how confident it is about each class.
+- Example:
+```text
+Teacher Output:
+Cat → 0.85, Dog → 0.10, Rabbit → 0.05
 
+```
+- This provides richer knowledge than just saying “Cat”.
 #### Step-by-Step Explanation of the Diagram
 ![Distillation Workflow](images/DistillationWorkflow.png)
 1. **Teacher Model (Left Section)**
@@ -957,7 +968,7 @@ $$
     - **Edge Devices:**
         - Running models locally (on devices like IoT hubs or drones) means data doesn’t have to travel to the cloud.
         - This enhances **privacy** and **reduces network latency**.
-        
+
 #### Applications of Distilled LLMs
 1. **Efficient NLP Tasks**
 - **What It Means**
