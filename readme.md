@@ -31,6 +31,7 @@
     - [Knowledge Distillation](#18-knowledge-distillation)
         - [Definition of Knowledge Distillation](#definition-of-knowledge-distillation-kd)
         - [Purpose](#purpose)
+        - [Step by Step Explanation of the Diagram](#step-by-step-explanation-of-the-diagram)
         - [Benefits of Distillation](#benefits-of-distillation)
         - [Application of Distilled LLMs](#applications-of-distilled-llms)
 - [Setup](#setup)
@@ -862,6 +863,13 @@ Cat → 0.85, Dog → 0.10, Rabbit → 0.05
 
 ```
 - This provides richer knowledge than just saying “Cat”.
+3. **Student Model Training**
+- A smaller model (the student) is trained to mimic these teacher probabilities instead of just the one-hot labels (0 or 1).
+- It learns not just what is correct, but why — capturing the teacher’s generalization behavior.
+4. **Combined Loss Function**
+- The training loss combines:
+    - **Cross-entropy loss** (normal supervised learning)
+    - **Kullback–Leibler (KL) divergence** (difference between teacher and student output distributions)
 #### Step-by-Step Explanation of the Diagram
 ![Distillation Workflow](images/DistillationWorkflow.png)
 1. **Teacher Model (Left Section)**
@@ -998,7 +1006,68 @@ $$
         - Runs on a lightweight server (no GPU required).
         - Responds instantly — improving user experience while saving cloud costs.
 
+#### Three main types of knowledge used in Knowledge Distillation (KD).
+1. **Response-Based Knowledge (a.k.a. Logit Distillation)**
+- **Definition**:
+    - This is the **most common and classic form** of knowledge distillation (the one implemented in your Python file).
+        - The student learns from the **teacher’s final predictions** (logits or softmax probabilities).
+        - The teacher’s output acts as a “soft label” for each example.
+- **How It Works**
+    - The teacher produces **logits** (pre-softmax outputs) for each input.
+    - The logits are **softened** by a temperature (T) parameter:
+        $$
+        p_i = \frac{e^{z_i / T}}{\sum_j e^{z_j / T}}
+        $$
+        - where 𝑇 > 1 produces smoother probability distributions.
+    - The student is trained to **match these soft probabilities** using KL divergence.
+- **Why Temperature Matters**
+    - If the teacher is **too confident** (probability ≈ 1.0 for one class), there’s no rich information for the student.
+    - Increasing the **temperature** makes the distribution softer — revealing secondary probabilities (e.g., 0.55 cat, 0.35 fox, 0.10 dog).
+    - 
+2. **Feature-Based Knowledge (Intermediate-Layer Distillation)**
+- **Definition**
+    - Here, the focus shifts from the final output to the hidden layers of the network — the teacher’s intermediate feature activations.
+    - The idea: the student should not only match the teacher’s answers but also think in a similar way.
+- **How It Works**
+1. Extract feature maps (activations) from one or more hidden layers of the teacher.
+2. Train the student to **replicate these feature patterns** at corresponding layers.
+3. A feature loss (like L2 or cosine similarity) minimizes the difference between teacher and student activations.
+$$
+    L_{feature} = \left\| F_{teacher} - F_{student} \right\|_2^2
+$$
+- where:
+    - \( F_{teacher} \) — the **feature map** (activation output) extracted from one or more layers of the teacher model.  
+    - \( F_{student} \) — the **corresponding feature map** from the student model (same or aligned layer).  
+    - \( \| \cdot \|_2^2 \) — the **squared L2 norm**, measuring the Euclidean distance between the two feature representations.
+- **Example (Vision)**
+    - 
 ### 19. Model Uncertainty
+#### 1. What Is Uncertainty Quantification?
+- Uncertainty Quantification is the process of estimating how uncertain a model’s predictions are — and where that uncertainty comes from.
+- When a model predicts something (e.g., “this image is a cat with 95% confidence”), there are always potential sources of error:
+    - Imperfect training data,
+    - Simplified model assumptions,
+    - Randomness in learning or sampling,
+    - Real-world variability.
+- UQ provides **numerical measures** (like variance, entropy, or confidence intervals) to describe these uncertainties.
+#### 2. Types of Uncertainty
+- There are two main categories:
+1. **Aleatoric Uncertainty (Data Uncertainty)**
+- Comes from **inherent randomness** or **noise** in the data.
+- Example: Two nearly identical X-ray images may lead to different diagnoses due to natural variation or poor image quality.
+- Even with infinite data, this uncertainty **cannot be reduced**.
+- Mathematically, it’s modeled as variability in the output distribution given the same input:
+$$
+p(y|x)
+$$
+2. **Epistemic Uncertainty (Model Uncertainty)**
+- Comes from **lack of knowledge** or **limited data**.
+- Example: A model trained only on dogs and cats will be uncertain when seeing a zebra.
+#### 3. Methods for UQ (Uncertainty Quantification)
+1. **Sampling-Based Methods**
+- These methods estimate uncertainty by **generating many versions of predictions** — through repeated sampling, simulation, or probabilistic perturbations.
+- Rather than computing uncertainty analytically (which is often impossible), they **build statistical distributions** from many samples.
+
 ## Setup
 1. Clone the Repository
 ```sh
