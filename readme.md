@@ -908,7 +908,7 @@ Cat → 0.85, Dog → 0.10, Rabbit → 0.05
 - **Step 2: Transfer**
     - The **student model** is trained to **mimic** these soft probabilities.
     - A **Knowledge Distillation loss function** (typically KL Divergence) measures how close the student’s outputs are to the teacher’s outputs.
-    - Mathematically:\n\n
+    - Mathematically:\n
 
 $$
     L_{KD} = \alpha \cdot T^2 \cdot KL(p_{teacher}(T) \parallel p_{student}(T)) + (1 - \alpha) \cdot CE(y_{true}, p_{student})
@@ -1019,7 +1019,7 @@ $$
         - The teacher’s output acts as a “soft label” for each example.
 - **How It Works**
     - The teacher produces **logits** (pre-softmax outputs) for each input.
-    - The logits are **softened** by a temperature (T) parameter:
+    - The logits are **softened** by a temperature (T) parameter:\n
         $$
         p_i = \frac{e^{z_i / T}}{\sum_j e^{z_j / T}}
         $$
@@ -1036,7 +1036,7 @@ $$
 - **How It Works**
 1. Extract feature maps (activations) from one or more hidden layers of the teacher.
 2. Train the student to **replicate these feature patterns** at corresponding layers.
-3. A feature loss (like L2 or cosine similarity) minimizes the difference between teacher and student activations.
+3. A feature loss (like L2 or cosine similarity) minimizes the difference between teacher and student activations.\n
 $$
     L_{feature} = \left\| F_{teacher} - F_{student} \right\|_2^2
 $$
@@ -1063,7 +1063,7 @@ $$
 - **How It Works:**
     - Compute **relations or correlations** between different features, layers, or locations in the teacher.
         - Example: correlation matrix, cosine similarity, distance matrix.
-    - Train the student to reproduce those relationships:
+    - Train the student to reproduce those relationships:\n
     $$
         L_{relation} = \left\| F_{teacher} - F_{student} \right\|_2^2
     $$
@@ -1097,7 +1097,7 @@ $$
     - \( T \) — temperature parameter (controls the softness of probability distribution)  
     - \( KL(p_t(T) \parallel p_s(T)) \) — Kullback-Leibler divergence between teacher and student outputs  
     - \( CE(y, p_s) \) — cross-entropy loss between true labels and student predictions  
-    
+
 - **Key Idea**
     - The student learns to reproduce the teacher’s output behavior without changing the teacher.
 - **Advantages**
