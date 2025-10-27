@@ -1064,9 +1064,9 @@ $$
     - Compute **relations or correlations** between different features, layers, or locations in the teacher.
         - Example: correlation matrix, cosine similarity, distance matrix.
     - Train the student to reproduce those relationships:
-        $$
-            L_{relation} = \left\| F_{teacher} - F_{student} \right\|_2^2
-        $$
+    $$
+        L_{relation} = \left\| F_{teacher} - F_{student} \right\|_2^2
+    $$
     - This helps the student capture the **structure of the teacher’s feature space** — how features interact and co-occur.
 
 #### Knowledge Distillation Schemes
@@ -1087,16 +1087,17 @@ $$
         - Ground-truth labels from the dataset.
     - The student minimizes the KD loss:
     
-    
-    $$
-        L_{KD} = \alpha T^2 KL(p_t(T) \parallel p_s(T)) + (1 - \alpha) CE(y, p_s)
-    $$
 
-    - where:  
-        - \( \alpha \) — balancing factor between distillation loss and true label loss  
-        - \( T \) — temperature parameter (controls the softness of probability distribution)  
-        - \( KL(p_t(T) \parallel p_s(T)) \) — Kullback-Leibler divergence between teacher and student outputs  
-        - \( CE(y, p_s) \) — cross-entropy loss between true labels and student predictions  
+$$
+    L_{KD} = \alpha T^2 KL(p_t(T) \parallel p_s(T)) + (1 - \alpha) CE(y, p_s)
+$$
+
+- where:  
+    - \( \alpha \) — balancing factor between distillation loss and true label loss  
+    - \( T \) — temperature parameter (controls the softness of probability distribution)  
+    - \( KL(p_t(T) \parallel p_s(T)) \) — Kullback-Leibler divergence between teacher and student outputs  
+    - \( CE(y, p_s) \) — cross-entropy loss between true labels and student predictions  
+    
 - **Key Idea**
     - The student learns to reproduce the teacher’s output behavior without changing the teacher.
 - **Advantages**
