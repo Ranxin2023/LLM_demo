@@ -1085,12 +1085,11 @@ $$
     - Train a smaller **student model**, using:
         - Teacher’s **soft logits** (response-based knowledge).
         - Ground-truth labels from the dataset.
-    - The student minimizes the KD loss:
+    - The student minimizes the KD loss:\n
     
-
-$$
-    L_{KD} = \alpha T^2 KL(p_t(T) \parallel p_s(T)) + (1 - \alpha) CE(y, p_s)
-$$
+    $$
+        L_{KD} = \alpha T^2 KL(p_t(T) \parallel p_s(T)) + (1 - \alpha) CE(y, p_s)
+    $$
 
 - where:  
     - \( \alpha \) — balancing factor between distillation loss and true label loss  
