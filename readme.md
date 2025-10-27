@@ -34,6 +34,9 @@
         - [Step by Step Explanation of the Diagram](#step-by-step-explanation-of-the-diagram)
         - [Benefits of Distillation](#benefits-of-distillation)
         - [Application of Distilled LLMs](#applications-of-distilled-llms)
+        - [Three Types of Knowedge used in Knowledge Distillation](#three-main-types-of-knowledge-used-in-knowledge-distillation-kd)
+        - [Knowledge Distillation Schemes](#knowledge-distillation-schemes)
+    - [Model Uncertainty](#19-model-uncertainty)
 - [Setup](#setup)
 
 ## Concepts
@@ -837,7 +840,9 @@ Answer: 12
 
 ### 18. Knowledge Distillation
 #### Definition of Knowledge Distillation (KD)
-- **Knowledge Distillation (KD)** is a **model compression technique** in which a **smaller and faster “student” model** learns to reproduce the behavior of a **larger, more accurate “teacher” model**.
+
+- **Knowledge Distillation (KD)** is a **model compression technique** in which a **smaller and faster “student” model** learns to reproduce the behavior and decision patterns of a **larger, more accurate “teacher” model**.
+- This process allows the student model to achieve comparable performance with fewer parameters and lower computational cost, making it highly suitable for deployment in **resource-constrained environments** such as mobile devices or real-time applications.
 - Instead of training only on the original dataset and hard labels (e.g., “dog” vs “cat”), the student is trained to mimic the soft output probabilities of the teacher model — these contain richer information about how the teacher interprets patterns and relationships between classes.
 - **In short**:
     - Knowledge Distillation = transferring the “knowledge” of a large model into a smaller one, so that it performs nearly as well but runs much faster and uses fewer resources.
@@ -1040,7 +1045,96 @@ $$
     - \( F_{student} \) — the **corresponding feature map** from the student model (same or aligned layer).  
     - \( \| \cdot \|_2^2 \) — the **squared L2 norm**, measuring the Euclidean distance between the two feature representations.
 - **Example (Vision)**
-    - 
+    - In CNNs for **image classification**:
+        - Early layers detect edges and shapes.
+        - Mid layers detect patterns (like fur, wings).
+        - Late layers identify classes (cat, dog, bird).
+    - Feature-based KD ensures the student captures **all hierarchical representations**, not just final predictions.
+
+- **Example (Language Models)**
+    - In transformers, feature-based KD transfers:
+        - Hidden states (token embeddings)
+        - Attention scores
+        - Layer-normalized representations
+3. **Relation-Based Knowledge (Correlation Distillation)**
+- **Definition:**
+    - This is a **higher-order** distillation technique that focuses on **relationships between features**, rather than the features themselves.
+    - The student doesn’t just mimic the teacher’s outputs or activations — it learns how the teacher’s internal features relate to each other.
+- **How It Works:**
+    - Compute **relations or correlations** between different features, layers, or locations in the teacher.
+        - Example: correlation matrix, cosine similarity, distance matrix.
+    - Train the student to reproduce those relationships:
+        $$
+            L_{relation} = \left\| F_{teacher} - F_{student} \right\|_2^2
+        $$
+    - This helps the student capture the **structure of the teacher’s feature space** — how features interact and co-occur.
+
+#### Knowledge Distillation Schemes
+- While traditional knowledge distillation (KD) focuses mainly on what knowledge is transferred (e.g., logits, features, or relations),distillation schemes define how and when this transfer occurs during training.
+- There are three major schemes:
+    - **Offline Distillation** — teacher is pre-trained and fixed.
+    - **Online Distillation** — teacher and student are trained simultaneously.
+    - **Self-Distillation** — a single model acts as both teacher and student.
+1. **Offline Distillation**
+- **Definition:**
+    - Offline distillation (also known as **classic distillation**) is the original KD method proposed by Hinton et al. (2015).
+    - Here, the **teacher model is pre-trained** on a dataset, and its weights are frozen before the distillation process begins.
+- **How It Works**
+    - Train a large, high-capacity **teacher model** first.
+    - Freeze the teacher’s parameters (no further updates).
+    - Train a smaller **student model**, using:
+        - Teacher’s **soft logits** (response-based knowledge).
+        - Ground-truth labels from the dataset.
+    - The student minimizes the KD loss:
+    
+        $$
+        L_{KD} = \alpha T^2 KL(p_t(T) \parallel p_s(T)) + (1 - \alpha) CE(y, p_s)
+        $$
+
+    - where:  
+        - \( \alpha \) — balancing factor between distillation loss and true label loss  
+        - \( T \) — temperature parameter (controls the softness of probability distribution)  
+        - \( KL(p_t(T) \parallel p_s(T)) \) — Kullback-Leibler divergence between teacher and student outputs  
+        - \( CE(y, p_s) \) — cross-entropy loss between true labels and student predictions  
+- **Key Idea**
+    - The student learns to reproduce the teacher’s output behavior without changing the teacher.
+- **Advantages**
+    - Stable and easy to implement.
+    - Teacher’s knowledge is consistent and already optimized.
+    - Most suitable when using large pre-trained models (e.g., BERT, GPT, ResNet).
+- **Limitations**
+    - Teacher cannot adapt to student feedback.
+    - Requires access to a well-trained, high-performing teacher model.
+2. **Online Distillation**
+- **Definition:**
+    - In online distillation, both the **teacher and student are trained simultaneously**.
+    - The teacher is not frozen — it evolves during training alongside the student.
+- **How It Works**
+    - Initialize both teacher and student models (teacher can be slightly larger or the same architecture).
+    - Train both models together on the same data.
+    - At each iteration:
+        - The teacher produces soft targets for the student.
+        - The student learns from both the ground-truth and the teacher’s outputs.
+        - The teacher may also continue to learn or adapt based on new data.
+        $$
+            L_{online} = \alpha KL(p_t \parallel p_s) + (1 - \alpha) CE(y, p_s)
+        $$
+
+        where:  
+        - \( p_t \) — teacher’s output distribution (updated dynamically)  
+        - \( p_s \) — student’s output distribution  
+        - \( \alpha \) — trade-off parameter between imitation and true label learning  
+        - \( CE(y, p_s) \) — cross-entropy with true labels  
+3. **Self-Distillation**
+- In self-distillation, there is no separate teacher model.
+- Instead, a single network acts as both teacher and student — transferring knowledge from its deeper layers to its shallower layers.
+#### Summary
+| **Scheme**               | **Description**                           | **Key Benefit**                                            |
+| ------------------------ | ----------------------------------------- | ---------------------------------------------------------- |
+| **Offline Distillation** | Teacher pre-trained, student learns after | Simple and stable for model compression                    |
+| **Online Distillation**  | Teacher and student co-trained            | Dynamic adaptation, real-time performance                  |
+| **Self-Distillation**    | Teacher and student are same model        | Efficient self-improvement and internal knowledge transfer |
+
 ### 19. Model Uncertainty
 #### 1. What Is Uncertainty Quantification?
 - Uncertainty Quantification is the process of estimating how uncertain a model’s predictions are — and where that uncertainty comes from.
@@ -1065,9 +1159,54 @@ $$
 - Example: A model trained only on dogs and cats will be uncertain when seeing a zebra.
 #### 3. Methods for UQ (Uncertainty Quantification)
 1. **Sampling-Based Methods**
-- These methods estimate uncertainty by **generating many versions of predictions** — through repeated sampling, simulation, or probabilistic perturbations.
-- Rather than computing uncertainty analytically (which is often impossible), they **build statistical distributions** from many samples.
-
+- **Defintion**
+    - These methods estimate uncertainty by **generating many versions of predictions** — through repeated sampling, simulation, or probabilistic perturbations.
+    - Rather than computing uncertainty analytically (which is often impossible), they **build statistical distributions** from many samples.
+- Monte Carlo Simulation
+    - **Concept:**
+        - Run the same model **thousands of times** with randomly varied inputs.
+        - Each run produces an output → the set of all outputs forms a **distribution**.
+    - **Purpose:**
+        - This shows how outputs vary — i.e., how sensitive the model is to small input changes.
+    - **Applications:**
+        - Risk estimation (finance)
+        - Reliability engineering
+        - Scientific computing
+2. **Latin Hypercube Sampling (LHS)**
+- **Defintion:**
+    - A smarter, more efficient variant of Monte Carlo simulation.
+- **Idea:**
+    - Instead of random sampling everywhere, it divides the input range into equal intervals and samples once per interval.
+    - 
+#### 4. How to Quantify Uncertainty
+1. **Confidence Scores / Softmax Probabilities**
+- Neural networks output probabilities through softmax.
+- Low maximum probability ⇒ high uncertainty.
+- But softmax can be **overconfident** — so not always reliable.
+2. **Entropy**
+- Entropy measures how “spread out” the prediction probabilities are.
+    $$
+    H(p) = - \sum_i p_i \log(p_i)
+    $$
+- Low entropy → model is confident (one class dominates).
+- High entropy → model is uncertain (probabilities spread evenly).
+3. **Monte Carlo Dropout**
+- Keep dropout layers active during inference.
+- Run the same input multiple times → each forward pass gives a different prediction.
+- The **variance across predictions** estimates model uncertainty.
+4. **Bayesian Neural Networks (BNNs)**
+- Treat model weights as **probability distributions** rather than fixed values.
+- Predictive uncertainty comes from integrating over all possible weight configurations:
+$$
+p(y \mid x, D) = \int p(y \mid x, \theta) \, p(\theta \mid D) \, d\theta
+$$
+- Computationally expensive but theoretically solid.
+5. **Ensemble Methods**
+- Train multiple models independently with different initializations.
+- Average their outputs and compute variance → higher variance = higher uncertainty.
+6. **Temperature Scaling (for Calibration)**
+- Adjust the softmax “temperature” parameter 𝑇 to make probabilities better reflect actual likelihoods.
+- A form of **uncertainty calibration**.
 ## Setup
 1. Clone the Repository
 ```sh
