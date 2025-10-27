@@ -1087,9 +1087,10 @@ $$
         - Ground-truth labels from the dataset.
     - The student minimizes the KD loss:
     
-        $$
+    
+    $$
         L_{KD} = \alpha T^2 KL(p_t(T) \parallel p_s(T)) + (1 - \alpha) CE(y, p_s)
-        $$
+    $$
 
     - where:  
         - \( \alpha \) — balancing factor between distillation loss and true label loss  
@@ -1116,15 +1117,17 @@ $$
         - The teacher produces soft targets for the student.
         - The student learns from both the ground-truth and the teacher’s outputs.
         - The teacher may also continue to learn or adapt based on new data.
+
+
         $$
             L_{online} = \alpha KL(p_t \parallel p_s) + (1 - \alpha) CE(y, p_s)
         $$
 
-        where:  
-        - \( p_t \) — teacher’s output distribution (updated dynamically)  
-        - \( p_s \) — student’s output distribution  
-        - \( \alpha \) — trade-off parameter between imitation and true label learning  
-        - \( CE(y, p_s) \) — cross-entropy with true labels  
+        - where:  
+            - \( p_t \) — teacher’s output distribution (updated dynamically)  
+            - \( p_s \) — student’s output distribution  
+            - \( \alpha \) — trade-off parameter between imitation and true label learning  
+            - \( CE(y, p_s) \) — cross-entropy with true labels  
 3. **Self-Distillation**
 - In self-distillation, there is no separate teacher model.
 - Instead, a single network acts as both teacher and student — transferring knowledge from its deeper layers to its shallower layers.
