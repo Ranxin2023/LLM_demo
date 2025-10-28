@@ -38,6 +38,9 @@
         - [Knowledge Distillation Schemes](#knowledge-distillation-schemes)
     - [Model Uncertainty](#19-model-uncertainty)
     - [Prompt Engineering](#20-prompt-engineering)
+        - [What is Prompt Engineering](#what-is-prompt-engineering)
+        - [Why is Prompt Engineering Important](#why-is-prompt-engineering-important)
+        - [What Skills Does a Prompt Engineer Need](#what-skills-does-a-prompt-engineer-need)
 - [Setup](#setup)
 
 ## Concepts
@@ -1265,7 +1268,18 @@ $$
     - This highlights the **core purpose** of prompt engineering — it acts as a **bridge** between what humans mean and what AI generates.
     - Without well-engineered prompts, AI might misinterpret or oversimplify the query.
 - **Role of Fine-Tuning and Optimization**
-    - 
+    - By fine-tuning effective prompts, engineers can significantly optimize the quality and relevance of outputs to solve for both the specific and the general.
+    - Here, the author notes that prompt engineering works similarly to **fine-tuning** a model, but at the **instruction level**.
+    - Instead of retraining the model, prompt engineers **adjust the input** to make the model perform better on different kinds of tasks.
+#### Summary of What is Prompt Engineering
+| Aspect         | Explanation                                                                            |
+| -------------- | -------------------------------------------------------------------------------------- |
+| **Definition** | Crafting and refining prompts to guide generative AI toward accurate, relevant outputs |
+| **Goal**       | Bridge human intent and AI understanding                                               |
+| **Process**    | Iterative refinement of prompt wording, structure, and examples                        |
+| **Result**     | More accurate, context-aware, and efficient AI responses                               |
+| **Importance** | Reduces human postprocessing, improves reliability, and unlocks AI’s full potential    |
+
 #### Why is Prompt Engineering Important
 - **Direct Influence on Output Quality**
     - Prompt engineering is **critical** because the **quality**, **relevance**, and **accuracy** of AI-generated outputs depend heavily on the quality of the prompt.
@@ -1295,7 +1309,9 @@ $$
     - This knowledge allows engineers to **predict how the model will respond** and adjust prompts accordingly for best results.
 - **Strong Communication Skills**
     - Clear and effective communication is vital for defining goals, providing precise instructions to AI models and collaborating with multidisciplinary teams.
-    - 
+    - Prompt engineers must be excellent communicators because:
+        - They translate **human intent into structured prompts**
+        - They collaborate with **data scientists**, **developers**, and **designers**
 - **Advanced Prompting Techniques**
     - **Zero-Shot Prompting**
         - The model is given a new task it has never been trained on — it must infer what to do from context alone.
@@ -1318,6 +1334,14 @@ $$
     - Prompt engineers need strong knowledge of:
         - **Vocabulary** and **linguistics**
         - **Tone**, **phrasing**, and **nuance**
+- **Domain-Specific Knowledge**
+    - “If the goal is to generate code… image generators… or language context…”
+    - Depending on the use case, prompt engineers must also understand:
+        - **Programming and software engineering** (for code generation)
+        - **Art, photography, and film** (for visual models)
+        - **Literary theory and storytelling** (for text generation)
+    - This helps create **domain-appropriate** and **contextually rich** prompts.
+- **Broad Understanding of AI Tools and Frameworks**
 ### **Summary Table**
 | **Skill**                 | **Description**                                            |
 | ------------------------- | ---------------------------------------------------------- |
