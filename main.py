@@ -13,6 +13,7 @@ from demo_code.FineTuning.catastrophic_forgetting import catastrophic_forgetting
 from demo_code.RAG.AgenticRAGDemo import run_agentic_RAG
 from demo_code.LLMConceptsDemo.CoTDemo import CoT_redirect_output
 from demo_code.KnowledgeDistillation.KnowledgeDistillation import knowledge_distillation_redirect
+from demo_code.PromptEngineering.three_prompt_engineering_techniques import prompt_engineering_redirect
 def main():
     # evaluate_LLM()
     # five_method()
@@ -28,6 +29,7 @@ def main():
     # catastrophic_forgetting_redirect()
     # run_agentic_RAG()
     # CoT_redirect_output()
-    knowledge_distillation_redirect()
+    # knowledge_distillation_redirect()
+    prompt_engineering_redirect()
 if __name__=='__main__':
     main()

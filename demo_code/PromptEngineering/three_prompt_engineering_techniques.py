@@ -3,7 +3,10 @@
 # -----------------------------
 from langchain_openai import ChatOpenAI
 from langchain_core.prompts import ChatPromptTemplate
+from dotenv import load_dotenv
+from contextlib import redirect_stdout
 
+load_dotenv()
 # 1️⃣ Initialize the model
 llm = ChatOpenAI(model="gpt-4o-mini", temperature=0.3)
 
@@ -28,8 +31,10 @@ cot_prompt = ChatPromptTemplate.from_messages([
     ("system", "You are a deep learning researcher. Think step-by-step before answering."),
     ("human", "How does Knowledge Distillation transfer information from a teacher model to a student model?")
 ])
-
-# 3️⃣ Generate responses
-print("🟢 ZERO-SHOT RESULT:\n", llm.invoke(zero_shot_prompt.format_messages()).content)
-print("\n🟢 FEW-SHOT RESULT:\n", llm.invoke(few_shot_prompt.format_messages()).content)
-print("\n🟢 CHAIN-OF-THOUGHT RESULT:\n", llm.invoke(cot_prompt.format_messages()).content)
+def prompt_engineering_redirect():
+    with open("./output_results/three_pe_techniques.txt", "w", encoding="utf-8") as f:
+        with redirect_stdout(f):
+            # 3️⃣ Generate responses
+            print("🟢 ZERO-SHOT RESULT:\n", llm.invoke(zero_shot_prompt.format_messages()).content)
+            print("\n🟢 FEW-SHOT RESULT:\n", llm.invoke(few_shot_prompt.format_messages()).content)
+            print("\n🟢 CHAIN-OF-THOUGHT RESULT:\n", llm.invoke(cot_prompt.format_messages()).content)
