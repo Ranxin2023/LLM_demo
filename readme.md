@@ -1384,7 +1384,43 @@ $$
         - Start with your best-guess version of the instruction.
         - Example:
             - Summarize the following article about AI in 100 words.
-    2. 
+    2. **Test the Prompt**
+        - Run it through the AI and observe how it responds.
+        - Note whether it meets the task requirements.
+    3. **Evaluate the Output**
+        - Ask:
+            - Is it accurate?
+            - Does it capture all key points?
+            - Is the tone appropriate?
+            - Does it follow the requested structure?
+    4. **Refine the Prompt**
+        - Adjust based on the previous output’s weaknesses.
+        - Example:
+            - Add more context: “Focus on ethical implications.”
+            - Add structure: “List the findings in bullet points.”
+            - Add tone guidance: “Use a formal, academic tone.”
+    5. **Repeat**
+        - Keep refining → testing → evaluating until output quality stabilizes.
+- **Example Iterative Cycle**
+| **Iteration** | **Prompt Version**                                                         | **Key Improvement**                     |
+| ------------- | -------------------------------------------------------------------------- | --------------------------------------- |
+| 1             | “Summarize the article.”                                                   | Too general — AI gives long paragraph   |
+| 2             | “Summarize in 3 bullet points.”                                            | More focused, still misses key insights |
+| 3             | “Summarize in 3 bullet points focusing on causes, effects, and solutions.” | Balanced and accurate — final prompt ✅ |
+
+3. **Calibrate and Fine-Tune**
+    - This step goes beyond prompt writing and enters the **advanced optimization** level.
+        - **Calibration**
+            - Calibrating involves tuning the model’s parameters (e.g., temperature, max tokens, or top-p sampling) to control output behavior:
+                - **Temperature** = 0.2 → precise, deterministic responses.
+                - **Temperature** = 1.0 → more creative, diverse responses.
+- **Summary: The Lifecycle of Prompt Engineering**
+| Phase                            | Focus                            | Goal                                     |
+| -------------------------------- | -------------------------------- | ---------------------------------------- |
+| **1. Create an Adequate Prompt** | Clarity, constraints, neutrality | Ensure precise, unbiased instruction     |
+| **2. Iterate and Evaluate**      | Testing and refinement loop      | Improve prompt until desired quality     |
+| **3. Calibrate and Fine-Tune**   | Model-level optimization         | Enhance model consistency and domain fit |
+
 #### Prompt Engineer Responsibilities
 - **Craft Effective Prompts**
     - Develop precise and contextually appropriate prompts to elicit the desired responses from AI models.
@@ -1476,6 +1512,12 @@ $$
         - **Precision / Recall / F1**
             - **Meaning**: Measure correctness and completeness for classification tasks.
             - **Example Use**: Evaluating extracted entities, or yes/no answers.
+    - **Language Quality**-**Perplexity**
+        - **Meaning**: Measures how confidently a model predicts the next token. Lower = better fluency.
+        - **Example Use**: Evaluating LLM text generation consistency.
+#### Qualitative Evaluation
+- Qualitative evaluation is **human-centered** — it focuses on how good, natural, or useful the AI’s responses feel to a human reader.
+- It deals with **meaning**, **tone**, **coherence**, and contextual accuracy — aspects that numbers alone can’t fully capture.
 ## Setup
 1. Clone the Repository
 ```sh
