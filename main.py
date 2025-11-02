@@ -14,6 +14,10 @@ from demo_code.RAG.AgenticRAGDemo import run_agentic_RAG
 from demo_code.LLMConceptsDemo.CoTDemo import CoT_redirect_output
 from demo_code.KnowledgeDistillation.KnowledgeDistillation import knowledge_distillation_redirect
 from demo_code.PromptEngineering.three_prompt_engineering_techniques import prompt_engineering_redirect
+from demo_code.PromptEngineering.ABtesting_demo import redirect_AB_testing
+from demo_code.PromptEngineering.simple_refinement_demo import redirect_refinement_output
+from demo_code.PromptEngineering.prompt_based_adaptation import redirect_adaption_output
+
 def main():
     # evaluate_LLM()
     # five_method()
@@ -30,6 +34,10 @@ def main():
     # run_agentic_RAG()
     # CoT_redirect_output()
     # knowledge_distillation_redirect()
-    prompt_engineering_redirect()
+    # prompt_engineering_redirect()
+    # redirect_AB_testing()
+    # redirect_refinement_output()
+    redirect_adaption_output()
+    
 if __name__=='__main__':
     main()

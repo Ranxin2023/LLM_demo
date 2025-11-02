@@ -1,0 +1,39 @@
+
+🧠 Running Prompt A...
+
+🧠 Running Prompt B...
+
+🧠 Running Prompt C...
+
+📊 COMPLEX A/B TEST RESULTS
+
+Prompt A:
+Relevance:   0.849
+Conciseness: 1.000
+Readability: 0.400
+➡️ Final Score: 0.805
+
+Output:
+Knowledge Distillation is a model compression technique that enables a smaller, faster student model to replicate the behavior of a larger teacher model by minimizing the differences in their predicted probability distributions. This process effectively transfers knowledge from the teacher to the student, allowing for the deployment of efficient models in real-world applications while maintaining a high level of accuracy.
+
+Prompt B:
+Relevance:   0.858
+Conciseness: 1.020
+Readability: 0.827
+➡️ Final Score: 0.900
+
+Output:
+- Knowledge Distillation involves training a smaller student model to replicate the behavior of a larger teacher model for model compression.
+- The technique minimizes the divergence between the predicted probability distributions of the teacher and student models to transfer knowledge effectively.
+- This approach enables the deployment of efficient models in real-world applications while maintaining high accuracy.
+
+Prompt C:
+Relevance:   0.840
+Conciseness: 0.710
+Readability: 0.413
+➡️ Final Score: 0.716
+
+Output:
+Knowledge Distillation is a technique for compressing machine learning models, enabling the deployment of smaller and faster models (student models) that replicate the performance of larger, more complex models (teacher models). By minimizing the differences in their predicted outputs, the student model retains much of the accuracy of the teacher model while being more efficient. Practical benefits include reduced computational resource requirements, faster inference times, and the ability to deploy models on devices with limited processing power, making it ideal for applications in mobile devices, IoT, and real-time systems.
+
+🏆 Best performing prompt: B (score = 0.900)
