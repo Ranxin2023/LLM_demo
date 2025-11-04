@@ -1,6 +1,8 @@
 from langchain_openai import ChatOpenAI
 from langchain_core.prompts import ChatPromptTemplate
 from dotenv import load_dotenv
+from contextlib import redirect_stdout
+
 load_dotenv()
 # Initialize model
 llm = ChatOpenAI(model="gpt-4o-mini")
@@ -12,6 +14,8 @@ prompt = ChatPromptTemplate.from_messages([
 ])
 
 # Invoke the model
-response = (prompt | llm).invoke({})
-
-print(response.content)
+def cot_demo():
+    with open("./output_results/chain_of_thought_prompting.txt", "w", encoding="utf-8") as f:
+        with redirect_stdout(f):
+            response = (prompt | llm).invoke({})
+            print(response.content)
