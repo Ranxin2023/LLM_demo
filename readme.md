@@ -13,17 +13,23 @@
     - [Why Fine-Tuning Works](#-42-why-fine-tuning-works)
     - [Types of Fine-Tuning](#️-43-types-of-fine-tuning)
 - [Techiques for controlling the out of an LLM](#6-techniques-for-controlling-the-output-of-an-llm)
- - [How can you incorporate external knowledge into an LLM](#8-how-can-you-incorporate-external-knowledge-into-an-llm)
+- [How can you incorporate external knowledge into an LLM](#8-how-can-you-incorporate-external-knowledge-into-an-llm)
     - [Knowledge Graph](#81-knowledge-graph-integration)
     - [RAG](#82-rag)
     - [Fine Tuning](#83-fine-tuning-with-domain-specific-data)
     - [Prompt Engineering](#84-prompt-engineering)
 - [Comparison Between RAG and Fine-tuning](#8extra-comparison-between-rag-and-fine-tuning)
+- [Agentic RAG](#9-agentic-rag)
+    - [What is Agentic RAG](#what-is-agentic-rag)
+    - [How does Agentic RAG Work](#how-does-agentic-rag-work)
+    - [Comparison between Agentic RAG and Traditional RAG](#comparison-between-agentic-rag-and-traditional-rag)
+- [Planner](#9extra-planner)
 - [How can bias in prompt-based learning be mitigated?](#9-how-can-bias-in-prompt-based-learning-be-mitigated)
 - [Catastrophic Forgetting](#10-catastrophic-forgetting)
 - [LoRA](#12preknowledge-lora)
 - [PEFT](#12-peft)
 - [MOE](#14-moe)
+- [Adapter Tuning](#15-adapter-tuning)
 - [CoT Prompting](#16-chain-of-thought-cot-prompting)
 - [Hallucination](#17-hallucinations)
     - [Definition](#definition)
@@ -42,6 +48,8 @@
     - [What is Prompt Engineering](#what-is-prompt-engineering)
     - [Why is Prompt Engineering Important](#why-is-prompt-engineering-important)
     - [What Skills Does a Prompt Engineer Need](#what-skills-does-a-prompt-engineer-need)
+    - [Prompt Engineering Responsibilities](#prompt-engineer-responsibilities)
+- [Qualtitive metrics and Qualitative Evaluation](#21-quantitative-metrics-and-qualitative-evaluation)
 - [Setup](#setup)
 
 
@@ -370,11 +378,11 @@ Top-P sampling chooses from the smallest set of tokens whose cumulative probabil
 3. **Offline Operation** – Once trained, fine-tuned models can operate without external knowledge sources.
 
 ## 9. Agentic RAG
-#### What is Agentic-RAG
-##### **🧠 Overview**
+### What is Agentic-RAG
+#### **🧠 Overview**
 - Agentic RAG (Retrieval-Augmented Generation) is an advanced evolution of the traditional RAG framework.
 - It integrates the reasoning and autonomy of AI agents with the retrieval power of RAG, creating intelligent systems that can plan, retrieve, and reason proactively rather than reactively.
-##### **⚙️ Core Components of Agentic RAG**:
+#### **⚙️ Core Components of Agentic RAG**:
 - Agentic RAG combines two foundational AI concepts: AI Agents and RAG.
 1. **AI Agent**:
 - An AI agent is an autonomous entity capable of:
@@ -389,7 +397,7 @@ Top-P sampling chooses from the smallest set of tokens whose cumulative probabil
     - **Augment** the prompt context with this retrieved content.
     - **Generate** a response that is both accurate and grounded in real data.
 - This makes RAG powerful in domains like healthcare, finance, and education, where **real-time data** accuracy is crucial.
-##### 🤝 The Fusion: How Agentic RAG Combines Both
+#### 🤝 The Fusion: How Agentic RAG Combines Both
 | Concept                        | Role in Agentic RAG                                                                              |
 | ------------------------------ | ------------------------------------------------------------------------------------------------ |
 | **Autonomy**                   | The agent decides what steps to take next without explicit instruction.                          |
@@ -397,7 +405,7 @@ Top-P sampling chooses from the smallest set of tokens whose cumulative probabil
 | **Reasoning + Planning**       | The agent decomposes complex queries into smaller subtasks and selects tools dynamically.        |
 | **Feedback + Self-Reflection** | The model evaluates its own answers, re-queries when uncertain, and iteratively refines outputs. |
 
-#### How Does Agentic RAG Work?
+### How Does Agentic RAG Work?
 - **Agentic RAG** builds on standard Retrieval-Augmented Generation by adding agency — that is, autonomous decision-making, adaptive retrieval, and iterative improvement.
 - It operates through four foundational pillars:
 1. **Autonomy**
@@ -449,7 +457,7 @@ Top-P sampling chooses from the smallest set of tokens whose cumulative probabil
 - **Analogy**:
     - Agentic RAG is like hiring a research assistant who not only finds the most relevant books but also reads them, summarizes the findings, cross-checks facts, and delivers a polished report — saving both time and effort.
 ## 9Extra. Planner
-#### Question:How does the planner agent in AgenticRAG handle complex queries?
+### Question:How does the planner agent in AgenticRAG handle complex queries?
 1. **Decomposition**
     - It converts the single complex query into a set of **manageable**, **dependency-aware sub-queries**. This prevents one monolithic retrieval step from missing critical evidence.
 2. **Specialized routing**
