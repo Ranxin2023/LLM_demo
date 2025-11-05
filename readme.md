@@ -147,8 +147,8 @@ They define how the model transforms input tokens into contextual representation
 ### 3.2 Autoregressive Language Modeling (AR)
 - **Used in models like**: GPT, GPT-2, GPT-3, GPT-4
 
-### 4. 📌 Fine-Tuning
-#### 4.1 What Is Fine-Tuning?
+## 4. 📌 Fine-Tuning
+### 4.1 What Is Fine-Tuning?
 - **Fine-tuning** is the process of taking a **pre-trained** language model (like GPT, BERT, or T5) and training it further on a **smaller**, **domain-specific** dataset to make it perform better on a **specific task or language style**.
 - A pre-trained model has already learned:
     - grammar, syntax, and general world knowledge
@@ -219,7 +219,7 @@ F1=(2*Precision*Recall)/(Precision+Recall)
 
 ## 6. **Techniques for Controlling the Output of an LLM**
 These methods let developers influence how a model responds, balancing between randomness, relevance, creativity, and determinism.
-#### 6.1 🔥 Temperature
+### 6.1 🔥 Temperature
 ##### **What it does:** 
 Controls the level of randomness in token selection.
 ##### **How it works:** 
@@ -243,12 +243,12 @@ During generation, the model uses probabilities to decide the next token. Temper
     - The output is **more imaginative and colorful**.
     - Words like "Emerald galaxies", "ink-black canvas" indicate a **creative leap**.
 
-#### 6.2 🎯 Top-K Sampling
+### 6.2 🎯 Top-K Sampling
 - **What it does**: Restricts the token selection pool to the **top K most probable tokens** at each generation step.
 - **How it works**: If `top_k=50`, the model only chooses from the top 50 most likely next tokens rather than considering all options.
 
 
-#### 6.3 Top-p Sampling
+### 6.3 Top-p Sampling
 ##### 🔍 What Is Top-P Sampling?
 Top-P sampling chooses from the smallest set of tokens whose cumulative probability exceeds the threshold p. Lower values restrict choice to high-confidence tokens; higher values allow more diverse token selection.
 
@@ -266,8 +266,8 @@ Top-P sampling chooses from the smallest set of tokens whose cumulative probabil
 ## 8. How can you incorporate external knowledge into an LLM?
 - LLMs (Large Language Models) are trained on vast corpora of text, but their knowledge is static — limited to what they saw during training.
 - To make them useful in **real-world**, **dynamic**, or **domain-specific applications**, we can inject external knowledge in several ways:
-#### 8.1 Knowledge Graph Integration
-##### 🧠 What Are Knowledge Graphs?
+### 8.1 Knowledge Graph Integration
+#### 🧠 What Are Knowledge Graphs?
 - A **Knowledge Graph (KG)** is a structured representation of information that uses graph-based data structures to describe how different entities (like people, places, or things) are connected to one another.
 - It serves as a **knowledge base** that represents facts in the form of nodes and edges:
     - **Nodes** = entities (e.g., “Paris”, “France”, “Eiffel Tower”)
@@ -279,7 +279,7 @@ Top-P sampling chooses from the smallest set of tokens whose cumulative probabil
 ```
 - This structure makes KGs not just data stores, but **semantic networks** — they understand meaning and relationships, not just raw text.
 
-##### 🔍 Key Features of Knowledge Graphs
+#### 🔍 Key Features of Knowledge Graphs
 1. **Semantic Relationships**
 - KGs capture **meaningful connections** between entities, based on **semantics** rather than just keyword matching.
 - For instance, a KG understands that “Paris” and “France” are related through the relationship “is capital of,” which is very different from a simple co-occurrence in text.
@@ -293,7 +293,7 @@ Top-P sampling chooses from the smallest set of tokens whose cumulative probabil
 
 3. Scalability for Handling Vast Information
 
-#### 8.2 RAG
+### 8.2 RAG
 ##### Concept
 - RAG combines **retrieval** (finding relevant data) with **generation** (LLM producing output).
 - When the user asks a question, the system first retrieves documents or passages from a **vector database(VDB)** — such as FAISS or Chroma — and then **feeds those retrieved chunks** into the prompt context for the LLM to generate a grounded answer.
@@ -302,7 +302,7 @@ Top-P sampling chooses from the smallest set of tokens whose cumulative probabil
 2. Convert the user query to an embedding vector.
 3. Retrieve similar chunks using cosine similarity.
 4. Pass retrieved chunks + question → LLM for response.
-#### 8.3 Fine-Tuning with Domain-Specific Data
+### 8.3 Fine-Tuning with Domain-Specific Data
 - **Concept**:
     - Fine-tuning allows an LLM to specialize in a specific domain — for example, medical terminology, legal reasoning, or software engineering — by training it further on curated datasets.
     - This approach **changes model weights** to integrate domain expertise permanently.
@@ -311,8 +311,8 @@ Top-P sampling chooses from the smallest set of tokens whose cumulative probabil
 2. Format it properly (JSONL for supervised fine-tuning).
 3. Train the model using frameworks like Hugging Face Transformers.
 
-#### 8.4 Prompt Engineering
-##### 🧩 Definition and Core Concepts
+### 8.4 Prompt Engineering
+#### 🧩 Definition and Core Concepts
 - Prompt engineering is the **art and science of designing prompts**—structured questions or instructions—to guide an AI model, especially a Large Language Model (LLM), toward a desired output.
 - It acts as the **interface between human intent and machine output**, determining how clearly the model understands and executes a task.
 - Think of prompt engineering like teaching a child through questions:
@@ -511,7 +511,7 @@ Top-P sampling chooses from the smallest set of tokens whose cumulative probabil
     - **EWC**: “Highlight what’s important and don’t erase it” — preserve critical parts of the old notes.
 
 ## 12PreKnowledge. LoRA
-#### What is Low-Rank Adaptation (LoRA)?
+### What is Low-Rank Adaptation (LoRA)?
 
 **Low-Rank Adaptation (LoRA)** is a **parameter-efficient fine-tuning (PEFT)** technique designed to adapt large pre-trained models for specific tasks **without significantly increasing computational or memory costs**.
 
@@ -520,7 +520,7 @@ LoRA solves this problem by reducing the number of trainable parameters — maki
 
 ---
 
-#### 🧠 Key Idea
+### 🧠 Key Idea
 
 LoRA modifies the standard fine-tuning process by **inserting small trainable low-rank matrices** into specific layers (typically the attention projections) of a frozen pre-trained model.  
 Instead of updating the full parameter matrix \( W \), LoRA decomposes it into two smaller matrices \( A \) and \( B \):
@@ -641,13 +641,13 @@ Extremely small parameter count.
 | Sentiment analysis      | ❌ No                  | Only depends on input text     |
     
 ## 14. MoE
-#### What is Mixture of Experts (MoE)?
+### What is Mixture of Experts (MoE)?
 - **Mixture of Experts (MoE)** is a machine learning technique that divides a large neural network into multiple sub-networks (experts).
 - Each expert specializes in a **subset of the input space** or **type of task**, and a **gating network** dynamically decides **which experts to activate** for a given input.
-#### Core Idea
+### Core Idea
 - Instead of activating the entire neural network for every input (which is computationally expensive), MoE activates **only the relevant experts**.
 - This design **reduces computation cost**, **allows parallelization**, and enables scaling up model parameters without proportionally increasing inference time.
-#### How MoE Works
+### How MoE Works
 1. **Overview**
 - A **Mixture of Experts** model divides a large neural network into multiple **expert sub-networks**, each focusing on a **specific subset of input patterns or tasks**.
 - However, instead of using all experts at once, MoE activates **only a few experts** per input using a **gating network (or router)**.
@@ -720,7 +720,7 @@ Answer: 12
 
     ```
 ## 17. Hallucinations
-#### Definition
+### Definition
 - An AI hallucination refers to an output generated by an AI model that **deviates from reality or lacks a factual basis**.
 #### three main types of hallucinations
 1. **Fact-Conflicting Hallucination**
@@ -749,7 +749,7 @@ Answer: 12
         - Produces **incoherent or self-conflicting** answers.
     - This is common in **multi-turn dialogues** or long-form text generation, where maintaining coherence over many exchanges is difficult.
     
-#### Why do LLMs hallucinate?
+### Why do LLMs hallucinate?
 1. **Example: Google Bard’s Hallucination Case**
 - In 2023, Google’s LLM chatbot **Bard** gave an incorrect answer during a public demo.
 - **Lesson**:This example shows that even advanced AI systems can confidently produce wrong information — a textbook case of AI hallucination.
@@ -1063,7 +1063,7 @@ $$
     $$
     - This helps the student capture the **structure of the teacher’s feature space** — how features interact and co-occur.
 
-#### Knowledge Distillation Schemes
+### Knowledge Distillation Schemes
 - While traditional knowledge distillation (KD) focuses mainly on what knowledge is transferred (e.g., logits, features, or relations),distillation schemes define how and when this transfer occurs during training.
 - There are three major schemes:
     - **Offline Distillation** — teacher is pre-trained and fixed.
@@ -1133,7 +1133,7 @@ $$
 | **Self-Distillation**    | Teacher and student are same model        | Efficient self-improvement and internal knowledge transfer |
 
 ## 19. Model Uncertainty
-#### 1. What Is Uncertainty Quantification?
+### 1. What Is Uncertainty Quantification?
 - Uncertainty Quantification is the process of estimating how uncertain a model’s predictions are — and where that uncertainty comes from.
 - When a model predicts something (e.g., “this image is a cat with 95% confidence”), there are always potential sources of error:
     - Imperfect training data,
@@ -1141,7 +1141,7 @@ $$
     - Randomness in learning or sampling,
     - Real-world variability.
 - UQ provides **numerical measures** (like variance, entropy, or confidence intervals) to describe these uncertainties.
-#### 2. Types of Uncertainty
+### 2. Types of Uncertainty
 - There are two main categories:
 1. **Aleatoric Uncertainty (Data Uncertainty)**
 - Comes from **inherent randomness** or **noise** in the data.
