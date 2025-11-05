@@ -18,6 +18,7 @@ from demo_code.PromptEngineering.ABtesting_demo import redirect_AB_testing
 from demo_code.PromptEngineering.simple_refinement_demo import redirect_refinement_output
 from demo_code.PromptEngineering.prompt_based_adaptation import redirect_adaption_output
 from demo_code.PromptEngineering.chain_of_through_prompting import cot_demo
+from demo_code.MixtureOfExpert.moe_demo import moe_demo_redirect
 def main():
     # evaluate_LLM()
     # five_method()
@@ -38,7 +39,8 @@ def main():
     # redirect_AB_testing()
     # redirect_refinement_output()
     # redirect_adaption_output()
-    cot_demo()
+    # cot_demo()
+    moe_demo_redirect()
     
 if __name__=='__main__':
     main()

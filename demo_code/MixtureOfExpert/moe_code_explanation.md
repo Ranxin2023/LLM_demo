@@ -52,4 +52,14 @@ class GatingNetwork(nn.Module):
         - 𝑥 = input vector
         - 𝑤 = normalized weights for each expert (sum to 1)
 ## Step 3: Combine Experts into MoE Model
+```python
+class MixtureOfExperts(nn.Module):
+    def __init__(self, input_dim, hidden_dim, num_experts):
+        super().__init__()
+        self.experts = nn.ModuleList([Expert(input_dim, hidden_dim) for _ in range(num_experts)])
+        self.gate = GatingNetwork(input_dim, num_experts)
+
+```
+- We create multiple experts (e.g., 3) and a single gating network.
+- These together form the **MoE layer**.
 - 

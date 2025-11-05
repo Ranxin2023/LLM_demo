@@ -26,6 +26,9 @@
 - [Planner](#9extra-planner)
 - [How can bias in prompt-based learning be mitigated?](#9-how-can-bias-in-prompt-based-learning-be-mitigated)
 - [Catastrophic Forgetting](#10-catastrophic-forgetting)
+    - [Prompt Calibration](#1-prompt-calibration)
+    - [Fine Tuning](#2-fine-tuning)
+    - [Data Agumentation](#3-data-augmentation)
 - [LoRA](#12preknowledge-lora)
 - [PEFT](#12-peft)
 - [MOE](#14-moe)
@@ -456,6 +459,7 @@ Top-P sampling chooses from the smallest set of tokens whose cumulative probabil
     - Produce **coherent**, **multi-layered**, and **contextually enriched** responses.
 - **Analogy**:
     - Agentic RAG is like hiring a research assistant who not only finds the most relevant books but also reads them, summarizes the findings, cross-checks facts, and delivers a polished report — saving both time and effort.
+
 ## 9Extra. Planner
 ### Question:How does the planner agent in AgenticRAG handle complex queries?
 1. **Decomposition**
@@ -468,6 +472,7 @@ Top-P sampling chooses from the smallest set of tokens whose cumulative probabil
     - If a sub-query returns weak/conflicting evidence, the planner can **replan**: widen time windows, change retrievers (e.g., try hybrid), increase top-k, or add a new sub-query (e.g., “look for failure modes in billing tickets”).
 5. **Budgeting & guardrails**
     - It enforces limits (tokens, calls, top-k) and uses early-stop criteria when confidence is high enough—important for cost and latency.
+
 ## 10. How can bias in prompt-based learning be mitigated?
 ### 1. Prompt Calibration
 - This involves carefully designing and testing prompts so that the LLM produces balanced, unbiased responses.
@@ -660,7 +665,32 @@ Extremely small parameter count.
 1. **Overview**
 - A **Mixture of Experts** model divides a large neural network into multiple **expert sub-networks**, each focusing on a **specific subset of input patterns or tasks**.
 - However, instead of using all experts at once, MoE activates **only a few experts** per input using a **gating network (or router)**.
-2. ****
+2. **The Role of the Gating Network**
+- The **gating network** (or router) is a small neural network trained to decide **which experts to activate**.
+- It produces a **probability distribution** over all experts.
+- Only the **Top-K experts** (e.g., 2 out of 8) are selected per input based on these probabilities.
+- Formally:
+$$
+w = \text{softmax}(W_g x)
+$$
+- where:
+    - 𝑥 = input token representation
+    - 𝑊𝑔 = gating network weights
+    - 𝑤 = expert weight vector
+- Then the final output:
+$$
+y = \sum_{i \in \text{Top-K}} w_i \cdot E_i(x)
+$$
+- where 𝐸𝑖(𝑥) is the output of expert 𝑖.
+- This ensures **sparse activation**, meaning only a few experts work at a time, keeping computations efficient.
+3. **Sparsity = Efficiency + Scale**
+- In a normal dense neural network:
+    - Every input goes through **every neuron** or **every layer**.
+    - Computation cost scales with model size.
+- In a **Mixture of Experts** model:
+    - Only a small number of experts (e.g., 2 of 64) are active for each token.
+    - Thus, even with **hundreds of billions of parameters**, computation per token remains roughly constant.
+### 
 ## 15. Adapter Tuning
 ### 15.1 Background
 - As pre-trained models grow larger and larger, fine-tuning all parameters for each downstream task becomes both expensive and time-consuming.
@@ -1360,12 +1390,19 @@ $$
 - **Key Elements of a Good Prompt**:
     1. **Clarity Is Key**
         - A prompt must be clear, specific, and unambiguous.
-        - 
+        - Avoid vague instructions or industry jargon that the model may misinterpret.
+        - Example:
+            - ❌ “Tell me about marketing.”
+            - ✅ “Explain three marketing strategies that increase customer engagement for online startups.”
     2. **Try Role-Playing**
         - Assigning the model a role gives it contextual grounding.
         - Example: 
             - You are a data analyst. Summarize the key insights from this dataset.
     3. **Use Constraints**
+        - Adding boundaries (e.g., word count, tone, structure) helps the model stay focused.
+        - Example:
+            - Describe the Eiffel Tower in **three sentences** using a **neutral tone**.
+        - Constraints prevent overly long or off-topic responses.
     4. **Avoid Leading Questions**
         - A leading question biases the AI’s answer.
         - Example:
