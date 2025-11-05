@@ -460,30 +460,30 @@ Top-P sampling chooses from the smallest set of tokens whose cumulative probabil
 5. **Budgeting & guardrails**
     - It enforces limits (tokens, calls, top-k) and uses early-stop criteria when confidence is high enough—important for cost and latency.
 ## 10. How can bias in prompt-based learning be mitigated?
-#### 1. Prompt Calibration
+### 1. Prompt Calibration
 - This involves carefully designing and testing prompts so that the LLM produces balanced, unbiased responses.
 - For example, if a model tends to associate certain professions with specific genders, you can test multiple prompt formulations and adjust phrasing to reduce bias.
 - **Example**:
     - Uncalibrated: “The nurse said he…” → likely produces bias.
     - Calibrated: “A person working as a nurse said…” → reduces gender association.
 
-#### 2. Fine-Tuning
+### 2. Fine-Tuning
 - Fine-tuning retrains a pre-trained model on **diverse and balanced datasets**.
 - This process teaches the model to correct its biased patterns learned during pretraining.
 
-#### 3. Data Augmentation
+### 3. Data Augmentation
 - This expands your dataset with **synthetic or mirrored examples** that counteract bias.
 - For example:
     - If 70% of your data says “doctor → he,” generate more examples with “doctor → she.”
     - Use paraphrasing or back-translation to diversify data linguistically.
 
 ## 11. catastrophic forgetting
-#### Definition:
+### Definition:
 - Catastrophic forgetting (or catastrophic interference) is the phenomenon where a neural network **forgets previously learned tasks** after being fine-tuned on new data.
 - In the context of LLMs, it means:
     - When you fine-tune a model (like GPT, BERT, or T5) on a new dataset or task, its performance on older tasks suddenly drops dramatically.
 
-#### ⚙️ Why It Happens (Mechanism):
+### ⚙️ Why It Happens (Mechanism):
 1. **Shared Parameters**
 - In deep neural networks, the same weights are used across many tasks.
 - When fine-tuning, backpropagation updates these shared parameters to fit the new task.
@@ -559,10 +559,10 @@ Only \( A \) and \( B \) are trained, while \( W \) remains frozen — significa
    - The model learns the new task efficiently while maintaining previous capabilities.
 
 ## 12. PEFT
-#### What is PEFT?
+### What is PEFT?
 - **Parameter-Efficient Fine-Tuning (PEFT)** adapts a frozen pretrained model by training only a small set of extra parameters (or a tiny subset of existing ones). The backbone weights stay fixed, so you keep the general knowledge while learning a new task/domain cheaply.
-#### Major PEFT families (how they plug in)
-##### **LoRA (Low-Rank Adapters)**
+### Major PEFT families (how they plug in)
+#### **LoRA (Low-Rank Adapters)**
 Learn two small matrices \( A \in \mathbb{R}^{d \times r} \), \( B \in \mathbb{R}^{r \times d} \) and add their product to a frozen weight \( W \):
 
 \[
@@ -593,7 +593,7 @@ Learn a small set of **virtual tokens** (or key/value *prefixes*) prepended per 
 ##### **IA³ / Gating / BitFit**
 Learn per-channel scaling vectors (**IA³**) or just biases (**BitFit**).  
 Extremely small parameter count.
-#### Why PEFT prevents catastrophic forgetting
+### Why PEFT prevents catastrophic forgetting
 - **Catastrophic forgetting** happens when you update the shared backbone and overwrite features needed for older tasks. PEFT avoids that by design:
     - **Parameter isolation**:
         - The backbone is frozen. New knowledge lives in the tiny trainable pieces (LoRA `𝐴`,`𝐵`, adapter layers, prefixes). Old capabilities aren’t overwritten because their weights never change.
@@ -605,7 +605,7 @@ Extremely small parameter count.
         - You can **keep one adapter per task**. Switching tasks is swapping small modules—no retraining, no interference. (If you fine-tune Task B, Task A’s adapter is untouched.)
     - **Reversibility**:
         - With LoRA you can “merge” or simply **detach** the adapters; the original backbone remains intact on disk.
-#### When PEFT might not be enough
+### When PEFT might not be enough
 - Huge domain shift or very complex tasks → increase LoRA rank / adapter width, or fall back to partial/full fine-tuning.
 - If you keep updating the **same** adapter sequentially across tasks, you can still forget—use separate adapters or multi-task training.
 
@@ -653,11 +653,11 @@ Extremely small parameter count.
 - However, instead of using all experts at once, MoE activates **only a few experts** per input using a **gating network (or router)**.
 2. ****
 ## 15. Adapter Tuning
-#### 15.1 Background
+### 15.1 Background
 - As pre-trained models grow larger and larger, fine-tuning all parameters for each downstream task becomes both expensive and time-consuming.
 - To address this, the authors proposed **Adapter Tuning** — a technique that inserts adapter layers into pre-trained models. These adapters contain a small number of task-specific parameters (about 3.6% of the full model size).
 - During fine-tuning, the **original model parameters remain frozen**, and only the adapter layers are trained for the downstream task. This significantly reduces computational cost.
-#### 15.2 Technical Principle
+### 15.2 Technical Principle
 - **Adapter Tuning** (from the paper Parameter-Efficient Transfer Learning for NLP) introduces an **adapter structure** into each Transformer layer.
 - Specifically, two adapter modules are added to each Transformer layer —
     - one **after the multi-head attention block**,
@@ -666,20 +666,20 @@ Extremely small parameter count.
 - Only the parameters in the **new adapter modules** and the **Layer Normalization layers** are updated.
 - This ensures training efficiency and avoids catastrophic forgetting.
 - 
-#### 15.3 Detailed Explanation
+### 15.3 Detailed Explanation
 - Each Adapter module mainly consists of **two feed-forward sub-layers**:
     - The **first sub-layer (down-project)** takes the output of the Transformer block as input.
     - It projects the original high-dimensional feature (dimension 𝑑) **down to a smaller dimension** 𝑚(low-dimensional space),
 ## 16. Chain-of-Thought (CoT) Prompting
-#### Definition:
+### Definition:
 - **Chain-of-Thought (CoT) prompting** is a technique that improves the reasoning ability of Large Language Models (LLMs) by asking them to explain their reasoning steps before producing the final answer.
 - Instead of directly predicting an answer, the model thinks step-by-step, mimicking how humans reason through complex problems.
-#### Why It Works
+### Why It Works
 - **Human-like reasoning**: It encourages the model to reason explicitly (e.g., “First, compute this → Then that → So the answer is…”).
 - **Decomposition**: Breaks complex tasks into smaller logical substeps, reducing errors in multi-step problems.
 - **Interpretability**: You can see how the model reached its conclusion.
 - **Improved accuracy**: Especially beneficial in arithmetic, logic, and commonsense reasoning tasks.
-#### 🧩 Example Comparison
+### 🧩 Example Comparison
 - **Without CoT Prompting**
     ```pgsql
     Q: If a banana costs 2 dollars and an apple costs 3 dollars, how much do 3 bananas and 2 apples cost?
@@ -699,7 +699,7 @@ Total = 6 + 6 = 12 dollars.
 Answer: 12
 
 ```
-#### Variants of CoT Prompting
+### Variants of CoT Prompting
 1. **Zero-Shot CoT**
     - Add “Let’s think step by step” directly to the user prompt — no examples needed.
     ```python
@@ -722,7 +722,7 @@ Answer: 12
 ## 17. Hallucinations
 ### Definition
 - An AI hallucination refers to an output generated by an AI model that **deviates from reality or lacks a factual basis**.
-#### three main types of hallucinations
+### three main types of hallucinations
 1. **Fact-Conflicting Hallucination**
 - **Defintion**:
     - A fact-conflicting hallucination happens when the model generates information that directly contradicts known facts or truth.
@@ -782,7 +782,7 @@ Answer: 12
     - **Automated factual validation** (checking against databases or APIs),
     - **OOD uncertainty estimation**, and
     - **Human evaluation**, especially for nuanced or context-based answers.
-#### Strategies to reduce LLM hallucinations
+### Strategies to reduce LLM hallucinations
 1. **Advanced Prompting Methods** 
 - **Definition**:
     - Advanced prompting refers to designing smarter, structured prompts that help guide the LLM’s reasoning and constrain its responses to be factual and logical.
@@ -1261,7 +1261,7 @@ $$
     - By fine-tuning effective prompts, engineers can significantly optimize the quality and relevance of outputs to solve for both the specific and the general.
     - Here, the author notes that prompt engineering works similarly to **fine-tuning** a model, but at the **instruction level**.
     - Instead of retraining the model, prompt engineers **adjust the input** to make the model perform better on different kinds of tasks.
-#### Summary of What is Prompt Engineering
+### Summary of What is Prompt Engineering
 | Aspect         | Explanation                                                                            |
 | -------------- | -------------------------------------------------------------------------------------- |
 | **Definition** | Crafting and refining prompts to guide generative AI toward accurate, relevant outputs |
@@ -1270,7 +1270,7 @@ $$
 | **Result**     | More accurate, context-aware, and efficient AI responses                               |
 | **Importance** | Reduces human postprocessing, improves reliability, and unlocks AI’s full potential    |
 
-#### Why is Prompt Engineering Important
+### Why is Prompt Engineering Important
 - **Direct Influence on Output Quality**
     - Prompt engineering is **critical** because the **quality**, **relevance**, and **accuracy** of AI-generated outputs depend heavily on the quality of the prompt.
         - A vague or poorly structured prompt can lead to irrelevant, incomplete, or incorrect responses.
