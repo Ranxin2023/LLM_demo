@@ -1,13 +1,13 @@
 # LLM DEMO
 ## Table Of Contents
-- [Concepts](#concepts)
-    - [Basic Concepts](#1-basic-concepts)
-        - [Token](#11-token)
-        - [Parameters](#12-parameters)
-        - [Embeddings](#13-embeddings)
-        - [Transformer Architecture](#14-transformer-architecture)
-        - [Fine Tuning](#15-fine-tuning)
-    - [Common pre-training objectives for LLM](#3-what-are-some-common-pre-training-objectives-for-llms-and-how-do-they-work)
+
+- [Basic Concepts](#1-basic-concepts)
+    - [Token](#11-token)
+    - [Parameters](#12-parameters)
+    - [Embeddings](#13-embeddings)
+    - [Transformer Architecture](#14-transformer-architecture)
+    - [Fine Tuning](#15-fine-tuning)
+- [Common pre-training objectives for LLM](#3-what-are-some-common-pre-training-objectives-for-llms-and-how-do-they-work)
     - [Fine-Tuning](#4-fine-tuning)
         - [What is Fine-Tuning](#41-what-is-fine-tuning)
         - [Why Fine-Tuning Works](#-42-why-fine-tuning-works)
@@ -43,9 +43,9 @@
         - [What Skills Does a Prompt Engineer Need](#what-skills-does-a-prompt-engineer-need)
 - [Setup](#setup)
 
-## Concepts
-### 1. Basic Concepts
-#### 1.1 Token
+
+## 1. Basic Concepts
+### 1.1 Token
 - **Definition**: A token is the smallest unit of text the model processes — usually a word, subword, or symbol.
 - **For Example**:
     - “I love cats” → `[I] [love] [cats]` (word-level tokenization)
@@ -53,7 +53,7 @@
 - **Why it matters**:
     - The model’s input and output lengths are measured in tokens, not characters or words.
     - LLM pricing, context length, and speed all depend on token count.
-#### 1.2 Parameters
+### 1.2 Parameters
 - **Definition**: The parameters are the weights inside the neural network that the model learns during training.
 They define how the model transforms input tokens into contextual representations.
 - **Example**:
@@ -138,13 +138,13 @@ They define how the model transforms input tokens into contextual representation
 - **Definition**:
     - 
 
-### 3. What are some common pre-training objectives for LLMs, and how do they work?
-#### 3.1  Masked Language Modeling (MLM)
+## 3. What are some common pre-training objectives for LLMs, and how do they work?
+### 3.1  Masked Language Modeling (MLM)
 - **Used in models like**: BERT, RoBERTa
 - **How it works**:
     - Random tokens in a sentence are masked (replaced with `[MASK]`).
     - The model is trained to predict the masked word using both left and right context (i.e., it's **bidirectional**).
-#### 3.2 Autoregressive Language Modeling (AR)
+### 3.2 Autoregressive Language Modeling (AR)
 - **Used in models like**: GPT, GPT-2, GPT-3, GPT-4
 
 ### 4. 📌 Fine-Tuning
@@ -189,7 +189,7 @@ They define how the model transforms input tokens into contextual representation
 5. Evaluate:
 - Metrics: accuracy, F1 score, BLEU, or perplexity (depending on the task).
 
-### 5. **How do you measure the performance of an LLM?**
+## 5. **How do you measure the performance of an LLM?**
 #### 5.1 🔢 Perplexity
 - **definition**:
 Perplexity is a measurement of how well a language model predicts a sequence. It is the exponential of the average negative log-likelihood of the predicted tokens.
@@ -217,7 +217,7 @@ F1=(2*Precision*Recall)/(Precision+Recall)
 
 #### 5.4
 
-### 6. **Techniques for Controlling the Output of an LLM**
+## 6. **Techniques for Controlling the Output of an LLM**
 These methods let developers influence how a model responds, balancing between randomness, relevance, creativity, and determinism.
 #### 6.1 🔥 Temperature
 ##### **What it does:** 
@@ -261,9 +261,9 @@ Top-P sampling chooses from the smallest set of tokens whose cumulative probabil
     - **Behavior**: Balanced — more flexible than 0.3 but still somewhat focused, but still constrained to safe outputs.
 - 0.8 
     - **Summary**: Output starts to diversify — adds some background explanation.
-### 7. 
+## 7. 
 
-### 8. How can you incorporate external knowledge into an LLM?
+## 8. How can you incorporate external knowledge into an LLM?
 - LLMs (Large Language Models) are trained on vast corpora of text, but their knowledge is static — limited to what they saw during training.
 - To make them useful in **real-world**, **dynamic**, or **domain-specific applications**, we can inject external knowledge in several ways:
 #### 8.1 Knowledge Graph Integration
@@ -338,7 +338,7 @@ Top-P sampling chooses from the smallest set of tokens whose cumulative probabil
 - During fine-tuning, these parameters adjust how the model responds to instructions.
 - While users can’t modify parameters directly, understanding their role helps interpret **model bias**, **style**, and **confidence**.
 
-### 8Extra. Comparison between RAG and Fine-tuning
+## 8Extra. Comparison between RAG and Fine-tuning
 - Both **Fine-Tuning** and **Retrieval-Augmented Generation (RAG)** are powerful strategies for adapting and improving Large Language Models (LLMs).
 - They differ in **how** they enhance model performance and **when** each is best used.
 #### Concept Overview:
@@ -368,7 +368,7 @@ Top-P sampling chooses from the smallest set of tokens whose cumulative probabil
 2. **Custom Behavior Control** – Tailors model tone, format, and reasoning style for specialized applications.
 3. **Offline Operation** – Once trained, fine-tuned models can operate without external knowledge sources.
 
-### 9. Agentic RAG
+## 9. Agentic RAG
 #### What is Agentic-RAG
 ##### **🧠 Overview**
 - Agentic RAG (Retrieval-Augmented Generation) is an advanced evolution of the traditional RAG framework.
@@ -426,10 +426,10 @@ Top-P sampling chooses from the smallest set of tokens whose cumulative probabil
 - **Exapmle**:
     - If an answer receives low confidence or contradicts earlier retrieved evidence, the feedback loop triggers a refinement step — fetching additional context and regenerating a more accurate response.
     
-#### Comparison Between Agentic RAG and Traditional RAG
-##### Conceptual Overview:
+### Comparison Between Agentic RAG and Traditional RAG
+#### Conceptual Overview:
 - Traditional RAG (Retrieval-Augmented Generation) systems work in a reactive manner — they depend on explicit human queries and predefined retrieval rules. In contrast, Agentic RAG introduces autonomy, context-awareness, and self-directed reasoning, enabling the model to decide what to retrieve, when, and why without needing continuous user guidance.
-##### ⚙️ Traditional RAG
+#### ⚙️ Traditional RAG
 - Traditional RAG systems:
     - Follow a fixed pipeline: Retrieve → Generate → Respond.
     - Require **explicit**, **well-structured user queries**.
@@ -447,7 +447,7 @@ Top-P sampling chooses from the smallest set of tokens whose cumulative probabil
     - Produce **coherent**, **multi-layered**, and **contextually enriched** responses.
 - **Analogy**:
     - Agentic RAG is like hiring a research assistant who not only finds the most relevant books but also reads them, summarizes the findings, cross-checks facts, and delivers a polished report — saving both time and effort.
-### 9Extra. Planner
+## 9Extra. Planner
 #### Question:How does the planner agent in AgenticRAG handle complex queries?
 1. **Decomposition**
     - It converts the single complex query into a set of **manageable**, **dependency-aware sub-queries**. This prevents one monolithic retrieval step from missing critical evidence.
@@ -459,7 +459,7 @@ Top-P sampling chooses from the smallest set of tokens whose cumulative probabil
     - If a sub-query returns weak/conflicting evidence, the planner can **replan**: widen time windows, change retrievers (e.g., try hybrid), increase top-k, or add a new sub-query (e.g., “look for failure modes in billing tickets”).
 5. **Budgeting & guardrails**
     - It enforces limits (tokens, calls, top-k) and uses early-stop criteria when confidence is high enough—important for cost and latency.
-### 10. How can bias in prompt-based learning be mitigated?
+## 10. How can bias in prompt-based learning be mitigated?
 #### 1. Prompt Calibration
 - This involves carefully designing and testing prompts so that the LLM produces balanced, unbiased responses.
 - For example, if a model tends to associate certain professions with specific genders, you can test multiple prompt formulations and adjust phrasing to reduce bias.
@@ -477,7 +477,7 @@ Top-P sampling chooses from the smallest set of tokens whose cumulative probabil
     - If 70% of your data says “doctor → he,” generate more examples with “doctor → she.”
     - Use paraphrasing or back-translation to diversify data linguistically.
 
-### 11. catastrophic forgetting
+## 11. catastrophic forgetting
 #### Definition:
 - Catastrophic forgetting (or catastrophic interference) is the phenomenon where a neural network **forgets previously learned tasks** after being fine-tuned on new data.
 - In the context of LLMs, it means:
@@ -510,7 +510,7 @@ Top-P sampling chooses from the smallest set of tokens whose cumulative probabil
     - **PEFT**: “Write on sticky notes” (small, new parameters) — don’t touch the main whiteboard.
     - **EWC**: “Highlight what’s important and don’t erase it” — preserve critical parts of the old notes.
 
-### 12PreKnowledge. LoRA
+## 12PreKnowledge. LoRA
 #### What is Low-Rank Adaptation (LoRA)?
 
 **Low-Rank Adaptation (LoRA)** is a **parameter-efficient fine-tuning (PEFT)** technique designed to adapt large pre-trained models for specific tasks **without significantly increasing computational or memory costs**.
@@ -558,7 +558,7 @@ Only \( A \) and \( B \) are trained, while \( W \) remains frozen — significa
    - Fine-tune only the low-rank matrices for a specific task (like sentiment analysis or translation).  
    - The model learns the new task efficiently while maintaining previous capabilities.
 
-### 12. PEFT
+## 12. PEFT
 #### What is PEFT?
 - **Parameter-Efficient Fine-Tuning (PEFT)** adapts a frozen pretrained model by training only a small set of extra parameters (or a tiny subset of existing ones). The backbone weights stay fixed, so you keep the general knowledge while learning a new task/domain cheaply.
 #### Major PEFT families (how they plug in)
@@ -609,7 +609,7 @@ Extremely small parameter count.
 - Huge domain shift or very complex tasks → increase LoRA rank / adapter width, or fall back to partial/full fine-tuning.
 - If you keep updating the **same** adapter sequentially across tasks, you can still forget—use separate adapters or multi-task training.
 
-### 13. Vector Store Use Case
+## 13. Vector Store Use Case
 #### 🧠 Detailed Explanation
 - A **vector store** (or **vector database**) stores embeddings — numerical representations of text that capture semantic meaning rather than literal words.
 - This allows the model to **search by meaning** (semantic similarity) instead of by exact keyword matches.
@@ -640,7 +640,7 @@ Extremely small parameter count.
 | Translation             | ❌ No                  | Pure sequence-to-sequence task |
 | Sentiment analysis      | ❌ No                  | Only depends on input text     |
     
-### 14. MoE
+## 14. MoE
 #### What is Mixture of Experts (MoE)?
 - **Mixture of Experts (MoE)** is a machine learning technique that divides a large neural network into multiple sub-networks (experts).
 - Each expert specializes in a **subset of the input space** or **type of task**, and a **gating network** dynamically decides **which experts to activate** for a given input.
@@ -652,7 +652,7 @@ Extremely small parameter count.
 - A **Mixture of Experts** model divides a large neural network into multiple **expert sub-networks**, each focusing on a **specific subset of input patterns or tasks**.
 - However, instead of using all experts at once, MoE activates **only a few experts** per input using a **gating network (or router)**.
 2. ****
-### 15. Adapter Tuning
+## 15. Adapter Tuning
 #### 15.1 Background
 - As pre-trained models grow larger and larger, fine-tuning all parameters for each downstream task becomes both expensive and time-consuming.
 - To address this, the authors proposed **Adapter Tuning** — a technique that inserts adapter layers into pre-trained models. These adapters contain a small number of task-specific parameters (about 3.6% of the full model size).
@@ -670,7 +670,7 @@ Extremely small parameter count.
 - Each Adapter module mainly consists of **two feed-forward sub-layers**:
     - The **first sub-layer (down-project)** takes the output of the Transformer block as input.
     - It projects the original high-dimensional feature (dimension 𝑑) **down to a smaller dimension** 𝑚(low-dimensional space),
-### 16. Chain-of-Thought (CoT) Prompting
+## 16. Chain-of-Thought (CoT) Prompting
 #### Definition:
 - **Chain-of-Thought (CoT) prompting** is a technique that improves the reasoning ability of Large Language Models (LLMs) by asking them to explain their reasoning steps before producing the final answer.
 - Instead of directly predicting an answer, the model thinks step-by-step, mimicking how humans reason through complex problems.
@@ -719,7 +719,7 @@ Answer: 12
     """
 
     ```
-### 17. Hallucinations
+## 17. Hallucinations
 #### Definition
 - An AI hallucination refers to an output generated by an AI model that **deviates from reality or lacks a factual basis**.
 #### three main types of hallucinations
@@ -832,25 +832,25 @@ Answer: 12
     - It reinforces factual grounding and discourages speculative answers.
     - It helps the model learn contextual nuances (e.g., medical, legal, or scientific language).
 
-### 18. Knowledge Distillation
-#### Definition of Knowledge Distillation (KD)
+## 18. Knowledge Distillation
+### Definition of Knowledge Distillation (KD)
 
 - **Knowledge Distillation (KD)** is a **model compression technique** in which a **smaller and faster “student” model** learns to reproduce the behavior and decision patterns of a **larger, more accurate “teacher” model**.
 - This process allows the student model to achieve comparable performance with fewer parameters and lower computational cost, making it highly suitable for deployment in **resource-constrained environments** such as mobile devices or real-time applications.
 - Instead of training only on the original dataset and hard labels (e.g., “dog” vs “cat”), the student is trained to mimic the soft output probabilities of the teacher model — these contain richer information about how the teacher interprets patterns and relationships between classes.
 - **In short**:
     - Knowledge Distillation = transferring the “knowledge” of a large model into a smaller one, so that it performs nearly as well but runs much faster and uses fewer resources.
-#### Purpose
+### Purpose
 - LLM distillation focuses on:
     - **Reducing computational demands** (less memory, faster inference)
     - **Maintaining performance** (comparable accuracy to the original model)
     - **Enabling deployment** on limited hardware (like mobile phones, browsers, or edge devices)
 - This makes distillation crucial in the production phase of AI systems — when large-scale models need to serve millions of users quickly.
-#### Question: What is the role of Knowledge Distillation in improving LLM deployment?
+### Question: What is the role of Knowledge Distillation in improving LLM deployment?
 - **Detailed Explanation**
     - Large Language Models (LLMs) like GPT, BERT, or T5 often have **billions of parameters**, making them extremely powerful but also **computationally expensive**. Running or deploying them on smaller devices (like phones, IoT devices, or low-latency cloud environments) is often impractical.
     - Knowledge Distillation solves this problem by **creating smaller models** that **inherit the intelligence of larger ones**, leading to more efficient and scalable deployment.
-#### Step-by-Step Explanation
+### Step-by-Step Explanation
 1. **Teacher Model Training**
 - A large, pre-trained model (the teacher) is trained on a big dataset until it achieves high accuracy and captures complex patterns in the data.
 2. **Soft Label Generation**
@@ -869,7 +869,7 @@ Cat → 0.85, Dog → 0.10, Rabbit → 0.05
 - The training loss combines:
     - **Cross-entropy loss** (normal supervised learning)
     - **Kullback–Leibler (KL) divergence** (difference between teacher and student output distributions)
-#### Step-by-Step Explanation of the Diagram
+### Step-by-Step Explanation of the Diagram
 ![Distillation Workflow](images/DistillationWorkflow.png)
 1. **Teacher Model (Left Section)**
 - The **Teacher Model** is a **large**, **pre-trained** network with many layers and parameters.
@@ -937,7 +937,7 @@ $$
 | 4️        | Student               | Learns a compressed representation of the teacher |
 | 5        | Result                | Smaller, faster, and still accurate model         |
 
-#### Benefits of Distillation
+### Benefits of Distillation
 1. **Reduced Model Size**
 - **What It Means**
     - One of the most immediate outcomes of distillation is a dramatic reduction in model parameters.
@@ -976,7 +976,7 @@ $$
         - Running models locally (on devices like IoT hubs or drones) means data doesn’t have to travel to the cloud.
         - This enhances **privacy** and **reduces network latency**.
 
-#### Applications of Distilled LLMs
+### Applications of Distilled LLMs
 1. **Efficient NLP Tasks**
 - **What It Means**
     - Distilled models are excellent for standard NLP tasks like:
@@ -1132,7 +1132,7 @@ $$
 | **Online Distillation**  | Teacher and student co-trained            | Dynamic adaptation, real-time performance                  |
 | **Self-Distillation**    | Teacher and student are same model        | Efficient self-improvement and internal knowledge transfer |
 
-### 19. Model Uncertainty
+## 19. Model Uncertainty
 #### 1. What Is Uncertainty Quantification?
 - Uncertainty Quantification is the process of estimating how uncertain a model’s predictions are — and where that uncertainty comes from.
 - When a model predicts something (e.g., “this image is a cat with 95% confidence”), there are always potential sources of error:
@@ -1205,14 +1205,14 @@ $$
 - Adjust the softmax “temperature” parameter 𝑇 to make probabilities better reflect actual likelihoods.
 - A form of **uncertainty calibration**.
 
-### 20. Prompt Engineering
-#### What is Prompt Engineering
+## 20. Prompt Engineering
+### What is Prompt Engineering
 - **Prompt engineering** is the process of **designing, refining, and optimizing prompts** — the input instructions given to a large language model (LLM) — to guide it toward producing accurate, relevant, and high-quality outputs for a specific task.
 - Generative AI models are trained to generate outputs based on patterns in language, so well-structured prompts help them:
     - Understand **context** and **intent** behind a query
     - Reduce **ambiguity** and **bias**
     - Produce **clearer**, **more accurate**, and **task-specific** results
-#### Core Idea
+### Core Idea
 - **Generative AI and Its Dependence on Prompts**
     - Generative AI systems are designed to generate specific outputs based on the quality of provided prompts.
         - Generative AI refers to systems that can **create new content** — text, images, code, etc.
@@ -1482,7 +1482,7 @@ $$
         - Interpret model responses
         - Avoid common pitfalls or misuses of generative AI
 
-### 21. Quantitative metrics and Qualitative evaluation
+## 21. Quantitative metrics and Qualitative evaluation
 #### Quantitative Metrics
 - Quantitative metrics are **numerical**, **measurable indicators** used to evaluate model outputs objectively.
 - They help you determine how well a prompt performs based on consistent, repeatable criteria.
