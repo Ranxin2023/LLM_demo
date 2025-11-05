@@ -1,12 +1,10 @@
-To find the average speed of the car in miles per hour, we use the formula:
+To calculate the average speed of the car in miles per hour (mph), we can use the formula:
 
 \[
 \text{Average Speed} = \frac{\text{Total Distance}}{\text{Total Time}}
 \]
 
-In this case, the total distance the car traveled is 60 miles, and the total time it took to travel that distance is 1.5 hours.
-
-Now, we can substitute the values into the formula:
+In this case, the total distance traveled is 60 miles, and the total time taken is 1.5 hours. Now we can substitute these values into the formula:
 
 \[
 \text{Average Speed} = \frac{60 \text{ miles}}{1.5 \text{ hours}}
@@ -14,22 +12,15 @@ Now, we can substitute the values into the formula:
 
 Next, we perform the division:
 
-To divide 60 by 1.5, it may be helpful to convert 1.5 into a fraction or perform the calculation. We can divide both the numerator and the denominator by 1.5 directly. Alternatively, we can convert 1.5 to a fraction:
-
-\[
-1.5 = \frac{15}{10} = \frac{3}{2}
-\]
-
-So we can rewrite the division:
-
-\[
-\frac{60}{1.5} = 60 \times \frac{2}{3} = \frac{60 \times 2}{3} = \frac{120}{3} = 40
-\]
+1. Calculate \(60 \div 1.5\):
+   \[
+   60 \div 1.5 = 40
+   \]
 
 Thus, the average speed of the car is:
 
 \[
-\text{Average Speed} = 40 \text{ miles per hour}
+\text{Average Speed} = 40 \text{ miles per hour (mph)}
 \]
 
-In conclusion, the average speed of the car is **40 miles per hour**.
+Therefore, the average speed of the car is 40 mph.

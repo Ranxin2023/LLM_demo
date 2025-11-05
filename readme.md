@@ -641,27 +641,17 @@ Extremely small parameter count.
 | Sentiment analysis      | ❌ No                  | Only depends on input text     |
     
 ### 14. MoE
-#### 🧠 What Is Mixture of Experts (MoE)?
-- **Mixture of Experts (MoE)** is an advanced neural network architecture designed to make large models more efficient and scalable by activating only a subset of the model’s parameters for each input, instead of using the entire model every time.
-- In traditional dense models (like GPT-3 or BERT), **all parameters are active** for every input token.
-In contrast, MoE distributes the workload across multiple smaller subnetworks — called experts — and selectively activates only the most relevant ones.
-
-#### 🔄How It Works (Step-by-Step)
-1. **Input arrives** (e.g., a token embedding or hidden state).
-2. The **gating network** analyzes the input and assigns weights to each expert (e.g., “Expert 3: 0.8, Expert 7: 0.6, others: near 0”).
-3. Only the **top-k experts** (usually 1–2) are activated to process this input.
-4. Their outputs are combined (weighted sum) and passed to the next layer.
-
-#### ⚡ Why MoE Improves Efficiency
-1. **Sparse Activation**:
-- Only a fraction (e.g., 10–20%) of parameters are used per token → less computation.
-2. **Scalability**:
-- You can scale up total parameters (e.g., to 1 trillion) while keeping runtime cost close to a smaller dense model.
-3. **Specialization**:
-- Experts learn to handle specific kinds of data — e.g., “mathematical reasoning,” “dialogue tone,” or “code generation.”
-4. **Parallelization**:
-- Different experts can run on different hardware shards or GPUs.
-
+#### What is Mixture of Experts (MoE)?
+- **Mixture of Experts (MoE)** is a machine learning technique that divides a large neural network into multiple sub-networks (experts).
+- Each expert specializes in a **subset of the input space** or **type of task**, and a **gating network** dynamically decides **which experts to activate** for a given input.
+#### Core Idea
+- Instead of activating the entire neural network for every input (which is computationally expensive), MoE activates **only the relevant experts**.
+- This design **reduces computation cost**, **allows parallelization**, and enables scaling up model parameters without proportionally increasing inference time.
+#### How MoE Works
+1. **Overview**
+- A **Mixture of Experts** model divides a large neural network into multiple **expert sub-networks**, each focusing on a **specific subset of input patterns or tasks**.
+- However, instead of using all experts at once, MoE activates **only a few experts** per input using a **gating network (or router)**.
+2. ****
 ### 15. Adapter Tuning
 #### 15.1 Background
 - As pre-trained models grow larger and larger, fine-tuning all parameters for each downstream task becomes both expensive and time-consuming.
