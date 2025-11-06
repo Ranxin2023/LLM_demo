@@ -49,13 +49,18 @@
     - [Definition](#definition)
     - [3 Main Types of Hallucinations](#three-main-types-of-hallucinations)
     - [How are LLM Hallucinations Detected](#how-are-llm-hallucinations-detected)
+    - [Strategies to Reduce LLM Hallucinations](#strategies-to-reduce-llm-hallucinations)
 - [Knowledge Distillation](#18-knowledge-distillation)
     - [Definition of Knowledge Distillation](#definition-of-knowledge-distillation-kd)
     - [Purpose](#purpose)
+    - [Step by Step Explanation of KD](#step-by-step-explanation-of-knowledge-distillation)
     - [Step by Step Explanation of the Diagram](#step-by-step-explanation-of-the-diagram)
     - [Benefits of Distillation](#benefits-of-distillation)
     - [Application of Distilled LLMs](#applications-of-distilled-llms)
     - [Three Types of Knowedge used in Knowledge Distillation](#three-main-types-of-knowledge-used-in-knowledge-distillation-kd)
+        - [Responsed Based Knowledge aka Logit Distillation](#1-response-based-knowledge-aka-logit-distillation)
+        - [Feature Based Knowledge Intermediate Layer Distillation](#2-feature-based-knowledge-intermediate-layer-distillation)
+        - [Relation Based Knowledge Correlation Distillation](#3-relation-based-knowledge-correlation-distillation)
     - [Knowledge Distillation Schemes](#knowledge-distillation-schemes)
 - [Model Uncertainty](#19-model-uncertainty)
 - [Prompt Engineering](#20-prompt-engineering)
@@ -65,6 +70,11 @@
         - [Familiar with LLMs](#familiarity-with-large-language-models-llms)
         - [Strong Communication Skills](#strong-communication-skills)
         - [Advanced Prompting Techniques](#advanced-prompting-techniques)
+    - [How Prompt Engineering Works](#how-prompt-engineering-works)
+        - [Prompt Calibration](#1-prompt-calibration)
+        - [Iterate and Evaluate](#2-iterate-and-evaluate)
+        - [Calibrate and Fine tune](#3-calibrate-and-fine-tune)
+        - [Summary: the Lifecycle of Prompt Engineering](#summary-the-lifecycle-of-prompt-engineering)
     - [Prompt Engineering Responsibilities](#prompt-engineer-responsibilities)
 - [Quantitative metrics and Qualitative Evaluation](#21-quantitative-metrics-and-qualitative-evaluation)
     - [Quantitative Metrics](#quantitative-metrics)
@@ -625,7 +635,7 @@ Only \( A, B \) train (rank \( r \ll d \)).
 
 ---
 
-##### **Adapters (Bottleneck Blocks)**
+#### **Adapters (Bottleneck Blocks)**
 Insert a tiny MLP after (or inside) Transformer sublayers:
 
 \[
@@ -636,7 +646,7 @@ Initialize near identity so the model starts as the base model; only adapter wei
 
 ---
 
-##### **Prefix / Prompt / P-Tuning**
+#### **Prefix / Prompt / P-Tuning**
 Learn a small set of **virtual tokens** (or key/value *prefixes*) prepended per layer or sequence — only these embeddings are trainable.
 
 ---
@@ -690,7 +700,14 @@ Extremely small parameter count.
 | Summarization           | ❌ No                  | Uses text directly             |
 | Translation             | ❌ No                  | Pure sequence-to-sequence task |
 | Sentiment analysis      | ❌ No                  | Only depends on input text     |
-    
+
+## 14Pre. FLOP
+### What “FLOP” Means
+- FLOP stands for Floating-Point Operation — a single arithmetic computation (like addition or multiplication).
+- When we talk about “FLOPs” in deep learning, we usually mean the **total number of floating-point operations needed** to run a model (per token, per batch, or per forward pass).
+### What “Quality-per-FLOP” Means
+- **Quality-per-FLOP measures** how much performance or output quality you get for each unit of computation.
+- Quality-per-FLOP=Number of FLOPs/Model Quality Metric​
 ## 14. MoE
 ### What is Mixture of Experts (MoE)?
 - **Mixture of Experts (MoE)** is a machine learning technique that divides a large neural network into multiple sub-networks (experts).
@@ -730,6 +747,11 @@ $$
 ### How MoE makes LLMs improve the efficiency of LLM
 1. **Sparsity (conditional computation)**
 - In a dense Transformer, every token passes through every FFN in every layer.
+2. **Capacity ↑ without compute ↑**
+- Because only K experts run, you can scale to **hundreds of billions/trillions of params** while keeping **FLOPs per token roughly constant**.
+- This yields **higher representational power** (more specialists) at **similar inference cost** to a smaller dense model.
+3. **Specialization improves quality-per-FLOP**
+- 
 ### How does LLM use MoE?
 1. **Why LLMs Use MoE**
 - Large Language Models (LLMs) like GPT-4, Mixtral, and Switch Transformer have **hundreds of billions** (or even **trillions**) of parameters.
@@ -753,6 +775,7 @@ Input → Attention → MoE Layer (Experts + Gating) → Output
 ```
 3. **How It Works (Step-by-Step)(Similar with what has already been showed above)**
 4. **Real-World Examples in LLMs**
+
 | **Model**                            | **Architecture**            | **Active Experts per Token** | **Notes**                                                  |
 | ------------------------------------ | --------------------------- | ---------------------------- | ------------------------------------------------------ |
 | **Google Switch Transformer (2021)** | 1.6T parameters, 64 experts | 1 expert per token           | First large-scale MoE LLM                              |
@@ -760,7 +783,9 @@ Input → Attention → MoE Layer (Experts + Gating) → Output
 | **Mistral Mixtral 8×7B (2024)**      | 8 experts × 7B each         | 2 experts per token          | Efficient open-weight MoE LLM                          |
 | **DeepSeek-V2 (2024)**               | 236B total                  | 2–4 experts per token        | Specialized experts for coding, math                   |
 | **GPT-4 (rumored)**                  | MoE-based                   | Unknown                      | Believed to route tokens across multiple expert towers |
+
 5. **Why This Is So Powerful**
+
 | Advantage             | Explanation                                                                    |
 | --------------------- | ------------------------------------------------------------------------------ |
 | **Scalable capacity** | You can scale to trillions of parameters without increasing compute per token. |
@@ -838,7 +863,7 @@ Answer: 12
 ## 17. Hallucinations
 ### Definition
 - An AI hallucination refers to an output generated by an AI model that **deviates from reality or lacks a factual basis**.
-### three main types of hallucinations
+### Three main types of hallucinations
 1. **Fact-Conflicting Hallucination**
 - **Defintion**:
     - A fact-conflicting hallucination happens when the model generates information that directly contradicts known facts or truth.
@@ -966,7 +991,7 @@ Answer: 12
 - **Detailed Explanation**
     - Large Language Models (LLMs) like GPT, BERT, or T5 often have **billions of parameters**, making them extremely powerful but also **computationally expensive**. Running or deploying them on smaller devices (like phones, IoT devices, or low-latency cloud environments) is often impractical.
     - Knowledge Distillation solves this problem by **creating smaller models** that **inherit the intelligence of larger ones**, leading to more efficient and scalable deployment.
-### Step-by-Step Explanation
+### Step-by-Step Explanation of Knowledge Distillation
 1. **Teacher Model Training**
 - A large, pre-trained model (the teacher) is trained on a big dataset until it achieves high accuracy and captures complex patterns in the data.
 2. **Soft Label Generation**
@@ -1121,8 +1146,8 @@ $$
         - Runs on a lightweight server (no GPU required).
         - Responds instantly — improving user experience while saving cloud costs.
 
-#### Three main types of knowledge used in Knowledge Distillation (KD).
-1. **Response-Based Knowledge (a.k.a. Logit Distillation)**
+### Three main types of knowledge used in Knowledge Distillation (KD).
+#### 1. Response-Based Knowledge (a.k.a. Logit Distillation)
 - **Definition**:
     - This is the **most common and classic form** of knowledge distillation (the one implemented in your Python file).
         - The student learns from the **teacher’s final predictions** (logits or softmax probabilities).
@@ -1139,7 +1164,7 @@ $$
     - If the teacher is **too confident** (probability ≈ 1.0 for one class), there’s no rich information for the student.
     - Increasing the **temperature** makes the distribution softer — revealing secondary probabilities (e.g., 0.55 cat, 0.35 fox, 0.10 dog).
     - 
-2. **Feature-Based Knowledge (Intermediate-Layer Distillation)**
+#### 2. Feature-Based Knowledge (Intermediate-Layer Distillation)
 - **Definition**
     - Here, the focus shifts from the final output to the hidden layers of the network — the teacher’s intermediate feature activations.
     - The idea: the student should not only match the teacher’s answers but also think in a similar way.
@@ -1166,7 +1191,7 @@ $$
         - Hidden states (token embeddings)
         - Attention scores
         - Layer-normalized representations
-3. **Relation-Based Knowledge (Correlation Distillation)**
+#### 3. Relation-Based Knowledge (Correlation Distillation)
 - **Definition:**
     - This is a **higher-order** distillation technique that focuses on **relationships between features**, rather than the features themselves.
     - The student doesn’t just mimic the teacher’s outputs or activations — it learns how the teacher’s internal features relate to each other.
@@ -1407,31 +1432,31 @@ $$
     - The text mentions that a **prompt engineering guide** serves as the key to unlocking AI’s full potential by bridging the gap between raw queries and actionable outputs.
 ### What skills does a prompt engineer need?
 #### **Familiarity with Large Language Models (LLMs)**
-    - Understanding how large language models (LLMs) work, including their capabilities and limitations, is essential for crafting effective prompts and optimizing AI outputs.
-    - Prompt engineers must understand:
-        - How LLMs process language (tokenization, embeddings, attention mechanisms)
-        - Their **strengths** (contextual reasoning, summarization, creativity)
-        - Their **limitations** (bias, hallucination, factual inaccuracies)
-    - This knowledge allows engineers to **predict how the model will respond** and adjust prompts accordingly for best results.
+- Understanding how large language models (LLMs) work, including their capabilities and limitations, is essential for crafting effective prompts and optimizing AI outputs.
+- Prompt engineers must understand:
+    - How LLMs process language (tokenization, embeddings, attention mechanisms)
+    - Their **strengths** (contextual reasoning, summarization, creativity)
+    - Their **limitations** (bias, hallucination, factual inaccuracies)
+- This knowledge allows engineers to **predict how the model will respond** and adjust prompts accordingly for best results.
 #### **Strong Communication Skills**
-    - Clear and effective communication is vital for defining goals, providing precise instructions to AI models and collaborating with multidisciplinary teams.
-    - Prompt engineers must be excellent communicators because:
-        - They translate **human intent into structured prompts**
-        - They collaborate with **data scientists**, **developers**, and **designers**
+- Clear and effective communication is vital for defining goals, providing precise instructions to AI models and collaborating with multidisciplinary teams.
+- Prompt engineers must be excellent communicators because:
+    - They translate **human intent into structured prompts**
+    - They collaborate with **data scientists**, **developers**, and **designers**
 #### **Advanced Prompting Techniques**
 - **Zero-Shot Prompting**
-        - The model is given a new task it has never been trained on — it must infer what to do from context alone.
-            - Tests the model’s generalization ability.
-            - Example:
-                - “Translate this sentence into French: ‘How are you?’” — no example given.
+    - The model is given a new task it has never been trained on — it must infer what to do from context alone.
+        - Tests the model’s generalization ability.
+        - Example:
+            - “Translate this sentence into French: ‘How are you?’” — no example given.
 - **Few-Shot Prompting**
-        - The model is provided with a few examples before performing the actual task.
-            - Helps the model **learn the pattern** of the desired response.
-            - Example：
-                - Hello → Bonjour
-                - Thank you → Merci
-                - Now translate: ‘Good night.’”
-            - The examples (“shots”) help the model infer the correct output style.
+    - The model is provided with a few examples before performing the actual task.
+        - Helps the model **learn the pattern** of the desired response.
+        - Example：
+            - Hello → Bonjour
+            - Thank you → Merci
+            - Now translate: ‘Good night.’”
+        - The examples (“shots”) help the model infer the correct output style.
 - **Chain-of-Thought Prompting (CoT)**
         - Encourages the model to **explain its reasoning step-by-step**.
         - This method improves accuracy and logical consistency, especially in **math**, **reasoning**, or **decision-making tasks**.
@@ -1461,8 +1486,8 @@ $$
 | **Linguistics**           | Master nuance, phrasing, and context in prompts            |
 | **Domain Expertise**      | Tailor prompts for code, art, or storytelling              |
 | **Framework Knowledge**   | Use AI APIs and deep learning libraries effectively        |
-#### How Prompt Engineering Works
-1. **Create an Adequate Prompt**
+### How Prompt Engineering Works
+#### 1. Create an Adequate Prompt
 - This first step focuses on designing a clear, effective initial prompt — the foundation of all subsequent refinement.
 - **Key Elements of a Good Prompt**:
     1. **Clarity Is Key**
@@ -1490,7 +1515,8 @@ $$
     - Creating an adequate prompt sets the stage for controlled experimentation.
     - If your initial prompt is vague, every later step will produce inconsistent results.
     - Thus, clarity, constraints, and neutrality are foundational pillars of prompt design.
-2. **Iterate and Evaluate**
+
+#### 2. Iterate and Evaluate
 - This is the **core process** of prompt engineering — an iterative loop where the engineer tests, analyzes, and adjusts prompts repeatedly until the model’s outputs are satisfactory.
 - **Typical Workflow**
     1. **Draft the Initial Prompt**
@@ -1514,27 +1540,30 @@ $$
             - Add tone guidance: “Use a formal, academic tone.”
     5. **Repeat**
         - Keep refining → testing → evaluating until output quality stabilizes.
+
 - **Example Iterative Cycle**
+
 | **Iteration** | **Prompt Version**                                                         | **Key Improvement**                     |
 | ------------- | -------------------------------------------------------------------------- | --------------------------------------- |
 | 1             | “Summarize the article.”                                                   | Too general — AI gives long paragraph   |
 | 2             | “Summarize in 3 bullet points.”                                            | More focused, still misses key insights |
 | 3             | “Summarize in 3 bullet points focusing on causes, effects, and solutions.” | Balanced and accurate — final prompt ✅ |
 
-3. **Calibrate and Fine-Tune**
-    - This step goes beyond prompt writing and enters the **advanced optimization** level.
-        - **Calibration**
-            - Calibrating involves tuning the model’s parameters (e.g., temperature, max tokens, or top-p sampling) to control output behavior:
-                - **Temperature** = 0.2 → precise, deterministic responses.
-                - **Temperature** = 1.0 → more creative, diverse responses.
-- **Summary: The Lifecycle of Prompt Engineering**
+#### 3. Calibrate and Fine-Tune
+- This step goes beyond prompt writing and enters the **advanced optimization** level.
+    - **Calibration**
+        - Calibrating involves tuning the model’s parameters (e.g., temperature, max tokens, or top-p sampling) to control output behavior:
+            - **Temperature** = 0.2 → precise, deterministic responses.
+            - **Temperature** = 1.0 → more creative, diverse responses.
+
+#### **Summary: The Lifecycle of Prompt Engineering**
 | Phase                            | Focus                            | Goal                                     |
 | -------------------------------- | -------------------------------- | ---------------------------------------- |
 | **1. Create an Adequate Prompt** | Clarity, constraints, neutrality | Ensure precise, unbiased instruction     |
 | **2. Iterate and Evaluate**      | Testing and refinement loop      | Improve prompt until desired quality     |
 | **3. Calibrate and Fine-Tune**   | Model-level optimization         | Enhance model consistency and domain fit |
 
-#### Prompt Engineer Responsibilities
+### Prompt Engineer Responsibilities
 - **Craft Effective Prompts**
     - Develop precise and contextually appropriate prompts to elicit the desired responses from AI models.
     - This is the **primary role** of a prompt engineer — designing inputs (prompts) that guide an AI model to generate useful and accurate outputs.
