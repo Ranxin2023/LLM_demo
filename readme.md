@@ -32,6 +32,9 @@
 - [LoRA](#12preknowledge-lora)
 - [PEFT](#12-peft)
 - [MOE](#14-moe)
+    - [What is Mixture of Experts(MOE)](#what-is-mixture-of-experts-moe)
+    - [Core Idea of MOE](#core-idea-of-moe)
+    - [How MOE Works](#how-moe-works)
 - [Adapter Tuning](#15-adapter-tuning)
 - [CoT Prompting](#16-chain-of-thought-cot-prompting)
 - [Hallucination](#17-hallucinations)
@@ -52,7 +55,10 @@
     - [Why is Prompt Engineering Important](#why-is-prompt-engineering-important)
     - [What Skills Does a Prompt Engineer Need](#what-skills-does-a-prompt-engineer-need)
     - [Prompt Engineering Responsibilities](#prompt-engineer-responsibilities)
-- [Qualtitive metrics and Qualitative Evaluation](#21-quantitative-metrics-and-qualitative-evaluation)
+- [Quantitative metrics and Qualitative Evaluation](#21-quantitative-metrics-and-qualitative-evaluation)
+    - [Quantitative Metrics](#quantitative-metrics)
+        - [Common Quantitative Metrics](#common-quantitative-metrics)
+    - [Qualitative Evaluation](#qualitative-evaluation)
 - [Setup](#setup)
 
 
@@ -72,7 +78,7 @@ They define how the model transforms input tokens into contextual representation
     - GPT-3 → 175 billion parameters
     - BERT → 340 million parameters
     - More parameters → greater capacity to model complex relationships.
-#### 1.3 Embeddings
+### 1.3 Embeddings
 - **Definition**: 
     - **Embeddings** are high-dimensional vector representations of words, sentences, or documents that capture **semantic meaning**.
     - Words with similar meanings (e.g., “happy” and “joyful”) are close together in embedding space.
@@ -81,19 +87,19 @@ They define how the model transforms input tokens into contextual representation
     - Text similarity
     - Retrieval-Augmented Generation (RAG)
 
-#### 1.4 Transformer Architecture
+### 1.4 Transformer Architecture
 - **Definition**:
     - The **Transformer** is the backbone of modern LLMs. It uses self-attention to model relationships between all tokens in a sequence simultaneously.
 - **Key Components**:
     - **Encoder**: Reads and understands context (used in BERT, T5).
     - **Decoder**: Generates text autoregressively (used in GPT).
     - **Encoder-Decoder**: Both read and generate (used in T5, BART).
-#### 1.5 Fine-Tuning
+### 1.5 Fine-Tuning
 - **Definition**:
     - Fine-tuning is the process of **adapting a pre-trained model** (e.g., GPT or BERT) to a specific domain or task by continuing its training on a smaller, focused dataset.
 - **Purpose**:
     - Improves model performance for specific goals like sentiment analysis, summarization, or domain adaptation (e.g., legal or medical texts).
-#### 1.6 Perplexity
+### 1.6 Perplexity
 - **Definition**:
     - Perplexity measures **how well a language model predicts text**.
     - It’s the exponential of the average negative log-likelihood of the predicted tokens.
@@ -102,27 +108,27 @@ They define how the model transforms input tokens into contextual representation
 - **Interpretation**:
     - Low perplexity → confident and accurate predictions.
     - High perplexity → model is “surprised” by the actual text.
-#### 1.7 Accuracy
+### 1.7 Accuracy
 - **Definition**:
     - The proportion of correct predictions out of all predictions.
     - Often used in classification tasks (e.g., sentiment analysis).
 - **Formula**:
 
-#### 1.8 F1 Score
+### 1.8 F1 Score
 - **Definition**:
     - Combines **precision** and **recall** into a single metric for evaluating classification performance.
     - Useful when data is imbalanced.
 - **Formula**:
     - F1=2×(Precision*Recall)/(Precision+Recall)
     - ​
-#### 1.9 Recall
+### 1.9 Recall
 - **Definition**:
     - Recall measures how well the model identifies all relevant instances from the data.
     - It’s the proportion of actual positives that the model correctly predicts as positive.
 - **Formula**:
     - Recall=(True Positives + False Negatives)/True Positives​
 - 
-#### 1.10 BLEU (Bilingual Evaluation Understudy)
+### 1.10 BLEU (Bilingual Evaluation Understudy)
 - **Definition**:
     - BLEU is a **text generation quality metric**, originally for machine translation.
     - It measures **n-gram overlap** between model-generated text and reference text.
@@ -131,8 +137,10 @@ They define how the model transforms input tokens into contextual representation
     - BLEU ≈ 0 → little to no overlap.
 - **Used for**:
     - Translation, summarization, dialogue systems.
+- **Diagram of BLEU**:
+- ![BlEU Workflow](images/BLEU_workflow.png)
 
-#### 1.11 ROUGE
+### 1.11 ROUGE
 - **Definition**:
     - ROUGE (Recall-Oriented Understudy for Gisting Evaluation) evaluates **how much of the reference text is captured** in the generated text.
 - **Types**:
@@ -141,14 +149,32 @@ They define how the model transforms input tokens into contextual representation
     - ROUGE-L → longest common subsequence
 - **Used for**:
     - Summarization and paraphrasing evaluation.
-#### 1.12 Prompt
+### 1.12 Prompt
 - **Definition**:
     - A **prompt** is the input text or instruction given to the LLM to guide its output.
     - The quality and structure of the prompt significantly affect model performance.
-- ****:
-#### 1.13 Hyperparameters
+- **Example**:
+    - “Explain quantum computing in simple terms.”
+    - “Translate this to French: Hello, how are you?”
+### 1.13 Hyperparameters
 - **Definition**:
-    - 
+    - These are **tunable settings** that control how a model learns or generates text.
+    - They are not learned from data but set manually before training or inference.
+    - **Examples**:
+        - Learning rate
+        - Batch size
+        - Temperature
+        - Top-k / Top-p sampling
+        - Max tokens
+### 1.14 Context Window
+- **Defintion**:
+    - The **maximum number of tokens** a model can process at once.
+    - Determines how much prior conversation or text the model can “remember.”
+- **Example**:
+    - GPT-3: 4K tokens
+    - GPT-4-turbo: 128K tokens
+    - Claude 3: up to 200K tokens
+### 1.15 Embedding Space & Similarity
 
 ## 3. What are some common pre-training objectives for LLMs, and how do they work?
 ### 3.1  Masked Language Modeling (MLM)
@@ -658,7 +684,7 @@ Extremely small parameter count.
 ### What is Mixture of Experts (MoE)?
 - **Mixture of Experts (MoE)** is a machine learning technique that divides a large neural network into multiple sub-networks (experts).
 - Each expert specializes in a **subset of the input space** or **type of task**, and a **gating network** dynamically decides **which experts to activate** for a given input.
-### Core Idea
+### Core Idea of Moe
 - Instead of activating the entire neural network for every input (which is computationally expensive), MoE activates **only the relevant experts**.
 - This design **reduces computation cost**, **allows parallelization**, and enables scaling up model parameters without proportionally increasing inference time.
 ### How MoE Works
@@ -1529,31 +1555,33 @@ $$
         - Avoid common pitfalls or misuses of generative AI
 
 ## 21. Quantitative metrics and Qualitative evaluation
-#### Quantitative Metrics
+### Quantitative Metrics
 - Quantitative metrics are **numerical**, **measurable indicators** used to evaluate model outputs objectively.
 - They help you determine how well a prompt performs based on consistent, repeatable criteria.
 - These metrics allow for **statistical comparison** — essential when running automated or large-scale A/B tests.
-- **Common Quantitative Metrics**:
-    - **Similarity / Accuracy**
-        - **Cosine Similarity** (using embeddings)
+#### **Common Quantitative Metrics**:
+- **Similarity / Accuracy**
+    - **Cosine Similarity** (using embeddings)
             - **Meaning**: Measures how semantically similar the output is to a reference answer. 1.0 = identical meaning.
             - **Example Use**: Comparing two summaries or answers.
-        - **BLEU / ROUGE / METEOR**
+    - **BLEU / ROUGE / METEOR**
             - **Meaning**: Text-overlap metrics from NLP — check how much of the output matches reference text.
             - **Example Use**: Summarization, translation tasks.
-    - **Classification / Decision**
-        - **Accuracy**
-            - **Meaning**: Ratio of correct outputs to total outputs.
-            - **Example Use**: Sentiment classification or label prediction.
-        - **Precision / Recall / F1**
-            - **Meaning**: Measure correctness and completeness for classification tasks.
-            - **Example Use**: Evaluating extracted entities, or yes/no answers.
-    - **Language Quality**-**Perplexity**
-        - **Meaning**: Measures how confidently a model predicts the next token. Lower = better fluency.
-        - **Example Use**: Evaluating LLM text generation consistency.
+- **Classification / Decision**
+    - **Accuracy**
+        - **Meaning**: Ratio of correct outputs to total outputs.
+        - **Example Use**: Sentiment classification or label prediction.
+    - **Precision / Recall / F1**
+        - **Meaning**: Measure correctness and completeness for classification tasks.
+        - **Example Use**: Evaluating extracted entities, or yes/no answers.
+- **Language Quality**-**Perplexity**
+    - **Meaning**: Measures how confidently a model predicts the next token. Lower = better fluency.
+    - **Example Use**: Evaluating LLM text generation consistency.
 #### Qualitative Evaluation
 - Qualitative evaluation is **human-centered** — it focuses on how good, natural, or useful the AI’s responses feel to a human reader.
 - It deals with **meaning**, **tone**, **coherence**, and contextual accuracy — aspects that numbers alone can’t fully capture.
+## 22. Hyperparameters
+
 ## Setup
 1. Clone the Repository
 ```sh
