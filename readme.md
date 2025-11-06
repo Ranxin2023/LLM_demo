@@ -7,6 +7,14 @@
     - [Embeddings](#13-embeddings)
     - [Transformer Architecture](#14-transformer-architecture)
     - [Fine Tuning](#15-fine-tuning)
+    - [Perplexity](#16-perplexity)
+    - [Accuracy](#17-accuracy)
+    - [F1 Score](#18-f1-score)
+    - [Recall](#19-recall)
+    - [BlEU(Bilingual Evaluation Understudy)](#110-bleu-bilingual-evaluation-understudy)
+    - [Rouge](#111-rouge)
+    - [Prompt](#112-prompt)
+    - [Hyperparameters](#113-hyperparameters)
 - [Common pre-training objectives for LLM](#3-what-are-some-common-pre-training-objectives-for-llms-and-how-do-they-work)
 - [Fine-Tuning](#4-fine-tuning)
     - [What is Fine-Tuning](#41-what-is-fine-tuning)
@@ -54,6 +62,9 @@
     - [What is Prompt Engineering](#what-is-prompt-engineering)
     - [Why is Prompt Engineering Important](#why-is-prompt-engineering-important)
     - [What Skills Does a Prompt Engineer Need](#what-skills-does-a-prompt-engineer-need)
+        - [Familiar with LLMs](#familiarity-with-large-language-models-llms)
+        - [Strong Communication Skills](#strong-communication-skills)
+        - [Advanced Prompting Techniques](#advanced-prompting-techniques)
     - [Prompt Engineering Responsibilities](#prompt-engineer-responsibilities)
 - [Quantitative metrics and Qualitative Evaluation](#21-quantitative-metrics-and-qualitative-evaluation)
     - [Quantitative Metrics](#quantitative-metrics)
@@ -255,17 +266,17 @@ F1=(2*Precision*Recall)/(Precision+Recall)
 
 #### 5.4
 
-## 6. **Techniques for Controlling the Output of an LLM**
+## 6. Techniques for Controlling the Output of an LLM
 These methods let developers influence how a model responds, balancing between randomness, relevance, creativity, and determinism.
 ### 6.1 🔥 Temperature
-##### **What it does:** 
+#### **What it does:** 
 Controls the level of randomness in token selection.
-##### **How it works:** 
+#### **How it works:** 
 During generation, the model uses probabilities to decide the next token. Temperature scales these probabilities:
 - A **lower value** (e.g., 0.2) sharpens the distribution — the model is more confident and **chooses the most likely next word**, producing **deterministic and repetitive** outputs.
 - A **higher value** (e.g., 1.0 or 1.5) flattens the distribution, allowing for more **diverse, creative, and unpredictable** text.
 
-##### 🧊 Low Temperature (temperature=0.2)
+#### 🧊 Low Temperature (temperature=0.2)
 - Explanation:
     - The output is **coherent**, **rhythmic**, and **safe**.
     - GPT-4 chooses tokens with the highest probability, so it sticks to standard poetic themes.
@@ -276,7 +287,7 @@ During generation, the model uses probabilities to decide the next token. Temper
     - Formal documentation
     - Summarization
     
-#####  High Temperature (temperature=1.0)
+####  High Temperature (temperature=1.0)
 - Explanation:
     - The output is **more imaginative and colorful**.
     - Words like "Emerald galaxies", "ink-black canvas" indicate a **creative leap**.
@@ -287,10 +298,10 @@ During generation, the model uses probabilities to decide the next token. Temper
 
 
 ### 6.3 Top-p Sampling
-##### 🔍 What Is Top-P Sampling?
+#### 🔍 What Is Top-P Sampling?
 Top-P sampling chooses from the smallest set of tokens whose cumulative probability exceeds the threshold p. Lower values restrict choice to high-confidence tokens; higher values allow more diverse token selection.
 
-##### Explanation in Example
+#### Explanation in Example
 - 0.3:
     - **Summary**: Output is short and nearly identical to 0.6; it stops mid-sentence.
     - **Behavior**: Most focused — selects tokens only from the top ~30% cumulative probability mass. Tends to be **highly relevant but less diverse**.
@@ -716,7 +727,47 @@ $$
 - In a **Mixture of Experts** model:
     - Only a small number of experts (e.g., 2 of 64) are active for each token.
     - Thus, even with **hundreds of billions of parameters**, computation per token remains roughly constant.
-### 
+### How MoE makes LLMs improve the efficiency of LLM
+1. **Sparsity (conditional computation)**
+- In a dense Transformer, every token passes through every FFN in every layer.
+### How does LLM use MoE?
+1. **Why LLMs Use MoE**
+- Large Language Models (LLMs) like GPT-4, Mixtral, and Switch Transformer have **hundreds of billions** (or even **trillions**) of parameters.
+- The challenge:
+    - Training and running all parameters at once is **computationally** and **financially massive**.
+    - Not all neurons or layers are needed for every input token.
+    - Many tokens require **specialized processing** (e.g., code vs. poetry vs. math).
+- **Solution → Mixture of Experts (MoE)**:
+    - LLMs integrate MoE to increase capacity (number of parameters) **without increasing inference cost**.
+
+2. **Where MoE Fits Inside an LLM**
+- In a typical Transformer-based LLM, each layer has:
+```css
+[ Multi-Head Attention ] → [ Feed-Forward Network (FFN) ]
+
+```
+- LLMs **replace the dense FFN block** with a **Mixture of Experts (MoE)** block.
+```css
+Input → Attention → MoE Layer (Experts + Gating) → Output
+
+```
+3. **How It Works (Step-by-Step)(Similar with what has already been showed above)**
+4. **Real-World Examples in LLMs**
+| **Model**                            | **Architecture**            | **Active Experts per Token** | **Notes**                                                  |
+| ------------------------------------ | --------------------------- | ---------------------------- | ------------------------------------------------------ |
+| **Google Switch Transformer (2021)** | 1.6T parameters, 64 experts | 1 expert per token           | First large-scale MoE LLM                              |
+| **GLaM (Google, 2021)**              | 1.2T parameters             | 2 experts per token          | Balanced routing improves diversity                    |
+| **Mistral Mixtral 8×7B (2024)**      | 8 experts × 7B each         | 2 experts per token          | Efficient open-weight MoE LLM                          |
+| **DeepSeek-V2 (2024)**               | 236B total                  | 2–4 experts per token        | Specialized experts for coding, math                   |
+| **GPT-4 (rumored)**                  | MoE-based                   | Unknown                      | Believed to route tokens across multiple expert towers |
+5. **Why This Is So Powerful**
+| Advantage             | Explanation                                                                    |
+| --------------------- | ------------------------------------------------------------------------------ |
+| **Scalable capacity** | You can scale to trillions of parameters without increasing compute per token. |
+| **Specialization**    | Different experts learn domain-specific skills (math, code, logic, dialogue).  |
+| **Efficiency**        | Only a few experts are active → lower inference cost.                          |
+| **Parallelism**       | Experts can run concurrently on different GPUs or TPUs.                        |
+
 ## 15. Adapter Tuning
 ### 15.1 Background
 - As pre-trained models grow larger and larger, fine-tuning all parameters for each downstream task becomes both expensive and time-consuming.
@@ -1354,26 +1405,26 @@ $$
     - Prompt engineering provides **structure and best practices** to get consistent and actionable results from AI models.
 - **Bridge Between Queries and Outputs**
     - The text mentions that a **prompt engineering guide** serves as the key to unlocking AI’s full potential by bridging the gap between raw queries and actionable outputs.
-#### What skills does a prompt engineer need?
-- **Familiarity with Large Language Models (LLMs)**
+### What skills does a prompt engineer need?
+#### **Familiarity with Large Language Models (LLMs)**
     - Understanding how large language models (LLMs) work, including their capabilities and limitations, is essential for crafting effective prompts and optimizing AI outputs.
     - Prompt engineers must understand:
         - How LLMs process language (tokenization, embeddings, attention mechanisms)
         - Their **strengths** (contextual reasoning, summarization, creativity)
         - Their **limitations** (bias, hallucination, factual inaccuracies)
     - This knowledge allows engineers to **predict how the model will respond** and adjust prompts accordingly for best results.
-- **Strong Communication Skills**
+#### **Strong Communication Skills**
     - Clear and effective communication is vital for defining goals, providing precise instructions to AI models and collaborating with multidisciplinary teams.
     - Prompt engineers must be excellent communicators because:
         - They translate **human intent into structured prompts**
         - They collaborate with **data scientists**, **developers**, and **designers**
-- **Advanced Prompting Techniques**
-    - **Zero-Shot Prompting**
+#### **Advanced Prompting Techniques**
+- **Zero-Shot Prompting**
         - The model is given a new task it has never been trained on — it must infer what to do from context alone.
             - Tests the model’s generalization ability.
             - Example:
                 - “Translate this sentence into French: ‘How are you?’” — no example given.
-    - **Few-Shot Prompting**
+- **Few-Shot Prompting**
         - The model is provided with a few examples before performing the actual task.
             - Helps the model **learn the pattern** of the desired response.
             - Example：
@@ -1381,23 +1432,23 @@ $$
                 - Thank you → Merci
                 - Now translate: ‘Good night.’”
             - The examples (“shots”) help the model infer the correct output style.
-    - **Chain-of-Thought Prompting (CoT)**
+- **Chain-of-Thought Prompting (CoT)**
         - Encourages the model to **explain its reasoning step-by-step**.
         - This method improves accuracy and logical consistency, especially in **math**, **reasoning**, or **decision-making tasks**.
-- **Linguistic and Contextual Understanding**
-    - “English is often the primary language used to train generative AI… every word in a prompt can influence the outcome.”
-    - Prompt engineers need strong knowledge of:
-        - **Vocabulary** and **linguistics**
-        - **Tone**, **phrasing**, and **nuance**
-- **Domain-Specific Knowledge**
-    - “If the goal is to generate code… image generators… or language context…”
-    - Depending on the use case, prompt engineers must also understand:
-        - **Programming and software engineering** (for code generation)
-        - **Art, photography, and film** (for visual models)
-        - **Literary theory and storytelling** (for text generation)
-    - This helps create **domain-appropriate** and **contextually rich** prompts.
-- **Broad Understanding of AI Tools and Frameworks**
-#### **Summary Table**
+#### **Linguistic and Contextual Understanding**
+- “English is often the primary language used to train generative AI… every word in a prompt can influence the outcome.”
+- Prompt engineers need strong knowledge of:
+    - **Vocabulary** and **linguistics**
+    - **Tone**, **phrasing**, and **nuance**
+#### **Domain-Specific Knowledge**
+- “If the goal is to generate code… image generators… or language context…”
+- Depending on the use case, prompt engineers must also understand:
+    - **Programming and software engineering** (for code generation)
+    - **Art, photography, and film** (for visual models)
+    - **Literary theory and storytelling** (for text generation)
+- This helps create **domain-appropriate** and **contextually rich** prompts.
+#### **Broad Understanding of AI Tools and Frameworks**
+#### **Summary Table Of Skills of Prompt Engineer** 
 | **Skill**                 | **Description**                                            |
 | ------------------------- | ---------------------------------------------------------- |
 | **LLM Knowledge**         | Understand how large language models work and their limits |

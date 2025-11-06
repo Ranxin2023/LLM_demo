@@ -25,8 +25,31 @@
         - **Conciseness (1.000)**: Ideal length — one compact paragraph with no filler.
         - **Readability (0.400)**: Low readability — likely due to complex, academic phrasing (dense sentences, no structural breaks).
 - **Prompt B — “Three Concise Bullet Points”**
+    - **Output Summary**:
+        - "Knowledge Distillation involves training a smaller student model..."
+        - The technique minimizes divergence..."
+        - "This approach enables deployment..."
+    - **Interpretation**:
+        - **Relevance (0.858)**: Slightly higher than A — covers all main ideas accurately.
+        - **Conciseness (1.020)**: Excellent — very short, focused, and efficient in communication.
+        - **Readability (0.827)**: High — bullet points improve clarity and flow; each statement is direct.
+- **Prompt C — “Practical Benefits and Use Cases”**
+    - **Output Summary**:
+        - “Knowledge Distillation is a technique for compressing machine learning models... Practical benefits include reduced computational resource requirements, faster inference times, and the ability to deploy models on devices with limited processing power...”
+    - **Interpretation**
+        - **Relevance (0.840)**: Still accurate, but slightly less aligned with the reference summary because it focuses on applications more than on the core mechanism.
 ## 3. Why Prompt B Won
 - Prompt B achieved the **highest final score (0.900)** because:
     - It maintained **excellent relevance** (0.858 → it captured all major ideas).
     - It was **slightly more concise** than needed (1.020 → slightly above optimal, but ideal for summarization).
-    - 
+    - Its **readability (0.827)** was far higher than the others due to its clear, list-based formatting.
+- In short:
+    - **Prompt B** = technically complete + easy to read + well structured.
+- This aligns with prompt engineering best practices:
+    - “Clear structure, focus constraints, and task-oriented phrasing yield the most stable results.”
+## 4. How Each Metric Interacted
+| Metric          | What It Captured                  | Observation                                          |
+| --------------- | --------------------------------- | ---------------------------------------------------- |
+| **Relevance**   | Semantic similarity to reference  | All prompts scored close → all understood the topic. |
+| **Conciseness** | Efficiency and directness         | B and A excelled, C lagged due to verbosity.         |
+| **Readability** | Sentence simplicity and structure | B stood out — formatting helped readability most.    |
