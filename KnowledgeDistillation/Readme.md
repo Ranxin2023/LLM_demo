@@ -6,12 +6,17 @@
 - [Step by Step Explanation of the Diagram](#step-by-step-explanation-of-the-diagram)
 - [Benefits of Distillation](#benefits-of-distillation)
 - [Application of Distilled LLMs](#applications-of-distilled-llms)
+    - [Efficient NLP Tasks](#1-efficient-nlp-tasks)
+    - [Chatbots](#2-chatbots)
+    - [Text Summarization](#3-text-summarization)
 - [Three Types of Knowedge used in Knowledge Distillation](#three-main-types-of-knowledge-used-in-knowledge-distillation-kd)
     - [Responsed Based Knowledge aka Logit Distillation](#1-response-based-knowledge-aka-logit-distillation)
     - [Feature Based Knowledge Intermediate Layer Distillation](#2-feature-based-knowledge-intermediate-layer-distillation)
     - [Relation Based Knowledge Correlation Distillation](#3-relation-based-knowledge-correlation-distillation)
 - [Knowledge Distillation Schemes](#knowledge-distillation-schemes)
-
+    - [Offline Distillation](#1-offline-distillation)
+    - [Online Distillation](#2-online-distillation)
+    - [Self Distillation](#3-self-distillation)
 ## Definition of Knowledge Distillation (KD)
 - **Knowledge Distillation (KD)** is a **model compression technique** in which a **smaller and faster “student” model** learns to reproduce the behavior and decision patterns of a **larger, more accurate “teacher” model**.
 - This process allows the student model to achieve comparable performance with fewer parameters and lower computational cost, making it highly suitable for deployment in **resource-constrained environments** such as mobile devices or real-time applications.
@@ -116,7 +121,7 @@ $$
 | 5        | Result                | Smaller, faster, and still accurate model         |
 
 ## Benefits of Distillation
-1. **Reduced Model Size**
+### 1. Reduced Model Size
 - **What It Means**
     - One of the most immediate outcomes of distillation is a dramatic reduction in model parameters.
     - For example:
@@ -125,14 +130,14 @@ $$
 - **Why It Matters**
     - **Faster Inference**: Smaller models have fewer layers and operations to compute, so they process data faster.
     - **Reduced Storage**: They consume less disk space and RAM, allowing deployment on devices with limited storage (e.g., smartphones, IoT devices, or microcontrollers).
-2. **Improved Inference Speed**
+### 2. Improved Inference Speed
 - **What It Means**
     - Inference speed refers to **how fast a model can generate predictions** once trained.
     - Since a distilled model has fewer parameters and layers, it computes outputs significantly faster.
 - **Technical Reason**
     - Every neural layer in an LLM adds latency during prediction.
     - Removing redundant layers (via distillation) reduces both **forward-pass time** and **memory transfer time**.
-3. **Lower Computational Costs**
+### 3. Lower Computational Costs
 - **What It Means**
     - Large LLMs require massive computational resources — expensive GPUs, high energy, and large-scale data centers.
     - Distilled models, being smaller, **consume less power and cost far less to operate**.
@@ -142,7 +147,7 @@ $$
         - Example: Running BERT-large on AWS can cost 5× more than DistilBERT for the same workload.
     - **On-Premise Deployments:**
         - Organizations that host models locally (banks, hospitals, etc.) can reduce infrastructure and maintenance costs significantly.
-4. **Broader Accessibility and Deployment**
+### 4. Broader Accessibility and Deployment
 - **What It Means**
     - Smaller, faster LLMs can be **deployed anywhere**, not just on high-end servers.
     - This makes advanced AI features more **accessible to everyone**, including in regions or organizations with limited computational capacity.
@@ -155,13 +160,13 @@ $$
         - This enhances **privacy** and **reduces network latency**.
 
 ## Applications of Distilled LLMs
-1. **Efficient NLP Tasks**
+### 1. Efficient NLP Tasks
 - **What It Means**
     - Distilled models are excellent for standard NLP tasks like:
         - **Text classification**
         - **Sentiment analysis**
     - Because they are smaller, they process text **more quickly** while maintaining comparable accuracy to the original large models.
-2. **Chatbots**
+### 2. Chatbots
 - **What It Means**
     - Distilled LLMs are ideal for conversational AI systems — chatbots, virtual assistants, and helpdesk agents.
     - They are smaller but still capable of:
@@ -182,6 +187,20 @@ $$
         - Uses a distilled GPT model to answer FAQs about account balance, loans, and transactions.
         - Runs on a lightweight server (no GPU required).
         - Responds instantly — improving user experience while saving cloud costs.
+### 3. Text Summarization
+- **What It Means**
+    - Distilled LLMs can power **summarization systems** that condense large texts — articles, reports, or social media threads — into **short**, **readable summaries**.
+    - This is crucial for applications that require **information compression** and **time efficiency**.
+- **Why It Matters**
+    - Summarization requires understanding not just words, but the semantic meaning and context.
+    - Distilled models preserve the comprehension ability of large models while being faster, making them perfect for:
+        - News aggregation platforms
+        - Document management systems
+        - Social media analysis tools
+- **Example**
+    - A news summarization app:
+        - Takes a 1,000-word article and generates a **100-word summary** in under a second.
+        - The distilled model uses **less memory and compute**, so users get instant summaries even on mobile devices.
 
 ## Three main types of knowledge used in Knowledge Distillation (KD).
 ### 1. Response-Based Knowledge (a.k.a. Logit Distillation)
@@ -192,11 +211,12 @@ $$
 - **How It Works**
     - The teacher produces **logits** (pre-softmax outputs) for each input.
     - The logits are **softened** by a temperature (T) parameter:\n
-        $$
-        p_i = \frac{e^{z_i / T}}{\sum_j e^{z_j / T}}
-        $$
-        - where 𝑇 > 1 produces smoother probability distributions.
-    - The student is trained to **match these soft probabilities** using KL divergence.
+
+$$
+    p_i = \frac{e^{z_i / T}}{\sum_j e^{z_j / T}}
+$$
+- where 𝑇 > 1 produces smoother probability distributions.
+- The student is trained to **match these soft probabilities** using KL divergence.
 - **Why Temperature Matters**
     - If the teacher is **too confident** (probability ≈ 1.0 for one class), there’s no rich information for the student.
     - Increasing the **temperature** makes the distribution softer — revealing secondary probabilities (e.g., 0.55 cat, 0.35 fox, 0.10 dog).
@@ -209,6 +229,7 @@ $$
 1. Extract feature maps (activations) from one or more hidden layers of the teacher.
 2. Train the student to **replicate these feature patterns** at corresponding layers.
 3. A feature loss (like L2 or cosine similarity) minimizes the difference between teacher and student activations.\n
+
 $$
     L_{feature} = \left\| F_{teacher} - F_{student} \right\|_2^2
 $$
@@ -236,9 +257,10 @@ $$
     - Compute **relations or correlations** between different features, layers, or locations in the teacher.
         - Example: correlation matrix, cosine similarity, distance matrix.
     - Train the student to reproduce those relationships:\n
-    $$
-        L_{relation} = \left\| F_{teacher} - F_{student} \right\|_2^2
-    $$
+
+$$
+    L_{relation} = \left\| F_{teacher} - F_{student} \right\|_2^2
+$$
     - This helps the student capture the **structure of the teacher’s feature space** — how features interact and co-occur.
 
 ## Knowledge Distillation Schemes
@@ -299,7 +321,8 @@ $$
     - \( p_s \) — student’s output distribution  
     - \( \alpha \) — trade-off parameter between imitation and true label learning  
     - \( CE(y, p_s) \) — cross-entropy with true labels  
-3. **Self-Distillation**
+
+### 3. Self-Distillation
 - In self-distillation, there is no separate teacher model.
 - Instead, a single network acts as both teacher and student — transferring knowledge from its deeper layers to its shallower layers.
 #### Summary
