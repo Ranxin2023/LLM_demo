@@ -228,21 +228,24 @@ They define how the model transforms input tokens into contextual representation
 - Metrics: accuracy, F1 score, BLEU, or perplexity (depending on the task).
 
 ## 5. **How do you measure the performance of an LLM?**
-#### 5.1 🔢 Perplexity
+### 5.1 🔢 Perplexity
 - **definition**:
 Perplexity is a measurement of how well a language model predicts a sequence. It is the exponential of the average negative log-likelihood of the predicted tokens.
 - **formula**:
 Perplexity = *e*^Loss
 - **interpretation**:
-
-**Low perplexity** → Model is confident and accurate in predicting the next tokens.
-**High perplexity** → Model is "surprised" by the actual tokens.
-#### 5.2 🧮 Accuracy
+    **Low perplexity** → Model is confident and accurate in predicting the next tokens.
+    **High perplexity** → Model is "surprised" by the actual tokens.
+- **Use Case**:
+    - Commonly used for **language modeling** and **text generation** tasks.
+### 5.2 🧮 Accuracy
 - **definition**:
 Accuracy is the ratio of **correct predictions to total predictions**. It is commonly used in classification tasks (e.g., sentiment analysis, text classification).
 - **formula**:
 Accuracy = Number of Correct Predictions / Total Predictions
-#### 5.3 F1 Score
+- **Interpretation**:
+    - A higher accuracy value indicates better performance, though it can be misleading on **imbalanced datasets** (where some labels dominate).
+### 5.3 F1 Score
 - **definition**:
 F1 Score is the **harmonic mean** of Precision and Recall. It is especially useful for imbalanced datasets.
 
@@ -253,7 +256,17 @@ F1 Score is the **harmonic mean** of Precision and Recall. It is especially usef
 - **formula**:
 F1=(2*Precision*Recall)/(Precision+Recall)
 
-#### 5.4
+### 5.4 BLEU (Bilingual Evaluation Understudy) Score
+- **Definition**:
+    - BLEU measures how close the model-generated text is to one or more **reference translations**.
+    - It evaluates **machine translation** and **text generation** quality by comparing overlapping **n-grams** (word sequences).
+- **How it works**:
+    1. Split sentences into n-grams (e.g., unigrams, bigrams, trigrams).
+    2. Count overlapping n-grams between generated and reference text.
+    3. Apply a **brevity penalty** to prevent favoring overly short outputs.
+### 5.5 ROUGE (Recall-Oriented Understudy for Gisting Evaluation)
+- **Definition**
+    - ROUGE measures the overlap between **generated text** and **reference text**.
 
 ## 6. Techniques for Controlling the Output of an LLM
 These methods let developers influence how a model responds, balancing between randomness, relevance, creativity, and determinism.
@@ -341,6 +354,7 @@ Top-P sampling chooses from the smallest set of tokens whose cumulative probabil
     - **Number of layers**, **hidden size**, **number of heads** → define model architecture.
     - **Dropout rate**, **weight decay** → regularization strength.
     - **Temperature**, **top-p**, **top-k** → affect randomness during generation.
+
 ### Relationship Between Parameters and Hyperparameters
 
 | **Category**       | **Parameters**                               | **Hyperparameters**                           |
@@ -351,6 +365,12 @@ Top-P sampling chooses from the smallest set of tokens whose cumulative probabil
 | **Storage**        | Inside model checkpoint                      | In config or training script                  |
 | **Effect**         | Determines model knowledge                   | Determines training behavior and output style |
 
+### Three major types of parameters in Large Language Models
+#### Weights
+- Weights are **trainable parameters** that determine the **strength or importance of each input** when generating outputs.
+- In a neural network, every connection between two neurons has an associated **weight value**.
+#### Biases
+- Biases are **constant values added to the output of a neuron** before applying the activation function.
 ## 8. How can you incorporate external knowledge into an LLM?
 - LLMs (Large Language Models) are trained on vast corpora of text, but their knowledge is static — limited to what they saw during training.
 - To make them useful in **real-world**, **dynamic**, or **domain-specific applications**, we can inject external knowledge in several ways:
@@ -380,9 +400,26 @@ Top-P sampling chooses from the smallest set of tokens whose cumulative probabil
     - “Find all scientists born in Germany who won a Nobel Prize.”
 
 3. **Scalability for Handling Vast Information**
+- KGs can scale to **billions of entities and facts** by integrating data from multiple heterogeneous sources — websites, databases, documents, and APIs.
+- They are designed to **handle complexity**, allowing continuous updates as new information is discovered.
+- This scalability makes them suitable for large organizations like **Google**, **Microsoft**, and **Wikidata**, which manage ever-growing global knowledge bases.
+
+#### Why Knowledge Graphs Matter for LLMs
+- Integrating KGs into LLMs bridges **symbolic reasoning** and **statistical learning**:
+    - **LLMs**: Understand text and generate fluent language but may hallucinate or lack facts.
+    - **KGs**: Store verified, structured facts and relationships.
+    - **Together**: The model can **ground its responses in truth**, **explain relationships**, and **perform reasoning** (e.g., "Who was Einstein’s student who also won a Nobel Prize?").
+#### Summary
+
+| **Feature**                | **Description**                                    | **Example**                           |
+| -------------------------- | -------------------------------------------------- | ------------------------------------- |
+| **Semantic Relationships** | Captures meaningful links between entities         | (France) — [hasCapital] → (Paris)     |
+| **Queryable Structures**   | Supports powerful SPARQL/Cypher queries            | “Find all scientists born in Germany” |
+| **Scalability**            | Can handle billions of facts from multiple sources | Google Knowledge Graph                |
+| **Examples**               | Google Knowledge Graph, Wikidata                   | Billions of entity triples            |
 
 ### 8.2 RAG
-##### Concept
+#### Concept
 - RAG combines **retrieval** (finding relevant data) with **generation** (LLM producing output).
 - When the user asks a question, the system first retrieves documents or passages from a **vector database(VDB)** — such as FAISS or Chroma — and then **feeds those retrieved chunks** into the prompt context for the LLM to generate a grounded answer.
 - **Pipeline**:
@@ -390,6 +427,7 @@ Top-P sampling chooses from the smallest set of tokens whose cumulative probabil
 2. Convert the user query to an embedding vector.
 3. Retrieve similar chunks using cosine similarity.
 4. Pass retrieved chunks + question → LLM for response.
+
 ### 8.3 Fine-Tuning with Domain-Specific Data
 - **Concept**:
     - Fine-tuning allows an LLM to specialize in a specific domain — for example, medical terminology, legal reasoning, or software engineering — by training it further on curated datasets.
