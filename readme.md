@@ -21,6 +21,7 @@
     - [Why Fine-Tuning Works](#-42-why-fine-tuning-works)
     - [Types of Fine-Tuning](#️-43-types-of-fine-tuning)
 - [Techiques for controlling the out of an LLM](#6-techniques-for-controlling-the-output-of-an-llm)
+- [Hyperparameters](#7-hyperparameters)
 - [How can you incorporate external knowledge into an LLM](#8-how-can-you-incorporate-external-knowledge-into-an-llm)
     - [Knowledge Graph](#81-knowledge-graph-integration)
     - [RAG](#82-rag)
@@ -32,19 +33,19 @@
     - [How does Agentic RAG Work](#how-does-agentic-rag-work)
     - [Comparison between Agentic RAG and Traditional RAG](#comparison-between-agentic-rag-and-traditional-rag)
 - [Planner](#9extra-planner)
-- [How can bias in prompt-based learning be mitigated?](#9-how-can-bias-in-prompt-based-learning-be-mitigated)
-- [Catastrophic Forgetting](#10-catastrophic-forgetting)
+- [Three famous GraphRAG frameworks](#10-three-famous-graphrag-framekworks)
+- [How can bias in prompt-based learning be mitigated?](#11-how-can-bias-in-prompt-based-learning-be-mitigated)
+- [Catastrophic Forgetting](#12-catastrophic-forgetting)
     - [Prompt Calibration](#1-prompt-calibration)
     - [Fine Tuning](#2-fine-tuning)
     - [Data Agumentation](#3-data-augmentation)
-- [LoRA](#12preknowledge-lora)
-- [PEFT](#12-peft)
+- [LoRA](#13preknowledge-lora)
+- [PEFT](#13-peft)
 - [MOE](#14-moe)
     - [What is Mixture of Experts(MOE)](#what-is-mixture-of-experts-moe)
     - [Core Idea of MOE](#core-idea-of-moe)
     - [How MOE Works](#how-moe-works)
-- [Adapter Tuning](#15-adapter-tuning)
-- [CoT Prompting](#16-chain-of-thought-cot-prompting)
+- [Adapter Tuning](#16-adapter-tuning)
 - [Hallucination](#17-hallucinations)
     - [Definition](#definition)
     - [3 Main Types of Hallucinations](#three-main-types-of-hallucinations)
@@ -64,19 +65,8 @@
     - [Knowledge Distillation Schemes](#knowledge-distillation-schemes)
 - [Model Uncertainty](#19-model-uncertainty)
 - [Prompt Engineering](#20-prompt-engineering)
-    - [What is Prompt Engineering](#what-is-prompt-engineering)
-    - [Why is Prompt Engineering Important](#why-is-prompt-engineering-important)
-    - [What Skills Does a Prompt Engineer Need](#what-skills-does-a-prompt-engineer-need)
-        - [Familiar with LLMs](#familiarity-with-large-language-models-llms)
-        - [Strong Communication Skills](#strong-communication-skills)
-        - [Advanced Prompting Techniques](#advanced-prompting-techniques)
-    - [How Prompt Engineering Works](#how-prompt-engineering-works)
-        - [Prompt Calibration](#1-prompt-calibration)
-        - [Iterate and Evaluate](#2-iterate-and-evaluate)
-        - [Calibrate and Fine tune](#3-calibrate-and-fine-tune)
-        - [Summary: the Lifecycle of Prompt Engineering](#summary-the-lifecycle-of-prompt-engineering)
-    - [Prompt Engineering Responsibilities](#prompt-engineer-responsibilities)
-- [Quantitative metrics and Qualitative Evaluation](#21-quantitative-metrics-and-qualitative-evaluation)
+- [Chain of thought](#21-chain-of-thought-cot-prompting)
+- [Quantitative metrics and Qualitative Evaluation](#22-quantitative-metrics-and-qualitative-evaluation)
     - [Quantitative Metrics](#quantitative-metrics)
         - [Common Quantitative Metrics](#common-quantitative-metrics)
     - [Qualitative Evaluation](#qualitative-evaluation)
@@ -206,7 +196,7 @@ They define how the model transforms input tokens into contextual representation
 ### 3.2 Autoregressive Language Modeling (AR)
 - **Used in models like**: GPT, GPT-2, GPT-3, GPT-4
 
-## 4. 📌 Fine-Tuning
+## 4. Fine-Tuning
 ### 4.1 What Is Fine-Tuning?
 - **Fine-tuning** is the process of taking a **pre-trained** language model (like GPT, BERT, or T5) and training it further on a **smaller**, **domain-specific** dataset to make it perform better on a **specific task or language style**.
 - A pre-trained model has already learned:
@@ -320,7 +310,57 @@ Top-P sampling chooses from the smallest set of tokens whose cumulative probabil
     - **Behavior**: Balanced — more flexible than 0.3 but still somewhat focused, but still constrained to safe outputs.
 - 0.8 
     - **Summary**: Output starts to diversify — adds some background explanation.
-## 7. 
+## 7. Hyperparameters
+### What are LLM Parameters?
+- **Parameters** are the internal values of a model that are **learned automatically during training**.
+- They define how the model interprets input and produces output.
+- **Examples**
+    - **Weights** — the strength of connections between neurons.
+    - **Biases** — the offset added to activations before applying non-linear functions.
+- In mathematical terms, for a single neuron:
+    - y=f(Wx+b)
+- where:
+    - 𝑊 → weights (parameters)
+    - 𝑏 → bias (parameter)
+    - f → activation function (e.g., ReLU or GELU)
+    - 𝑦 → output of that layer
+- 𝑦 → output of that layer
+- When you train a large model like GPT, the training algorithm (usually gradient descent) **adjusts millions or billions of these weights and biases** so the model’s predictions match real examples.
+
+### How LLM Parameters Are Learned
+- Parameters are updated during training using **backpropagation** and **gradient descent**:
+    - The model predicts an output (e.g., next token).
+    - The loss function (like cross-entropy) compares prediction vs. ground truth.
+    - The optimizer computes **gradients** (how much each parameter contributed to the error).
+    - Parameters are updated:
+    $$
+    \theta_{new} = \theta_{old} - \eta \cdot \nabla_{\theta}L
+    $$
+    - where:
+        - 𝜃 → parameter (weight/bias)
+        - 𝜂 → learning rate (hyperparameter)
+        - L → loss function
+- This process repeats billions of times until the model “learns” patterns in the dataset.
+
+### What are Hyperparameters?
+- Hyperparameters are **external configuration settings** that control how the model learns — not what it learns.
+- Unlike parameters, **hyperparameters are not learned automatically**.
+- They are set manually before or during training and can drastically change the model’s quality, speed, and stability.
+- **Examples**
+    - **Learning rate** → how big each update step is.
+    - **Batch size** → how many samples per update.
+    - **Number of layers**, **hidden size**, **number of heads** → define model architecture.
+    - **Dropout rate**, **weight decay** → regularization strength.
+    - **Temperature**, **top-p**, **top-k** → affect randomness during generation.
+### Relationship Between Parameters and Hyperparameters
+
+| **Category**       | **Parameters**                               | **Hyperparameters**                           |
+| ------------------ | -------------------------------------------- | --------------------------------------------- |
+| **Definition**     | Internal weights/biases learned by the model | External settings chosen by humans            |
+| **Examples**       | Layer weights, embedding vectors, biases     | Learning rate, batch size, dropout            |
+| **Who sets them?** | Automatically updated by optimizer           | Defined manually by developer                 |
+| **Storage**        | Inside model checkpoint                      | In config or training script                  |
+| **Effect**         | Determines model knowledge                   | Determines training behavior and output style |
 
 ## 8. How can you incorporate external knowledge into an LLM?
 - LLMs (Large Language Models) are trained on vast corpora of text, but their knowledge is static — limited to what they saw during training.
@@ -350,7 +390,7 @@ Top-P sampling chooses from the smallest set of tokens whose cumulative probabil
 - Such queries can perform complex reasoning, e.g.:
     - “Find all scientists born in Germany who won a Nobel Prize.”
 
-3. Scalability for Handling Vast Information
+3. **Scalability for Handling Vast Information**
 
 ### 8.2 RAG
 ##### Concept
@@ -520,7 +560,18 @@ Top-P sampling chooses from the smallest set of tokens whose cumulative probabil
 5. **Budgeting & guardrails**
     - It enforces limits (tokens, calls, top-k) and uses early-stop criteria when confidence is high enough—important for cost and latency.
 
-## 10. How can bias in prompt-based learning be mitigated?
+## 10. Three Famous GraphRAG Framekworks
+### Microsoft GraphRAG
+- **GitHub**: microsoft/graphrag(https://github.com/microsoft/graphrag)
+- **Overview**
+    - Microsoft **GraphRAG** is an advanced framework that combines **RAG (Retrieval-Augmented Generation)** with **knowledge graph reasoning**.
+    - It’s designed for **enterprises** that need deep document understanding and contextual retrieval.
+- **Key Features**
+    - Structured + Unstructured Knowledge Fusion:
+### LightRAG
+- **Overview**
+    - 
+## 11. How can bias in prompt-based learning be mitigated?
 ### 1. Prompt Calibration
 - This involves carefully designing and testing prompts so that the LLM produces balanced, unbiased responses.
 - For example, if a model tends to associate certain professions with specific genders, you can test multiple prompt formulations and adjust phrasing to reduce bias.
@@ -538,7 +589,7 @@ Top-P sampling chooses from the smallest set of tokens whose cumulative probabil
     - If 70% of your data says “doctor → he,” generate more examples with “doctor → she.”
     - Use paraphrasing or back-translation to diversify data linguistically.
 
-## 11. catastrophic forgetting
+## 12. catastrophic forgetting
 ### Definition:
 - Catastrophic forgetting (or catastrophic interference) is the phenomenon where a neural network **forgets previously learned tasks** after being fine-tuned on new data.
 - In the context of LLMs, it means:
@@ -571,7 +622,7 @@ Top-P sampling chooses from the smallest set of tokens whose cumulative probabil
     - **PEFT**: “Write on sticky notes” (small, new parameters) — don’t touch the main whiteboard.
     - **EWC**: “Highlight what’s important and don’t erase it” — preserve critical parts of the old notes.
 
-## 12PreKnowledge. LoRA
+## 13PreKnowledge. LoRA
 ### What is Low-Rank Adaptation (LoRA)?
 
 **Low-Rank Adaptation (LoRA)** is a **parameter-efficient fine-tuning (PEFT)** technique designed to adapt large pre-trained models for specific tasks **without significantly increasing computational or memory costs**.
@@ -619,7 +670,7 @@ Only \( A \) and \( B \) are trained, while \( W \) remains frozen — significa
    - Fine-tune only the low-rank matrices for a specific task (like sentiment analysis or translation).  
    - The model learns the new task efficiently while maintaining previous capabilities.
 
-## 12. PEFT
+## 13. PEFT
 ### What is PEFT?
 - **Parameter-Efficient Fine-Tuning (PEFT)** adapts a frozen pretrained model by training only a small set of extra parameters (or a tiny subset of existing ones). The backbone weights stay fixed, so you keep the general knowledge while learning a new task/domain cheaply.
 ### Major PEFT families (how they plug in)
@@ -705,9 +756,23 @@ Extremely small parameter count.
 ### What “FLOP” Means
 - FLOP stands for Floating-Point Operation — a single arithmetic computation (like addition or multiplication).
 - When we talk about “FLOPs” in deep learning, we usually mean the **total number of floating-point operations needed** to run a model (per token, per batch, or per forward pass).
+- For example:
+    - A dense Transformer layer might require ~10⁹ FLOPs per token.
+    - A Mixture of Experts layer (with sparse activation) might require only ~2×10⁸ FLOPs, even if its total parameters are much larger.
+- So **FLOPs** ≈ **computational cost**.
+
 ### What “Quality-per-FLOP” Means
 - **Quality-per-FLOP measures** how much performance or output quality you get for each unit of computation.
 - Quality-per-FLOP=Number of FLOPs/Model Quality Metric​
+- **Example Quality Metrics**
+| **Domain**          | **Quality Metric**                     |
+| ------------------- | -------------------------------------- |
+| Language modeling   | ↓ **Perplexity** (lower = better)      |
+| Classification      | ↑ **Accuracy** / **F1 score**          |
+| Machine translation | ↑ **BLEU score**                       |
+| Reasoning           | ↑ **Success rate**, **Win rate**, etc. |
+
+### 
 ## 14. MoE
 ### What is Mixture of Experts (MoE)?
 - **Mixture of Experts (MoE)** is a machine learning technique that divides a large neural network into multiple sub-networks (experts).
@@ -793,12 +858,12 @@ Input → Attention → MoE Layer (Experts + Gating) → Output
 | **Efficiency**        | Only a few experts are active → lower inference cost.                          |
 | **Parallelism**       | Experts can run concurrently on different GPUs or TPUs.                        |
 
-## 15. Adapter Tuning
-### 15.1 Background
+## 16. Adapter Tuning
+### 16.1 Background
 - As pre-trained models grow larger and larger, fine-tuning all parameters for each downstream task becomes both expensive and time-consuming.
 - To address this, the authors proposed **Adapter Tuning** — a technique that inserts adapter layers into pre-trained models. These adapters contain a small number of task-specific parameters (about 3.6% of the full model size).
 - During fine-tuning, the **original model parameters remain frozen**, and only the adapter layers are trained for the downstream task. This significantly reduces computational cost.
-### 15.2 Technical Principle
+### 16.2 Technical Principle
 - **Adapter Tuning** (from the paper Parameter-Efficient Transfer Learning for NLP) introduces an **adapter structure** into each Transformer layer.
 - Specifically, two adapter modules are added to each Transformer layer —
     - one **after the multi-head attention block**,
@@ -807,59 +872,11 @@ Input → Attention → MoE Layer (Experts + Gating) → Output
 - Only the parameters in the **new adapter modules** and the **Layer Normalization layers** are updated.
 - This ensures training efficiency and avoids catastrophic forgetting.
 - 
-### 15.3 Detailed Explanation
+### 16.3 Detailed Explanation
 - Each Adapter module mainly consists of **two feed-forward sub-layers**:
     - The **first sub-layer (down-project)** takes the output of the Transformer block as input.
     - It projects the original high-dimensional feature (dimension 𝑑) **down to a smaller dimension** 𝑚(low-dimensional space),
-## 16. Chain-of-Thought (CoT) Prompting
-### Definition:
-- **Chain-of-Thought (CoT) prompting** is a technique that improves the reasoning ability of Large Language Models (LLMs) by asking them to explain their reasoning steps before producing the final answer.
-- Instead of directly predicting an answer, the model thinks step-by-step, mimicking how humans reason through complex problems.
-### Why It Works
-- **Human-like reasoning**: It encourages the model to reason explicitly (e.g., “First, compute this → Then that → So the answer is…”).
-- **Decomposition**: Breaks complex tasks into smaller logical substeps, reducing errors in multi-step problems.
-- **Interpretability**: You can see how the model reached its conclusion.
-- **Improved accuracy**: Especially beneficial in arithmetic, logic, and commonsense reasoning tasks.
-### 🧩 Example Comparison
-- **Without CoT Prompting**
-    ```pgsql
-    Q: If a banana costs 2 dollars and an apple costs 3 dollars, how much do 3 bananas and 2 apples cost?
 
-    A: 10
-
-    ```
-    - The model explicitly reasons through the problem and produces the correct answer.
-- **With CoT Prompting**
-    - 
-```pgsql
-Q: If a banana costs 2 dollars and an apple costs 3 dollars, how much do 3 bananas and 2 apples cost?
-Let's think step by step.
-A: A banana costs 2 dollars. 3 bananas = 3 × 2 = 6 dollars.
-An apple costs 3 dollars. 2 apples = 2 × 3 = 6 dollars.
-Total = 6 + 6 = 12 dollars.
-Answer: 12
-
-```
-### Variants of CoT Prompting
-1. **Zero-Shot CoT**
-    - Add “Let’s think step by step” directly to the user prompt — no examples needed.
-    ```python
-    Q: Tom has twice as many apples as Sarah. Sarah has 3 apples. How many does Tom have?
-    A: Let’s think step by step.
-
-    ```
-2. **Few-Shot CoT**
-    - Provide **example reasoning traces** before asking the main question. This helps the model learn how to reason.
-    ```python
-    examples = """
-    Q: If 2 + 2 = ?
-    A: Let's think step by step. 2 + 2 = 4.
-
-    Q: If a pen costs $3 and you buy 5 pens, how much total?
-    A: Let's think step by step. 3 * 5 = 15. Answer: $15.
-    """
-
-    ```
 ## 17. Hallucinations
 ### Definition
 - An AI hallucination refers to an output generated by an AI model that **deviates from reality or lacks a factual basis**.
@@ -955,6 +972,18 @@ Answer: 12
     - To fix this, researchers use **evaluation benchmarks** to measure how well RAG prevents hallucinations:
         - **RGB (Retrieval-Augmented Generation Benchmark)**:
             - A dataset used for testing RAG systems in English and Chinese.
+- **Step by Step of How RAG (Retrieval-Augmented Generation) helps Reduce or Eliminate Hallucinations**
+    - **Step1: Generate Response**
+        - The **LLM first generates a draft answer** based on the user’s query.
+        - This response may include product **names**, **facts**, or **entities** mentioned by the model.
+        - At this stage, hallucinations might exist — the model could invent product names that **don’t actually exist** in the database.
+    - **Step 2: Extract Product Names from the Response**
+        - The system then **extracts all entities or product names** from the generated response using **Named Entity Recognition (NER)** or similar techniques.
+        - his transforms the free-form text into **structured data**, e.g., a list of product names.
+        - **Example Output**:
+            ```text
+            ["MacBook Air 15", "MacBook Pro X Ultra 2023"]
+            ```
 3. **Few-Shot and Zero-Shot Learning**
 - **Few-Shot Learning**
     - The model is given **a few examples** before performing a task.
@@ -1345,296 +1374,57 @@ $$
 6. **Temperature Scaling (for Calibration)**
 - Adjust the softmax “temperature” parameter 𝑇 to make probabilities better reflect actual likelihoods.
 - A form of **uncertainty calibration**.
+## 20. Prompt Engineering(./PromptEngineering/Readme.md)
+## 21. Chain-of-Thought (CoT) Prompting
+### Definition:
+- **Chain-of-Thought (CoT) prompting** is a technique that improves the reasoning ability of Large Language Models (LLMs) by asking them to explain their reasoning steps before producing the final answer.
+- Instead of directly predicting an answer, the model thinks step-by-step, mimicking how humans reason through complex problems.
+### Why It Works
+- **Human-like reasoning**: It encourages the model to reason explicitly (e.g., “First, compute this → Then that → So the answer is…”).
+- **Decomposition**: Breaks complex tasks into smaller logical substeps, reducing errors in multi-step problems.
+- **Interpretability**: You can see how the model reached its conclusion.
+- **Improved accuracy**: Especially beneficial in arithmetic, logic, and commonsense reasoning tasks.
+### 🧩 Example Comparison
+- **Without CoT Prompting**
+    ```pgsql
+    Q: If a banana costs 2 dollars and an apple costs 3 dollars, how much do 3 bananas and 2 apples cost?
 
-## 20. Prompt Engineering
-### What is Prompt Engineering
-- **Prompt engineering** is the process of **designing, refining, and optimizing prompts** — the input instructions given to a large language model (LLM) — to guide it toward producing accurate, relevant, and high-quality outputs for a specific task.
-- Generative AI models are trained to generate outputs based on patterns in language, so well-structured prompts help them:
-    - Understand **context** and **intent** behind a query
-    - Reduce **ambiguity** and **bias**
-    - Produce **clearer**, **more accurate**, and **task-specific** results
-### Core Idea
-- **Generative AI and Its Dependence on Prompts**
-    - Generative AI systems are designed to generate specific outputs based on the quality of provided prompts.
-        - Generative AI refers to systems that can **create new content** — text, images, code, etc.
-        - These models don’t just rely on their internal knowledge; the **prompt** (the user’s input) determines how they interpret and generate the response.
-        - Therefore, **the better the prompt**, **the better the output**.
-- **The Role of Prompt Engineering**
-    - Prompt engineering helps generative AI models better comprehend and respond to a wide range of queries, from the simple to the highly technical.
-    - This means prompt engineering:
-        - Teaches models how to handle **different levels of complexity** in questions or tasks.
-        - Makes AI more **context-aware** and **adaptive**.
-        - Ensures the model produces responses aligned with user intent — whether it’s a simple question or a technical command.
+    A: 10
 
-- **The Basic Rule: Good Prompts = Good Results**
-    - “The basic rule is that good prompts equal good results.”
-    - This line summarizes the **core principle** of prompt engineering — the **output quality is directly tied to the input design**.
-        
-- **Iterative Refinement and Learning**
-    - Generative AI relies on the iterative refinement of different prompt engineering techniques to effectively learn from diverse input data and adapt to minimize biases, confusion, and produce more accurate responses.
-    - This highlights the **process-oriented nature** of prompt engineering:
-        - It’s **iterative** — prompts are continuously refined and tested.
-        - It helps AI models:
-            - Learn from diverse examples
-            - Reduce biases
-            - Avoid confusion or hallucinations
-            - Increase accuracy
-    - So, prompt engineering is not just writing prompts — it’s a **systematic method** of improving model behavior.
-- **The Role of Prompt Engineers**
-    - Prompt engineers play a pivotal role in crafting queries that help generative AI models understand not just the language but also the nuance and intent behind the query.
-    - This part describes **the job of a prompt engineer**:
-        - They design prompts that communicate **both meaning and intention**.
-        - They must understand how the AI interprets text, so they can express instructions in a way that the model “understands.”
-        - A good prompt engineer ensures the output (text, code, summary, etc.) matches the **desired context and tone**.
-- **Impact on Output Quality**
-    - A high-quality, thorough, and knowledgeable prompt, in turn, influences the quality of AI-generated content, whether it’s images, code, data summaries or text.
-    - Here, the document emphasizes that **prompt quality** impacts **all forms of AI output**, not just text.
-    - Whether an AI is generating:
-        - **Text** (e.g., essays, summaries)
-        - **Code** (e.g., Python functions)
-        - **Images** (e.g., using text-to-image models)
-            - the structure and clarity of the prompt determine how effectively it performs.
-- **The Bridge Between Raw Queries and Meaningful Responses**
-    - A thoughtful approach to creating prompts is necessary to bridge the gap between raw queries and meaningful AI-generated responses.
-    - This highlights the **core purpose** of prompt engineering — it acts as a **bridge** between what humans mean and what AI generates.
-    - Without well-engineered prompts, AI might misinterpret or oversimplify the query.
-- **Role of Fine-Tuning and Optimization**
-    - By fine-tuning effective prompts, engineers can significantly optimize the quality and relevance of outputs to solve for both the specific and the general.
-    - Here, the author notes that prompt engineering works similarly to **fine-tuning** a model, but at the **instruction level**.
-    - Instead of retraining the model, prompt engineers **adjust the input** to make the model perform better on different kinds of tasks.
-### Summary of What is Prompt Engineering
-| Aspect         | Explanation                                                                            |
-| -------------- | -------------------------------------------------------------------------------------- |
-| **Definition** | Crafting and refining prompts to guide generative AI toward accurate, relevant outputs |
-| **Goal**       | Bridge human intent and AI understanding                                               |
-| **Process**    | Iterative refinement of prompt wording, structure, and examples                        |
-| **Result**     | More accurate, context-aware, and efficient AI responses                               |
-| **Importance** | Reduces human postprocessing, improves reliability, and unlocks AI’s full potential    |
-
-### Why is Prompt Engineering Important
-- **Direct Influence on Output Quality**
-    - Prompt engineering is **critical** because the **quality**, **relevance**, and **accuracy** of AI-generated outputs depend heavily on the quality of the prompt.
-        - A vague or poorly structured prompt can lead to irrelevant, incomplete, or incorrect responses.
-    - **Example**:
-        - ❌ Bad prompt: “Explain AI.” → produces a generic response.
-        - ✅ Good prompt: “Explain artificial intelligence in simple terms with two real-world examples.” → yields a clearer and more useful answer.
-- **Ensuring AI Understands User Intent**
-    - A well-engineered prompt helps the AI **comprehend what the user truly wants**.
-    - Generative AI doesn’t “think” or “understand” context like humans do—it predicts text based on patterns.
+    ```
+    - The model explicitly reasons through the problem and produces the correct answer.
+- **With CoT Prompting**
     - 
-- **Reducing Postprocessing Effort**
-    - When prompts are poorly designed, users often need to **manually edit or filter** the AI’s responses afterward.
-    - Prompt engineering reduces this burden by **guiding the model** to produce high-quality, ready-to-use outputs right away — saving time and effort.
-- **Enabling Effective Use Across Industries**
-    - As generative AI (gen AI) becomes widespread — in **education**, **software development**, **marketing**, **healthcare**, etc. — organizations need reliable ways to use it effectively.
-    - Prompt engineering provides **structure and best practices** to get consistent and actionable results from AI models.
-- **Bridge Between Queries and Outputs**
-    - The text mentions that a **prompt engineering guide** serves as the key to unlocking AI’s full potential by bridging the gap between raw queries and actionable outputs.
-### What skills does a prompt engineer need?
-#### **Familiarity with Large Language Models (LLMs)**
-- Understanding how large language models (LLMs) work, including their capabilities and limitations, is essential for crafting effective prompts and optimizing AI outputs.
-- Prompt engineers must understand:
-    - How LLMs process language (tokenization, embeddings, attention mechanisms)
-    - Their **strengths** (contextual reasoning, summarization, creativity)
-    - Their **limitations** (bias, hallucination, factual inaccuracies)
-- This knowledge allows engineers to **predict how the model will respond** and adjust prompts accordingly for best results.
-#### **Strong Communication Skills**
-- Clear and effective communication is vital for defining goals, providing precise instructions to AI models and collaborating with multidisciplinary teams.
-- Prompt engineers must be excellent communicators because:
-    - They translate **human intent into structured prompts**
-    - They collaborate with **data scientists**, **developers**, and **designers**
-#### **Advanced Prompting Techniques**
-- **Zero-Shot Prompting**
-    - The model is given a new task it has never been trained on — it must infer what to do from context alone.
-        - Tests the model’s generalization ability.
-        - Example:
-            - “Translate this sentence into French: ‘How are you?’” — no example given.
-- **Few-Shot Prompting**
-    - The model is provided with a few examples before performing the actual task.
-        - Helps the model **learn the pattern** of the desired response.
-        - Example：
-            - Hello → Bonjour
-            - Thank you → Merci
-            - Now translate: ‘Good night.’”
-        - The examples (“shots”) help the model infer the correct output style.
-- **Chain-of-Thought Prompting (CoT)**
-        - Encourages the model to **explain its reasoning step-by-step**.
-        - This method improves accuracy and logical consistency, especially in **math**, **reasoning**, or **decision-making tasks**.
-#### **Linguistic and Contextual Understanding**
-- “English is often the primary language used to train generative AI… every word in a prompt can influence the outcome.”
-- Prompt engineers need strong knowledge of:
-    - **Vocabulary** and **linguistics**
-    - **Tone**, **phrasing**, and **nuance**
-#### **Domain-Specific Knowledge**
-- “If the goal is to generate code… image generators… or language context…”
-- Depending on the use case, prompt engineers must also understand:
-    - **Programming and software engineering** (for code generation)
-    - **Art, photography, and film** (for visual models)
-    - **Literary theory and storytelling** (for text generation)
-- This helps create **domain-appropriate** and **contextually rich** prompts.
-#### **Broad Understanding of AI Tools and Frameworks**
-#### **Summary Table Of Skills of Prompt Engineer** 
-| **Skill**                 | **Description**                                            |
-| ------------------------- | ---------------------------------------------------------- |
-| **LLM Knowledge**         | Understand how large language models work and their limits |
-| **Communication**         | Translate human intent into precise AI instructions        |
-| **Technical Explanation** | Explain complex AI behaviors to nontechnical teams         |
-| **Python Programming**    | Automate, test, and integrate AI prompts                   |
-| **Algorithms & Data**     | Optimize prompt logic and system performance               |
-| **Creativity & Ethics**   | Innovate responsibly with awareness of AI risks            |
-| **Advanced Prompting**    | Apply zero-shot, few-shot, and CoT prompting               |
-| **Linguistics**           | Master nuance, phrasing, and context in prompts            |
-| **Domain Expertise**      | Tailor prompts for code, art, or storytelling              |
-| **Framework Knowledge**   | Use AI APIs and deep learning libraries effectively        |
-### How Prompt Engineering Works
-#### 1. Create an Adequate Prompt
-- This first step focuses on designing a clear, effective initial prompt — the foundation of all subsequent refinement.
-- **Key Elements of a Good Prompt**:
-    1. **Clarity Is Key**
-        - A prompt must be clear, specific, and unambiguous.
-        - Avoid vague instructions or industry jargon that the model may misinterpret.
-        - Example:
-            - ❌ “Tell me about marketing.”
-            - ✅ “Explain three marketing strategies that increase customer engagement for online startups.”
-    2. **Try Role-Playing**
-        - Assigning the model a role gives it contextual grounding.
-        - Example: 
-            - You are a data analyst. Summarize the key insights from this dataset.
-    3. **Use Constraints**
-        - Adding boundaries (e.g., word count, tone, structure) helps the model stay focused.
-        - Example:
-            - Describe the Eiffel Tower in **three sentences** using a **neutral tone**.
-        - Constraints prevent overly long or off-topic responses.
-    4. **Avoid Leading Questions**
-        - A leading question biases the AI’s answer.
-        - Example:
-            - ❌ “Why is renewable energy the best option for the planet?”
-            - ✅ “Compare the pros and cons of renewable energy versus fossil fuels.”
-        - Neutral phrasing ensures **balanced and objective outputs**.
-- **Why This Step Matters**
-    - Creating an adequate prompt sets the stage for controlled experimentation.
-    - If your initial prompt is vague, every later step will produce inconsistent results.
-    - Thus, clarity, constraints, and neutrality are foundational pillars of prompt design.
+```pgsql
+Q: If a banana costs 2 dollars and an apple costs 3 dollars, how much do 3 bananas and 2 apples cost?
+Let's think step by step.
+A: A banana costs 2 dollars. 3 bananas = 3 × 2 = 6 dollars.
+An apple costs 3 dollars. 2 apples = 2 × 3 = 6 dollars.
+Total = 6 + 6 = 12 dollars.
+Answer: 12
 
-#### 2. Iterate and Evaluate
-- This is the **core process** of prompt engineering — an iterative loop where the engineer tests, analyzes, and adjusts prompts repeatedly until the model’s outputs are satisfactory.
-- **Typical Workflow**
-    1. **Draft the Initial Prompt**
-        - Start with your best-guess version of the instruction.
-        - Example:
-            - Summarize the following article about AI in 100 words.
-    2. **Test the Prompt**
-        - Run it through the AI and observe how it responds.
-        - Note whether it meets the task requirements.
-    3. **Evaluate the Output**
-        - Ask:
-            - Is it accurate?
-            - Does it capture all key points?
-            - Is the tone appropriate?
-            - Does it follow the requested structure?
-    4. **Refine the Prompt**
-        - Adjust based on the previous output’s weaknesses.
-        - Example:
-            - Add more context: “Focus on ethical implications.”
-            - Add structure: “List the findings in bullet points.”
-            - Add tone guidance: “Use a formal, academic tone.”
-    5. **Repeat**
-        - Keep refining → testing → evaluating until output quality stabilizes.
+```
+### Variants of CoT Prompting
+1. **Zero-Shot CoT**
+    - Add “Let’s think step by step” directly to the user prompt — no examples needed.
+    ```python
+    Q: Tom has twice as many apples as Sarah. Sarah has 3 apples. How many does Tom have?
+    A: Let’s think step by step.
 
-- **Example Iterative Cycle**
+    ```
+2. **Few-Shot CoT**
+    - Provide **example reasoning traces** before asking the main question. This helps the model learn how to reason.
+    ```python
+    examples = """
+    Q: If 2 + 2 = ?
+    A: Let's think step by step. 2 + 2 = 4.
 
-| **Iteration** | **Prompt Version**                                                         | **Key Improvement**                     |
-| ------------- | -------------------------------------------------------------------------- | --------------------------------------- |
-| 1             | “Summarize the article.”                                                   | Too general — AI gives long paragraph   |
-| 2             | “Summarize in 3 bullet points.”                                            | More focused, still misses key insights |
-| 3             | “Summarize in 3 bullet points focusing on causes, effects, and solutions.” | Balanced and accurate — final prompt ✅ |
+    Q: If a pen costs $3 and you buy 5 pens, how much total?
+    A: Let's think step by step. 3 * 5 = 15. Answer: $15.
+    """
 
-#### 3. Calibrate and Fine-Tune
-- This step goes beyond prompt writing and enters the **advanced optimization** level.
-    - **Calibration**
-        - Calibrating involves tuning the model’s parameters (e.g., temperature, max tokens, or top-p sampling) to control output behavior:
-            - **Temperature** = 0.2 → precise, deterministic responses.
-            - **Temperature** = 1.0 → more creative, diverse responses.
-
-#### **Summary: The Lifecycle of Prompt Engineering**
-| Phase                            | Focus                            | Goal                                     |
-| -------------------------------- | -------------------------------- | ---------------------------------------- |
-| **1. Create an Adequate Prompt** | Clarity, constraints, neutrality | Ensure precise, unbiased instruction     |
-| **2. Iterate and Evaluate**      | Testing and refinement loop      | Improve prompt until desired quality     |
-| **3. Calibrate and Fine-Tune**   | Model-level optimization         | Enhance model consistency and domain fit |
-
-### Prompt Engineer Responsibilities
-- **Craft Effective Prompts**
-    - Develop precise and contextually appropriate prompts to elicit the desired responses from AI models.
-    - This is the **primary role** of a prompt engineer — designing inputs (prompts) that guide an AI model to generate useful and accurate outputs.
-        - The goal is to **translate human intent into clear, structured instructions** the AI can understand.
-        - Effective prompts consider **context**, **tone**, **format**, and constraints (e.g., length limits or reasoning style).
-        - A prompt engineer tests various phrasing patterns (“Explain simply” vs “Summarize concisely”) to find what works best for a given model.
-    - **Example:**
-        - A vague prompt: “Tell me about AI.”
-        - An effective prompt: “Explain artificial intelligence in 3 bullet points, focusing on its applications in healthcare.”
-- **Test AI Behavior**
-    - Analyze how models respond to different prompts, identifying patterns, biases, or inconsistencies in the generated outputs.
-    - This involves **systematic experimentation**:
-        - Testing how the AI reacts to changes in tone, context, or detail.
-        - Detecting **biases** (e.g., gender, race, or cultural bias).
-        - Observing when the model produces **inconsistent** or **incorrect** results.
-- **Refine and Optimize Prompts**
-    - Continuously improve prompts through iterative testing to enhance the accuracy and reliability of model responses.
-    - Prompt engineering is an **iterative process** — similar to debugging code.
-        - Refine wording and structure to remove ambiguity.
-        - Add context or examples to improve consistency.
-        - Use **quantitative metrics** (like accuracy or coherence) and **qualitative evaluation** (human review) to track improvements.
-- **Perform A/B Testing**
-    - Compare the effectiveness of different prompts and refine them based on user feedback and performance metrics.
-    - A/B testing means **comparing multiple versions** of a prompt to see which one performs better.
-        - Version A and Version B differ slightly (e.g., wording, format, examples).
-        - Results are measured using metrics like response quality, factual accuracy, or user preference.
-        - The prompt with the better outcome becomes the new baseline.
-    - **Example**:
-        - Prompt A: “Summarize this article in 3 lines.”
-        - Prompt B: “Summarize the key insights of this article briefly.”
-        - Evaluate which one yields more relevant and precise summaries.
-- **Document Prompt Frameworks**
-    - Create libraries of reusable, optimized prompts for specific use cases or industries.
-    - Prompt engineers build and maintain **prompt libraries** — repositories of well-tested templates for common tasks.
-    - These frameworks ensure **consistency** and **efficiency** across projects.
-    - **Example**:
-        - A prompt library may include templates for:
-            - Sentiment analysis
-            - Code generation
-            - Customer support replies
-            - Marketing copy
-        - This allows teams to reuse proven prompts rather than starting from scratch.
-- **Collaborate with Stakeholders**
-    - Work with developers, product teams, and clients to align AI-generated outputs with business or project objectives.
-- **Fine-Tune AI Models**
-    - Adjust pre-trained AI models to improve their behavior for specific applications, using tailored prompts during the training process.
-    - This goes beyond prompt writing. Prompt engineers may also:
-        - Work with **machine learning engineers** to fine-tune models using **domain-specific data**.
-        - Use **prompt-based fine-tuning** — feeding the model optimized prompt-response pairs to improve its performance on particular tasks.
-        - Adjust model parameters or training data to better align with organizational needs.
-    - **Example**
-        - A financial company fine-tunes a model with finance-related prompts to make it better at analyzing stock trends.
-- **Ensure Ethical AI Use**
-    - Identify and mitigate biases in prompts and outputs to ensure fairness, inclusivity, and adherence to ethical guidelines.
-    - Ethical responsibility is central to prompt engineering.
-    - Prompt engineers:
-        - Detect and correct **biased prompts or responses**
-        - Avoid harmful outputs (e.g., hate speech, stereotypes)
-        - Implement fairness constraints in prompts
-        - Ensure model use complies with **ethical and legal guidelines**
-    - **Example**
-        - If a model gives discriminatory responses, the engineer adds ethical framing such as:
-            - Respond objectively and inclusively, without assuming stereotypes. 
-- **Train and Educate Users**
-    - Help end-users and teams understand best practices for interacting with AI models effectively.
-    - Prompt engineers also act as **educators and consultants**, teaching others how to:
-        - Write better prompts
-        - Interpret model responses
-        - Avoid common pitfalls or misuses of generative AI
-
-## 21. Quantitative metrics and Qualitative evaluation
+    ```
+## 22. Quantitative metrics and Qualitative evaluation
 ### Quantitative Metrics
 - Quantitative metrics are **numerical**, **measurable indicators** used to evaluate model outputs objectively.
 - They help you determine how well a prompt performs based on consistent, repeatable criteria.
@@ -1660,7 +1450,6 @@ $$
 #### Qualitative Evaluation
 - Qualitative evaluation is **human-centered** — it focuses on how good, natural, or useful the AI’s responses feel to a human reader.
 - It deals with **meaning**, **tone**, **coherence**, and contextual accuracy — aspects that numbers alone can’t fully capture.
-## 22. Hyperparameters
 
 ## Setup
 1. Clone the Repository
