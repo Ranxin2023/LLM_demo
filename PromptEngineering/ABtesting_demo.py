@@ -107,6 +107,6 @@ def AB_testing():
     print(f"\n🏆 Best performing prompt: {best[0]} (score = {best[1]['final_score']:.3f})")
 
 def redirect_AB_testing():
-    with open("./output_results/ABtesting.txt", "w", encoding="utf-8") as f:
+    with open("./output_results/PromptEngineering/ABtesting.txt", "w", encoding="utf-8") as f:
         with redirect_stdout(f):
             AB_testing()

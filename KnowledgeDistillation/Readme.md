@@ -261,7 +261,8 @@ $$
 $$
     L_{relation} = \left\| F_{teacher} - F_{student} \right\|_2^2
 $$
-    - This helps the student capture the **structure of the teacher’s feature space** — how features interact and co-occur.
+
+- This helps the student capture the **structure of the teacher’s feature space** — how features interact and co-occur.
 
 ## Knowledge Distillation Schemes
 - While traditional knowledge distillation (KD) focuses mainly on what knowledge is transferred (e.g., logits, features, or relations),distillation schemes define how and when this transfer occurs during training.

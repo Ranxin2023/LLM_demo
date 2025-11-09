@@ -1,0 +1,49 @@
+
+🧠 Running Prompt A...
+
+🧠 Running Prompt B...
+
+🧠 Running Prompt C...
+
+📊 COMPLEX A/B TEST RESULTS
+
+Prompt A:
+Relevance:   0.825
+Conciseness: 1.070
+Readability: 0.540
+➡️ Final Score: 0.841
+
+Output:
+Knowledge Distillation is a technique for model compression in which a smaller, faster student model learns to replicate the behavior of a larger teacher model. This is achieved by minimizing the differences between their predicted probability distributions, enabling the deployment of efficient models in real-world applications while maintaining a high level of accuracy.
+
+Prompt B:
+Relevance:   0.863
+Conciseness: 1.010
+Readability: 0.813
+➡️ Final Score: 0.897
+
+Output:
+- Knowledge Distillation involves a smaller student model learning to replicate the behavior of a larger teacher model for model compression.
+- The technique minimizes the divergence between the predicted probability distributions of the teacher and student models to transfer knowledge effectively.
+- This approach enables the deployment of efficient models in real-world applications while maintaining high accuracy levels.
+
+Prompt C:
+Relevance:   0.849
+Conciseness: 0.160
+Readability: 1.000
+➡️ Final Score: 0.672
+
+Output:
+Knowledge Distillation is a technique for compressing models, where a smaller, faster student model learns from a larger teacher model. The practical benefits include:
+
+1. **Efficiency**: Smaller models require less computational power and memory, making them suitable for deployment on devices with limited resources, such as mobile phones and IoT devices.
+
+2. **Speed**: The student model can make predictions more quickly than the teacher model, enhancing user experience in applications that require real-time processing.
+
+3. **Maintained Accuracy**: By mimicking the teacher model, the student can achieve comparable accuracy, allowing for effective use in scenarios where performance is critical.
+
+4. **Scalability**: Knowledge Distillation enables the deployment of AI solutions at scale, as smaller models can handle a larger number of requests simultaneously.
+
+Use-cases include mobile applications, edge computing, and scenarios where low latency and resource efficiency are essential, such as autonomous vehicles and real-time analytics.
+
+🏆 Best performing prompt: B (score = 0.897)

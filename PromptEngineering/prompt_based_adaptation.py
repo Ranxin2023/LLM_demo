@@ -1,7 +1,8 @@
 from langchain_openai import ChatOpenAI
 from langchain_core.prompts import ChatPromptTemplate
 from contextlib import redirect_stdout
-
+from dotenv import load_dotenv
+load_dotenv()
 # Initialize model
 llm = ChatOpenAI(model="gpt-4o-mini", temperature=0.5)
 
@@ -38,6 +39,6 @@ def domain_specific_prompt():
         print(response.content)
 
 def redirect_adaption_output():
-    with open("./output_results/prompt_based_adaptation.txt", "w", encoding="utf-8") as f:
+    with open("./output_results/PromptEngineering/prompt_based_adaptation.txt", "w", encoding="utf-8") as f:
         with redirect_stdout(f):
             domain_specific_prompt()

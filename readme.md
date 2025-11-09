@@ -199,12 +199,12 @@ They define how the model transforms input tokens into contextual representation
     - or answering customer queries in a specific tone.
 - Fine-tuning adapts this general knowledge to **task-specific objectives**.
 
-#### 🧠 4.2 Why Fine-Tuning Works
+### 🧠 4.2 Why Fine-Tuning Works
 - When a model like DistilBERT is pre-trained:
     - It learns general knowledge of language patterns.
     - But it doesn’t know how to perform **task-specific** jobs like classifying IMDb reviews as positive or negative.
 
-#### ⚙️ 4.3 Types of Fine-Tuning
+### ⚙️ 4.3 Types of Fine-Tuning
 - **Full Fine-Tuning**
     - The **entire model’s parameters** are updated on the new dataset.
     - Pros:
@@ -214,7 +214,7 @@ They define how the model transforms input tokens into contextual representation
         - Risk of **catastrophic forgetting** (losing general knowledge).
 
 - **Parameter-Efficient Fine-Tuning (PEFT)**
-#### 🔍 4.4 Fine-Tuning Workflow
+### 🔍 4.4 Fine-Tuning Workflow
 1. **Start from a pre-trained base model (e.g., `bert-base-uncased`, `gpt-3.5-turbo`).**
 2. **Prepare your dataset:**
 - Input–output pairs, labeled text, or conversation data.
@@ -273,7 +273,7 @@ These methods let developers influence how a model responds, balancing between r
 ### 6.1 🔥 Temperature
 #### **What it does:** 
 Controls the level of randomness in token selection.
-#### **How it works:** 
+#### How it works:
 During generation, the model uses probabilities to decide the next token. Temperature scales these probabilities:
 - A **lower value** (e.g., 0.2) sharpens the distribution — the model is more confident and **chooses the most likely next word**, producing **deterministic and repetitive** outputs.
 - A **higher value** (e.g., 1.0 or 1.5) flattens the distribution, allowing for more **diverse, creative, and unpredictable** text.
@@ -312,6 +312,7 @@ Top-P sampling chooses from the smallest set of tokens whose cumulative probabil
     - **Behavior**: Balanced — more flexible than 0.3 but still somewhat focused, but still constrained to safe outputs.
 - 0.8 
     - **Summary**: Output starts to diversify — adds some background explanation.
+
 ## 7. Hyperparameters
 ### What are LLM Parameters?
 - **Parameters** are the internal values of a model that are **learned automatically during training**.
@@ -371,6 +372,7 @@ Top-P sampling chooses from the smallest set of tokens whose cumulative probabil
 - In a neural network, every connection between two neurons has an associated **weight value**.
 #### Biases
 - Biases are **constant values added to the output of a neuron** before applying the activation function.
+
 ## 8. How can you incorporate external knowledge into an LLM?
 - LLMs (Large Language Models) are trained on vast corpora of text, but their knowledge is static — limited to what they saw during training.
 - To make them useful in **real-world**, **dynamic**, or **domain-specific applications**, we can inject external knowledge in several ways:
@@ -409,6 +411,7 @@ Top-P sampling chooses from the smallest set of tokens whose cumulative probabil
     - **LLMs**: Understand text and generate fluent language but may hallucinate or lack facts.
     - **KGs**: Store verified, structured facts and relationships.
     - **Together**: The model can **ground its responses in truth**, **explain relationships**, and **perform reasoning** (e.g., "Who was Einstein’s student who also won a Nobel Prize?").
+
 #### Summary
 
 | **Feature**                | **Description**                                    | **Example**                           |
@@ -444,7 +447,7 @@ Top-P sampling chooses from the smallest set of tokens whose cumulative probabil
 - Think of prompt engineering like teaching a child through questions:
     - A vague prompt (“Tell me about space”) yields a generic answer.
     - A refined prompt (“Explain how black holes distort space-time using an analogy”) guides reasoning toward a **specific goal**.
-##### ⚙️ The Technical Side of Prompt Engineering
+#### ⚙️ The Technical Side of Prompt Engineering
 - Prompt engineering is not only about wording—it also relies on an understanding of **LLM internals**, which influence how prompts are processed and interpreted.
 1. **Model Architectures**
 - Large Language Models like GPT, BERT, or LLaMA are built on Transformer architectures.
@@ -589,15 +592,31 @@ Top-P sampling chooses from the smallest set of tokens whose cumulative probabil
 
 ## 10. Three Famous GraphRAG Framekworks
 ### Microsoft GraphRAG
-- **GitHub**: microsoft/graphrag(https://github.com/microsoft/graphrag)
+- **GitHub**: [microsoft/graphrag](https://github.com/microsoft/graphrag)
 - **Overview**
     - Microsoft **GraphRAG** is an advanced framework that combines **RAG (Retrieval-Augmented Generation)** with **knowledge graph reasoning**.
     - It’s designed for **enterprises** that need deep document understanding and contextual retrieval.
 - **Key Features**
-    - Structured + Unstructured Knowledge Fusion:
+    - **Structured + Unstructured Knowledge Fusion**:
+        - It builds a **graph-based index** (nodes and relationships) to connect entities, facts, and topics from documents.
+        - Unlike basic RAG (which retrieves text chunks), GraphRAG enables **semantic reasoning** through graph traversal.
+    - **Multi-hop Retrieval**:
+        - Instead of fetching only the most similar chunks, it can find **indirectly related** information — e.g., A → B → C connections.
 ### LightRAG
-- **Overview**
-    - 
+- **Github**: [HKUDS/LightRAG](https://github.com/HKUDS/LightRAG)
+- **Overview**:
+    - LightRAG is a **lightweight**, simplified version of GraphRAG. It provides most of the core RAG and graph reasoning capabilities but is easier to deploy and cheaper to run.
+- **Features**:
+    - **Simplified Graph Schema**:
+        - Uses fewer entity types and edges — better for small to medium datasets.
+        - Example: Text embeddings + minimal graph structure (like `Entity → Relation → Entity`).
+    - **Single GPU / local machine friendly**:
+        - Designed for **individual developers**, **researchers**, or **small teams**.
+    - **Lower cost**:
+        - Because it uses fewer parameters and smaller graphs, the cost of building and querying is much lower than Microsoft GraphRAG.
+    - **Easier customization**:
+        - You can directly modify graph construction, embedding logic, or query routing without heavy dependencies.
+
 ## 11. How can bias in prompt-based learning be mitigated?
 ### 1. Prompt Calibration
 - This involves carefully designing and testing prompts so that the LLM produces balanced, unbiased responses.
@@ -632,7 +651,7 @@ Top-P sampling chooses from the smallest set of tokens whose cumulative probabil
 3. **High Capacity Models Still Forget**:
 - Even very large LLMs (billions of parameters) are not immune.
 - Their large capacity helps, but without constraints or regularization, they still optimize for the current objective and drift away from older ones.
-#### 🧩 Mitigation Techniques
+### 🧩 Mitigation Techniques
 | **Technique**                                  | **How It Works**                                                                        | **Why It Helps**                                                                |
 | ------------------------------------------ | ----------------------------------------------------------------------------------- | --------------------------------------------------------------------------- |
 | **PEFT (Parameter-Efficient Fine-Tuning)** | Freezes most weights and trains small adapter modules (like LoRA or prefix tuning). | Preserves old knowledge in frozen weights.                                  |
@@ -640,7 +659,7 @@ Top-P sampling chooses from the smallest set of tokens whose cumulative probabil
 | **Replay / Rehearsal**                     | Mixes data from old and new tasks during fine-tuning.                               | Helps maintain representation balance.                                      |
 | **Regularization Methods**                 | Adds penalty terms that discourage large weight shifts.                             | Keeps parameters near their old values.                                     |
 
-#### 🧮 Intuitive Analogy
+### 🧮 Intuitive Analogy
 - Think of the model’s parameters as a **shared whiteboard**:
     - During pretraining, it writes general knowledge.
     - During fine-tuning, it writes notes for new tasks.
@@ -729,7 +748,7 @@ Learn a small set of **virtual tokens** (or key/value *prefixes*) prepended per 
 
 ---
 
-##### **IA³ / Gating / BitFit**
+#### **IA³ / Gating / BitFit**
 Learn per-channel scaling vectors (**IA³**) or just biases (**BitFit**).  
 Extremely small parameter count.
 ### Why PEFT prevents catastrophic forgetting
@@ -749,10 +768,10 @@ Extremely small parameter count.
 - If you keep updating the **same** adapter sequentially across tasks, you can still forget—use separate adapters or multi-task training.
 
 ## 13. Vector Store Use Case
-#### 🧠 Detailed Explanation
+### 🧠 Detailed Explanation
 - A **vector store** (or **vector database**) stores embeddings — numerical representations of text that capture semantic meaning rather than literal words.
 - This allows the model to **search by meaning** (semantic similarity) instead of by exact keyword matches.
-#### When You Need a Vector Store
+### When You Need a Vector Store
 - Vector stores are essential when your LLM must **retrieve external knowledge** to ground its responses.
 - Examples include:
     - **Document Retrieval / Question Answering**
@@ -762,7 +781,7 @@ Extremely small parameter count.
     - LLMs have limited context windows and can’t remember all your documents.
     - A vector store allows dynamic retrieval of relevant text based on embeddings created by models like text-embedding-3-small.
 
-#### When You Don’t Need a Vector Store
+### When You Don’t Need a Vector Store
 - Tasks like:
     - **Text summarization**
     - **Translation**
@@ -770,7 +789,7 @@ Extremely small parameter count.
     - **Sentiment classification**
     - **Simple conversation flows**
 
-#### ⚖️ Summary Table
+### ⚖️ Summary Table
 | Task Type               | Requires Vector Store? | Why                            |
 | ----------------------- | ---------------------- | ------------------------------ |
 | Document Q&A / RAG      | ✅ Yes                 | Needs semantic retrieval       |
@@ -815,7 +834,8 @@ Extremely small parameter count.
 - The **gating network** (or router) is a small neural network trained to decide **which experts to activate**.
 - It produces a **probability distribution** over all experts.
 - Only the **Top-K experts** (e.g., 2 out of 8) are selected per input based on these probabilities.
-- Formally:
+- Formally:\n
+
 $$
 w = \text{softmax}(W_g x)
 $$
@@ -823,12 +843,14 @@ $$
     - 𝑥 = input token representation
     - 𝑊𝑔 = gating network weights
     - 𝑤 = expert weight vector
-- Then the final output:
+- Then the final output:\n
+
 $$
 y = \sum_{i \in \text{Top-K}} w_i \cdot E_i(x)
 $$
 - where 𝐸𝑖(𝑥) is the output of expert 𝑖.
 - This ensures **sparse activation**, meaning only a few experts work at a time, keeping computations efficient.
+
 3. **Sparsity = Efficiency + Scale**
 - In a normal dense neural network:
     - Every input goes through **every neuron** or **every layer**.
@@ -918,12 +940,14 @@ Input → Attention → MoE Layer (Experts + Gating) → Output
     - The model’s training data might contain **incorrect** or **conflicting information**.
     - The model may **generalize** or **infer** wrongly when trying to fill in gaps.
     - Errors can occur during **any stage of the LLM’s lifecycle** — including pre-training, fine-tuning, or inference (response generation).
+
 2. **Input-Conflicting Hallucination**
 - **Definition**:
     - This type occurs when the model’s output doesn’t align with the **user’s instructions** or input.
     - It’s a **failure to properly interpret** or follow the user’s intended task.
 - **Example**:
     - If you ask the model to summarize an article about climate change, but it generates a summary about renewable energy policies not present in the article, it’s an input-conflicting hallucination.
+    
 3. **Context-Conflicting Hallucination**
 - **Definition**:
     - A context-conflicting hallucination happens when an AI model’s output **contradicts itself or loses consistency** within a longer conversation or passage.
@@ -951,7 +975,7 @@ Input → Attention → MoE Layer (Experts + Gating) → Output
 - This happens especially when:
     - The prompt is **ambiguous** (unclear question or missing context),
     - 
-#### How Are LLM Hallucinations Detected?
+### How Are LLM Hallucinations Detected?
 - Detecting hallucinations means checking whether the model’s output is trustworthy, factual, and consistent.
 1. **Cross-Referencing with Trusted Sources**
 - This method involves comparing the model’s generated text against reliable external databases or factual sources.
@@ -967,6 +991,7 @@ Input → Attention → MoE Layer (Experts + Gating) → Output
     - **Automated factual validation** (checking against databases or APIs),
     - **OOD uncertainty estimation**, and
     - **Human evaluation**, especially for nuanced or context-based answers.
+
 ### Strategies to reduce LLM hallucinations
 1. **Advanced Prompting Methods** 
 - **Definition**:
@@ -1011,6 +1036,7 @@ Input → Attention → MoE Layer (Experts + Gating) → Output
             ```text
             ["MacBook Air 15", "MacBook Pro X Ultra 2023"]
             ```
+            
 3. **Few-Shot and Zero-Shot Learning**
 - **Few-Shot Learning**
     - The model is given **a few examples** before performing a task.
@@ -1020,6 +1046,7 @@ Input → Attention → MoE Layer (Experts + Gating) → Output
     - The model receives **no examples**, but relies on its general language knowledge.
     - This is useful when examples aren’t available or for new types of tasks.
     - Despite not being explicitly trained, zero-shot learning still allows LLMs to reason based on prior linguistic patterns — helping them avoid unsupported assumptions.
+
 4. **Fine-Tuning LLMs**
 - **Definition**:
     - Fine-tuning means **retraining an existing LLM** on a **smaller**, **domain-specific** dataset that contains verified, factual, and updated information.
