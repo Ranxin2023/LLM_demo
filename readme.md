@@ -3,40 +3,46 @@
 - [What is LLM](#1-what-is-llm)
 - [Basic Concepts](#2-basic-concepts)
     - [Token](#21-token)
-    - [Parameters](#12-parameters)
-    - [Embeddings](#13-embeddings)
-    - [Transformer Architecture](#14-transformer-architecture)
-    - [Fine Tuning](#15-fine-tuning)
-    - [Perplexity](#16-perplexity)
-    - [Accuracy](#17-accuracy)
-    - [F1 Score](#18-f1-score)
-    - [Recall](#19-recall)
-    - [BlEU(Bilingual Evaluation Understudy)](#110-bleu-bilingual-evaluation-understudy)
-    - [Rouge](#111-rouge)
-    - [Prompt](#112-prompt)
-    - [Hyperparameters](#113-hyperparameters)
+    - [Parameters](#22-parameters)
+    - [Embeddings](#23-embeddings)
+    - [Transformer Architecture](#24-transformer-architecture)
+    - [Fine Tuning](#25-fine-tuning)
+    - [Perplexity](#26-perplexity)
+    - [Accuracy](#27-accuracy)
+    - [F1 Score](#28-f1-score)
+    - [Recall](#29-recall)
+    - [BlEU(Bilingual Evaluation Understudy)](#210-bleu-bilingual-evaluation-understudy)
+    - [Rouge](#211-rouge)
+    - [Prompt](#212-prompt)
+    - [Hyperparameters](#213-hyperparameters)
+    - [Context Window](#214-context-window)
 - [Common pre-training objectives for LLM](#3-what-are-some-common-pre-training-objectives-for-llms-and-how-do-they-work)
 - [How do you Measure the Performance of an LLM](#4-how-do-you-measure-the-performance-of-an-llm)
-- [Techiques for controlling the out of an LLM](#6-techniques-for-controlling-the-output-of-an-llm)
-- [Hyperparameters](#7-hyperparameters)
-- [How can you incorporate external knowledge into an LLM](#8-how-can-you-incorporate-external-knowledge-into-an-llm)
-    - [Knowledge Graph](#81-knowledge-graph-integration)
-    - [RAG](#82-rag)
-    - [Fine Tuning](#83-fine-tuning-with-domain-specific-data)
-    - [Prompt Engineering](#84-prompt-engineering)
-- [Comparison Between RAG and Fine-tuning](#8extra-comparison-between-rag-and-fine-tuning)
-- [Agentic RAG](#9-agentic-rag)
+    - [Perplexity](#41--perplexity)
+    - [Accuray](#42--accuracy)
+    - [F1 Score](#43-f1-score)
+    - [BLUE](#44-bleu-bilingual-evaluation-understudy-score)
+    - [ROUGE](#45-rouge-recall-oriented-understudy-for-gisting-evaluation)
+- [Techiques for controlling the out of an LLM](#5-techniques-for-controlling-the-output-of-an-llm)
+- [Hyperparameters](#6-hyperparameters)
+- [How can you incorporate external knowledge into an LLM](#7-how-can-you-incorporate-external-knowledge-into-an-llm)
+    - [Knowledge Graph](#71-knowledge-graph-integration)
+    - [RAG](#72-rag)
+    - [Fine Tuning](#73-fine-tuning-with-domain-specific-data)
+    - [Prompt Engineering](#74-prompt-engineering)
+- [Comparison Between RAG and Fine-tuning](#7extra-comparison-between-rag-and-fine-tuning)
+- [Agentic RAG](#8-agentic-rag)
     - [What is Agentic RAG](#what-is-agentic-rag)
     - [How does Agentic RAG Work](#how-does-agentic-rag-work)
     - [Comparison between Agentic RAG and Traditional RAG](#comparison-between-agentic-rag-and-traditional-rag)
 - [Planner](#9extra-planner)
-- [Three famous GraphRAG frameworks](#10-three-famous-graphrag-framekworks)
-- [Semantic Gap in RAG](#11-semantic-gap-in-rag)
+- [Three famous GraphRAG frameworks](#9-three-famous-graphrag-framekworks)
+- [Semantic Gap in RAG](#10-semantic-gap-in-rag)
+- [How can bias in prompt-based learning be mitigated?](#11-how-can-bias-in-prompt-based-learning-be-mitigated)
 - [Fine Tuning](#12-fine-tuning)
     - [What is Fine Tuning](#what-is-fine-tuning)
     - [Why Fine Tuning Works](#why-fine-tuning-works)
     - [Types of Fine Tuning](#types-of-fine-tuning)
-- [How can bias in prompt-based learning be mitigated?](#11-how-can-bias-in-prompt-based-learning-be-mitigated)
 - [Catastrophic Forgetting](#12-catastrophic-forgetting)
     - [Prompt Calibration](#1-prompt-calibration)
     - [Fine Tuning](#2-fine-tuning)
@@ -68,6 +74,14 @@
         - It has **billions of parameters** (learned weights),
         - It is trained on **massive datasets**, and
         - It requires **high computational power** to train.
+- **Key Components of LLM**
+    - **Model Architecture (Transformer)**
+        - The **Transformer** is the foundation of all modern LLMs.
+        - It consists of repeating layers of:
+            - **Self-Attention Mechanism** – lets the model focus on relevant words in context.
+            - **Feedforward Neural Network** – processes and transforms embeddings.
+            - **Normalization & Residual Connections** – stabilize training and preserve gradients.
+        - 
 ## 2. Basic Concepts
 ### 2.1 Token
 - **Definition**: A token is the smallest unit of text the model processes — usually a word, subword, or symbol.
@@ -93,19 +107,19 @@ They define how the model transforms input tokens into contextual representation
     - Text similarity
     - Retrieval-Augmented Generation (RAG)
 
-### 1.4 Transformer Architecture
+### 2.4 Transformer Architecture
 - **Definition**:
     - The **Transformer** is the backbone of modern LLMs. It uses self-attention to model relationships between all tokens in a sequence simultaneously.
 - **Key Components**:
     - **Encoder**: Reads and understands context (used in BERT, T5).
     - **Decoder**: Generates text autoregressively (used in GPT).
     - **Encoder-Decoder**: Both read and generate (used in T5, BART).
-### 1.5 Fine-Tuning
+### 2.5 Fine-Tuning
 - **Definition**:
     - Fine-tuning is the process of **adapting a pre-trained model** (e.g., GPT or BERT) to a specific domain or task by continuing its training on a smaller, focused dataset.
 - **Purpose**:
     - Improves model performance for specific goals like sentiment analysis, summarization, or domain adaptation (e.g., legal or medical texts).
-### 1.6 Perplexity
+### 2.6 Perplexity
 - **Definition**:
     - Perplexity measures **how well a language model predicts text**.
     - It’s the exponential of the average negative log-likelihood of the predicted tokens.
@@ -114,27 +128,27 @@ They define how the model transforms input tokens into contextual representation
 - **Interpretation**:
     - Low perplexity → confident and accurate predictions.
     - High perplexity → model is “surprised” by the actual text.
-### 1.7 Accuracy
+### 2.7 Accuracy
 - **Definition**:
     - The proportion of correct predictions out of all predictions.
     - Often used in classification tasks (e.g., sentiment analysis).
 - **Formula**:
 
-### 1.8 F1 Score
+### 2.8 F1 Score
 - **Definition**:
     - Combines **precision** and **recall** into a single metric for evaluating classification performance.
     - Useful when data is imbalanced.
 - **Formula**:
     - F1=2×(Precision*Recall)/(Precision+Recall)
     - ​
-### 1.9 Recall
+### 2.9 Recall
 - **Definition**:
     - Recall measures how well the model identifies all relevant instances from the data.
     - It’s the proportion of actual positives that the model correctly predicts as positive.
 - **Formula**:
     - Recall=(True Positives + False Negatives)/True Positives​
 - 
-### 1.10 BLEU (Bilingual Evaluation Understudy)
+### 2.10 BLEU (Bilingual Evaluation Understudy)
 - **Definition**:
     - BLEU is a **text generation quality metric**, originally for machine translation.
     - It measures **n-gram overlap** between model-generated text and reference text.
@@ -146,7 +160,7 @@ They define how the model transforms input tokens into contextual representation
 - **Diagram of BLEU**:
 - ![BlEU Workflow](images/BLEU_workflow.png)
 
-### 1.11 ROUGE
+### 2.11 ROUGE
 - **Definition**:
     - ROUGE (Recall-Oriented Understudy for Gisting Evaluation) evaluates **how much of the reference text is captured** in the generated text.
 - **Types**:
@@ -155,14 +169,14 @@ They define how the model transforms input tokens into contextual representation
     - ROUGE-L → longest common subsequence
 - **Used for**:
     - Summarization and paraphrasing evaluation.
-### 1.12 Prompt
+### 2.12 Prompt
 - **Definition**:
     - A **prompt** is the input text or instruction given to the LLM to guide its output.
     - The quality and structure of the prompt significantly affect model performance.
 - **Example**:
     - “Explain quantum computing in simple terms.”
     - “Translate this to French: Hello, how are you?”
-### 1.13 Hyperparameters
+### 2.13 Hyperparameters
 - **Definition**:
     - These are **tunable settings** that control how a model learns or generates text.
     - They are not learned from data but set manually before training or inference.
@@ -172,7 +186,7 @@ They define how the model transforms input tokens into contextual representation
         - Temperature
         - Top-k / Top-p sampling
         - Max tokens
-### 1.14 Context Window
+### 2.14 Context Window
 - **Defintion**:
     - The **maximum number of tokens** a model can process at once.
     - Determines how much prior conversation or text the model can “remember.”
@@ -180,7 +194,7 @@ They define how the model transforms input tokens into contextual representation
     - GPT-3: 4K tokens
     - GPT-4-turbo: 128K tokens
     - Claude 3: up to 200K tokens
-### 1.15 Embedding Space & Similarity
+### 2.15 Embedding Space & Similarity
 
 ## 3. What are some common pre-training objectives for LLMs, and how do they work?
 ### 3.1  Masked Language Modeling (MLM)
@@ -194,7 +208,7 @@ They define how the model transforms input tokens into contextual representation
 
 
 ## 4. How do you measure the performance of an LLM?
-### 5.1 🔢 Perplexity
+### 4.1 🔢 Perplexity
 - **definition**:
 Perplexity is a measurement of how well a language model predicts a sequence. It is the exponential of the average negative log-likelihood of the predicted tokens.
 - **formula**:
@@ -205,14 +219,14 @@ Perplexity = *e*^Loss
 - **Use Case**:
     - Commonly used for **language modeling** and **text generation** tasks.
 
-### 5.2 🧮 Accuracy
+### 4.2 🧮 Accuracy
 - **definition**:
 Accuracy is the ratio of **correct predictions to total predictions**. It is commonly used in classification tasks (e.g., sentiment analysis, text classification).
 - **formula**:
 Accuracy = Number of Correct Predictions / Total Predictions
 - **Interpretation**:
     - A higher accuracy value indicates better performance, though it can be misleading on **imbalanced datasets** (where some labels dominate).
-### 5.3 F1 Score
+### 4.3 F1 Score
 - **definition**:
 F1 Score is the **harmonic mean** of Precision and Recall. It is especially useful for imbalanced datasets.
 
@@ -223,7 +237,7 @@ F1 Score is the **harmonic mean** of Precision and Recall. It is especially usef
 - **formula**:
 F1=(2*Precision*Recall)/(Precision+Recall)
 
-### 5.4 BLEU (Bilingual Evaluation Understudy) Score
+### 4.4 BLEU (Bilingual Evaluation Understudy) Score
 - **Definition**:
     - BLEU measures how close the model-generated text is to one or more **reference translations**.
     - It evaluates **machine translation** and **text generation** quality by comparing overlapping **n-grams** (word sequences).
@@ -232,7 +246,7 @@ F1=(2*Precision*Recall)/(Precision+Recall)
     2. Count overlapping n-grams between generated and reference text.
     3. Apply a **brevity penalty** to prevent favoring overly short outputs.
 
-### 5.5 ROUGE (Recall-Oriented Understudy for Gisting Evaluation)
+### 4.5 ROUGE (Recall-Oriented Understudy for Gisting Evaluation)
 - **Definition**
     - ROUGE measures the overlap between **generated text** and **reference text**.
     - It’s primarily used for **summarization** and **text generation** tasks.
@@ -258,9 +272,9 @@ F1=(2*Precision*Recall)/(Precision+Recall)
 | **BLEU**       | Quality of generated vs reference text | Translation, generation | Higher        |
 | **ROUGE**      | Overlap with human summaries           | Summarization           | Higher        |
 
-## 6. Techniques for Controlling the Output of an LLM
+## 5. Techniques for Controlling the Output of an LLM
 These methods let developers influence how a model responds, balancing between randomness, relevance, creativity, and determinism.
-### 6.1 🔥 Temperature
+### 5.1 🔥 Temperature
 #### **What it does:** 
 Controls the level of randomness in token selection.
 #### How it works:
@@ -279,17 +293,17 @@ During generation, the model uses probabilities to decide the next token. Temper
     - Formal documentation
     - Summarization
     
-####  High Temperature (temperature=1.0)
+#### High Temperature (temperature=1.0)
 - Explanation:
     - The output is **more imaginative and colorful**.
     - Words like "Emerald galaxies", "ink-black canvas" indicate a **creative leap**.
 
-### 6.2 🎯 Top-K Sampling
+### 5.2 🎯 Top-K Sampling
 - **What it does**: Restricts the token selection pool to the **top K most probable tokens** at each generation step.
 - **How it works**: If `top_k=50`, the model only chooses from the top 50 most likely next tokens rather than considering all options.
 
 
-### 6.3 Top-p Sampling
+### 5.3 Top-p Sampling
 #### 🔍 What Is Top-P Sampling?
 Top-P sampling chooses from the smallest set of tokens whose cumulative probability exceeds the threshold p. Lower values restrict choice to high-confidence tokens; higher values allow more diverse token selection.
 
@@ -303,7 +317,7 @@ Top-P sampling chooses from the smallest set of tokens whose cumulative probabil
 - 0.8 
     - **Summary**: Output starts to diversify — adds some background explanation.
 
-## 7. Hyperparameters
+## 6. Hyperparameters
 ### What are LLM Parameters?
 - **Parameters** are the internal values of a model that are **learned automatically during training**.
 - They define how the model interprets input and produces output.
@@ -382,10 +396,10 @@ Top-P sampling chooses from the smallest set of tokens whose cumulative probabil
     - **Top-k** → restricts output to k most probable tokens
 - **Memory and Compute Hyperparameters**
     - **Context window size** → max number of tokens model can “remember”
-## 8. How can you incorporate external knowledge into an LLM?
+## 7. How can you incorporate external knowledge into an LLM?
 - LLMs (Large Language Models) are trained on vast corpora of text, but their knowledge is static — limited to what they saw during training.
 - To make them useful in **real-world**, **dynamic**, or **domain-specific applications**, we can inject external knowledge in several ways:
-### 8.1 Knowledge Graph Integration
+### 7.1 Knowledge Graph Integration
 #### 🧠 What Are Knowledge Graphs?
 - A **Knowledge Graph (KG)** is a structured representation of information that uses graph-based data structures to describe how different entities (like people, places, or things) are connected to one another.
 - It serves as a **knowledge base** that represents facts in the form of nodes and edges:
@@ -430,7 +444,7 @@ Top-P sampling chooses from the smallest set of tokens whose cumulative probabil
 | **Scalability**            | Can handle billions of facts from multiple sources | Google Knowledge Graph                |
 | **Examples**               | Google Knowledge Graph, Wikidata                   | Billions of entity triples            |
 
-### 8.2 RAG
+### 7.2 RAG
 #### Concept
 - RAG combines **retrieval** (finding relevant data) with **generation** (LLM producing output).
 - When the user asks a question, the system first retrieves documents or passages from a **vector database(VDB)** — such as FAISS or Chroma — and then **feeds those retrieved chunks** into the prompt context for the LLM to generate a grounded answer.
@@ -440,7 +454,7 @@ Top-P sampling chooses from the smallest set of tokens whose cumulative probabil
 3. Retrieve similar chunks using cosine similarity.
 4. Pass retrieved chunks + question → LLM for response.
 
-### 8.3 Fine-Tuning with Domain-Specific Data
+### 7.3 Fine-Tuning with Domain-Specific Data
 - **Concept**:
     - Fine-tuning allows an LLM to specialize in a specific domain — for example, medical terminology, legal reasoning, or software engineering — by training it further on curated datasets.
     - This approach **changes model weights** to integrate domain expertise permanently.
@@ -449,7 +463,7 @@ Top-P sampling chooses from the smallest set of tokens whose cumulative probabil
 2. Format it properly (JSONL for supervised fine-tuning).
 3. Train the model using frameworks like Hugging Face Transformers.
 
-### 8.4 Prompt Engineering
+### 7.4 Prompt Engineering
 #### 🧩 Definition and Core Concepts
 - Prompt engineering is the **art and science of designing prompts**—structured questions or instructions—to guide an AI model, especially a Large Language Model (LLM), toward a desired output.
 - It acts as the **interface between human intent and machine output**, determining how clearly the model understands and executes a task.
@@ -476,7 +490,7 @@ Top-P sampling chooses from the smallest set of tokens whose cumulative probabil
 - During fine-tuning, these parameters adjust how the model responds to instructions.
 - While users can’t modify parameters directly, understanding their role helps interpret **model bias**, **style**, and **confidence**.
 
-## 8Extra. Comparison between RAG and Fine-tuning
+## 7Extra. Comparison between RAG and Fine-tuning
 - Both **Fine-Tuning** and **Retrieval-Augmented Generation (RAG)** are powerful strategies for adapting and improving Large Language Models (LLMs).
 - They differ in **how** they enhance model performance and **when** each is best used.
 #### Concept Overview:
@@ -506,7 +520,7 @@ Top-P sampling chooses from the smallest set of tokens whose cumulative probabil
 2. **Custom Behavior Control** – Tailors model tone, format, and reasoning style for specialized applications.
 3. **Offline Operation** – Once trained, fine-tuned models can operate without external knowledge sources.
 
-## 9. Agentic RAG
+## 8. Agentic RAG
 ### What is Agentic-RAG
 #### **🧠 Overview**
 - Agentic RAG (Retrieval-Augmented Generation) is an advanced evolution of the traditional RAG framework.
@@ -586,7 +600,7 @@ Top-P sampling chooses from the smallest set of tokens whose cumulative probabil
 - **Analogy**:
     - Agentic RAG is like hiring a research assistant who not only finds the most relevant books but also reads them, summarizes the findings, cross-checks facts, and delivers a polished report — saving both time and effort.
 
-## 9Extra. Planner
+## 8Extra. Planner
 ### Question:How does the planner agent in AgenticRAG handle complex queries?
 1. **Decomposition**
     - It converts the single complex query into a set of **manageable**, **dependency-aware sub-queries**. This prevents one monolithic retrieval step from missing critical evidence.
@@ -599,7 +613,7 @@ Top-P sampling chooses from the smallest set of tokens whose cumulative probabil
 5. **Budgeting & guardrails**
     - It enforces limits (tokens, calls, top-k) and uses early-stop criteria when confidence is high enough—important for cost and latency.
 
-## 10. Three Famous GraphRAG Framekworks
+## 9. Three Famous GraphRAG Framekworks
 ### Microsoft GraphRAG
 - **GitHub**: [microsoft/graphrag](https://github.com/microsoft/graphrag)
 - **Overview**
@@ -650,7 +664,7 @@ Top-P sampling chooses from the smallest set of tokens whose cumulative probabil
 | **Hardware Need** | High (Azure / GPU)                     | Low–Medium                      | Very Low                     |
 | **Cost**          | $$$                                    | $$                              | $                            |
 | **Best For**      | Enterprises                            | Individual users                | Real-time or low-budget apps |
-
+## 10. Semantic Gap in RAG
 ## 11. How can bias in prompt-based learning be mitigated?
 ### 1. Prompt Calibration
 - This involves carefully designing and testing prompts so that the LLM produces balanced, unbiased responses.
@@ -668,7 +682,6 @@ Top-P sampling chooses from the smallest set of tokens whose cumulative probabil
 - For example:
     - If 70% of your data says “doctor → he,” generate more examples with “doctor → she.”
     - Use paraphrasing or back-translation to diversify data linguistically.
-## 11. Semantic Gap in RAG
 ## 12. Fine-Tuning
 ### What Is Fine-Tuning?
 - **Fine-tuning** is the process of taking a **pre-trained** language model (like GPT, BERT, or T5) and training it further on a **smaller**, **domain-specific** dataset to make it perform better on a **specific task or language style**.
