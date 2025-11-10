@@ -1,8 +1,8 @@
 # LLM DEMO
 ## Table Of Contents
-
-- [Basic Concepts](#1-basic-concepts)
-    - [Token](#11-token)
+- [What is LLM](#1-what-is-llm)
+- [Basic Concepts](#2-basic-concepts)
+    - [Token](#21-token)
     - [Parameters](#12-parameters)
     - [Embeddings](#13-embeddings)
     - [Transformer Architecture](#14-transformer-architecture)
@@ -16,10 +16,7 @@
     - [Prompt](#112-prompt)
     - [Hyperparameters](#113-hyperparameters)
 - [Common pre-training objectives for LLM](#3-what-are-some-common-pre-training-objectives-for-llms-and-how-do-they-work)
-- [Fine-Tuning](#4-fine-tuning)
-    - [What is Fine-Tuning](#41-what-is-fine-tuning)
-    - [Why Fine-Tuning Works](#-42-why-fine-tuning-works)
-    - [Types of Fine-Tuning](#️-43-types-of-fine-tuning)
+- [How do you Measure the Performance of an LLM](#4-how-do-you-measure-the-performance-of-an-llm)
 - [Techiques for controlling the out of an LLM](#6-techniques-for-controlling-the-output-of-an-llm)
 - [Hyperparameters](#7-hyperparameters)
 - [How can you incorporate external knowledge into an LLM](#8-how-can-you-incorporate-external-knowledge-into-an-llm)
@@ -34,6 +31,11 @@
     - [Comparison between Agentic RAG and Traditional RAG](#comparison-between-agentic-rag-and-traditional-rag)
 - [Planner](#9extra-planner)
 - [Three famous GraphRAG frameworks](#10-three-famous-graphrag-framekworks)
+- [Semantic Gap in RAG](#11-semantic-gap-in-rag)
+- [Fine Tuning](#12-fine-tuning)
+    - [What is Fine Tuning](#what-is-fine-tuning)
+    - [Why Fine Tuning Works](#why-fine-tuning-works)
+    - [Types of Fine Tuning](#types-of-fine-tuning)
 - [How can bias in prompt-based learning be mitigated?](#11-how-can-bias-in-prompt-based-learning-be-mitigated)
 - [Catastrophic Forgetting](#12-catastrophic-forgetting)
     - [Prompt Calibration](#1-prompt-calibration)
@@ -41,16 +43,13 @@
     - [Data Agumentation](#3-data-augmentation)
 - [LoRA](#13preknowledge-lora)
 - [PEFT](#13-peft)
-- [MOE](#14-moe)
+- [FLOP](#15pre-flop)
+- [MOE](#15-moe)
     - [What is Mixture of Experts(MOE)](#what-is-mixture-of-experts-moe)
     - [Core Idea of MOE](#core-idea-of-moe)
     - [How MOE Works](#how-moe-works)
 - [Adapter Tuning](#16-adapter-tuning)
 - [Hallucination](#17-hallucinations)
-    - [Definition](#definition)
-    - [3 Main Types of Hallucinations](#three-main-types-of-hallucinations)
-    - [How are LLM Hallucinations Detected](#how-are-llm-hallucinations-detected)
-    - [Strategies to Reduce LLM Hallucinations](#strategies-to-reduce-llm-hallucinations)
 - [Knowledge Distillation](#18-knowledge-distillation)
 - [Model Uncertainty](#19-model-uncertainty)
 - [Prompt Engineering](#20-prompt-engineering)
@@ -61,9 +60,16 @@
     - [Qualitative Evaluation](#qualitative-evaluation)
 - [Setup](#setup)
 
-
-## 1. Basic Concepts
-### 1.1 Token
+## 1. What is LLM
+- **Definition of LLM**
+    - A Large Language Model is a **deep neural network**, typically based on the Transformer architecture, trained on billions or trillions of words from books, websites, code, and other sources to predict the next word (token) in a sequence.
+    - Built on the **Transformer architecture**, LLMs are trained on massive text datasets to learn patterns in grammar, semantics, logic, and world knowledge.
+    - It is **“large”** because:
+        - It has **billions of parameters** (learned weights),
+        - It is trained on **massive datasets**, and
+        - It requires **high computational power** to train.
+## 2. Basic Concepts
+### 2.1 Token
 - **Definition**: A token is the smallest unit of text the model processes — usually a word, subword, or symbol.
 - **For Example**:
     - “I love cats” → `[I] [love] [cats]` (word-level tokenization)
@@ -71,14 +77,14 @@
 - **Why it matters**:
     - The model’s input and output lengths are measured in tokens, not characters or words.
     - LLM pricing, context length, and speed all depend on token count.
-### 1.2 Parameters
+### 2.2 Parameters
 - **Definition**: The parameters are the weights inside the neural network that the model learns during training.
 They define how the model transforms input tokens into contextual representations.
 - **Example**:
     - GPT-3 → 175 billion parameters
     - BERT → 340 million parameters
     - More parameters → greater capacity to model complex relationships.
-### 1.3 Embeddings
+### 2.3 Embeddings
 - **Definition**: 
     - **Embeddings** are high-dimensional vector representations of words, sentences, or documents that capture **semantic meaning**.
     - Words with similar meanings (e.g., “happy” and “joyful”) are close together in embedding space.
@@ -185,49 +191,9 @@ They define how the model transforms input tokens into contextual representation
 ### 3.2 Autoregressive Language Modeling (AR)
 - **Used in models like**: GPT, GPT-2, GPT-3, GPT-4
 
-## 4. Fine-Tuning
-### 4.1 What Is Fine-Tuning?
-- **Fine-tuning** is the process of taking a **pre-trained** language model (like GPT, BERT, or T5) and training it further on a **smaller**, **domain-specific** dataset to make it perform better on a **specific task or language style**.
-- A pre-trained model has already learned:
-    - grammar, syntax, and general world knowledge
-    - context relationships between words and phrases
-    - reasoning patterns and text structure
-- However, it doesn’t yet “know” how to handle **specialized tasks**, like:
-    - classifying sentiment (e.g., positive/negative reviews),
-    - generating medical summaries,
-    - extracting entities from legal documents,
-    - or answering customer queries in a specific tone.
-- Fine-tuning adapts this general knowledge to **task-specific objectives**.
 
-### 🧠 4.2 Why Fine-Tuning Works
-- When a model like DistilBERT is pre-trained:
-    - It learns general knowledge of language patterns.
-    - But it doesn’t know how to perform **task-specific** jobs like classifying IMDb reviews as positive or negative.
 
-### ⚙️ 4.3 Types of Fine-Tuning
-- **Full Fine-Tuning**
-    - The **entire model’s parameters** are updated on the new dataset.
-    - Pros:
-        - Maximum flexibility and task adaptation.
-    - Cons:
-        - Requires large compute resources (GPUs/TPUs).
-        - Risk of **catastrophic forgetting** (losing general knowledge).
-
-- **Parameter-Efficient Fine-Tuning (PEFT)**
-### 🔍 4.4 Fine-Tuning Workflow
-1. **Start from a pre-trained base model (e.g., `bert-base-uncased`, `gpt-3.5-turbo`).**
-2. **Prepare your dataset:**
-- Input–output pairs, labeled text, or conversation data.
-- Split into train/validation sets.
-3. Choose the fine-tuning method:
-- Full fine-tuning, PEFT, or instruction tuning.
-4. **Train the model:**
-- Define hyperparameters (learning rate, epochs, batch size).
-- Use frameworks like Hugging Face Transformers or OpenAI Fine-tuning API.
-5. Evaluate:
-- Metrics: accuracy, F1 score, BLEU, or perplexity (depending on the task).
-
-## 5. **How do you measure the performance of an LLM?**
+## 4. How do you measure the performance of an LLM?
 ### 5.1 🔢 Perplexity
 - **definition**:
 Perplexity is a measurement of how well a language model predicts a sequence. It is the exponential of the average negative log-likelihood of the predicted tokens.
@@ -238,6 +204,7 @@ Perplexity = *e*^Loss
     **High perplexity** → Model is "surprised" by the actual tokens.
 - **Use Case**:
     - Commonly used for **language modeling** and **text generation** tasks.
+
 ### 5.2 🧮 Accuracy
 - **definition**:
 Accuracy is the ratio of **correct predictions to total predictions**. It is commonly used in classification tasks (e.g., sentiment analysis, text classification).
@@ -264,9 +231,32 @@ F1=(2*Precision*Recall)/(Precision+Recall)
     1. Split sentences into n-grams (e.g., unigrams, bigrams, trigrams).
     2. Count overlapping n-grams between generated and reference text.
     3. Apply a **brevity penalty** to prevent favoring overly short outputs.
+
 ### 5.5 ROUGE (Recall-Oriented Understudy for Gisting Evaluation)
 - **Definition**
     - ROUGE measures the overlap between **generated text** and **reference text**.
+    - It’s primarily used for **summarization** and **text generation** tasks.
+- **Variants**:
+    - **ROUGE-N**: n-gram overlap (e.g., ROUGE-1 = unigram, ROUGE-2 = bigram).
+    - **ROUGE-L**: Longest Common Subsequence (LCS)-based overlap.
+    - **ROUGE-S**: Skip-bigram co-occurrence.
+- **Formula (simplified)**:
+    - ROUGE-N=Overlapping N-grams​/Total N-grams in Reference
+- **Interpretation**
+    - High **ROUGE recall** = generated text covers key reference content.
+    - High **ROUGE precision** = concise and relevant summary.
+- **Use Case**:
+    - Evaluates **automatic summarization**, **headline generation**, and **answer synthesis**.
+
+### Summary Table
+
+| **Metric**     | **Purpose**                            | **Best For**            | Desired Value |
+| -------------- | -------------------------------------- | ----------------------- | ------------- |
+| **Perplexity** | Predictive uncertainty                 | Language modeling       | Lower         |
+| **Accuracy**   | Overall correctness                    | Classification          | Higher        |
+| **F1 Score**   | Balance between precision & recall     | NER, sentiment, QA      | Higher        |
+| **BLEU**       | Quality of generated vs reference text | Translation, generation | Higher        |
+| **ROUGE**      | Overlap with human summaries           | Summarization           | Higher        |
 
 ## 6. Techniques for Controlling the Output of an LLM
 These methods let developers influence how a model responds, balancing between randomness, relevance, creativity, and determinism.
@@ -372,7 +362,26 @@ Top-P sampling chooses from the smallest set of tokens whose cumulative probabil
 - In a neural network, every connection between two neurons has an associated **weight value**.
 #### Biases
 - Biases are **constant values added to the output of a neuron** before applying the activation function.
-
+#### Hyperparameters
+- **Definition**
+    - Hyperparameters are **external configurations** set by developers **before training**.
+#### **Categories of Hyperparameters**
+- **Architecture Hyperparameters**
+    - Number of layers (`num_layers`)
+    - Hidden dimension size (`hidden_size`)
+    - Number of attention heads (`num_heads`)
+        - Feedforward dimension (`ffn_dim`)
+- **Training Hyperparameters**
+    - **Learning rate** → step size for weight updates
+    - **Batch size** → number of samples per gradient update
+    - **Dropout rate** → fraction of neurons deactivated to prevent overfitting
+    - **Optimizer type** → e.g., AdamW, Adafactor
+- **Inference Hyperparameters**:
+    - **Temperature** → controls randomness (higher = more creative)
+    - **Top-p (nucleus) sampling** → restricts output to top probability mass
+    - **Top-k** → restricts output to k most probable tokens
+- **Memory and Compute Hyperparameters**
+    - **Context window size** → max number of tokens model can “remember”
 ## 8. How can you incorporate external knowledge into an LLM?
 - LLMs (Large Language Models) are trained on vast corpora of text, but their knowledge is static — limited to what they saw during training.
 - To make them useful in **real-world**, **dynamic**, or **domain-specific applications**, we can inject external knowledge in several ways:
@@ -617,6 +626,31 @@ Top-P sampling chooses from the smallest set of tokens whose cumulative probabil
     - **Easier customization**:
         - You can directly modify graph construction, embedding logic, or query routing without heavy dependencies.
 
+### Fast-GraphRAG
+- **Github**: [circlemind-ai/fast-graphrag](https://github.com/circlemind-ai/fast-graphrag)
+- **Overview**
+    - Fast-GraphRAG is an **optimized**, minimal version of GraphRAG focused on **speed** and **efficiency**.
+    - It reduces computational and memory overhead to about **1/6 the cost** of Microsoft GraphRAG.
+- **Key Features**
+    - **Efficient graph construction**:
+        - Uses batch-based or streaming indexing to build graphs much faster.
+    - **Dynamic retrieval optimization**:
+        - Automatically balances between graph reasoning and traditional vector retrieval — avoiding unnecessary graph traversals.
+    - **Lightweight inference path**:
+        - Smaller context windows, optimized embeddings, and reduced redundancy in retrieved documents.
+    - **Fast startup time**:
+        - Ideal for web apps, chatbots, or real-time inference scenarios.
+
+### Summary Comparison
+| **Feature**       | **Microsoft GraphRAG**                 | LightRAG                        | Fast-GraphRAG                |
+| ----------------- | -------------------------------------- | ------------------------------- | ---------------------------- |
+| **Focus**         | Enterprise-grade + Knowledge reasoning | Lightweight RAG + Simple graphs | High-speed, low-cost RAG     |
+| **Complexity**    | High                                   | Medium                          | Low                          |
+| **Performance**   | Most accurate                          | Balanced                        | Fastest                      |
+| **Hardware Need** | High (Azure / GPU)                     | Low–Medium                      | Very Low                     |
+| **Cost**          | $$$                                    | $$                              | $                            |
+| **Best For**      | Enterprises                            | Individual users                | Real-time or low-budget apps |
+
 ## 11. How can bias in prompt-based learning be mitigated?
 ### 1. Prompt Calibration
 - This involves carefully designing and testing prompts so that the LLM produces balanced, unbiased responses.
@@ -634,7 +668,48 @@ Top-P sampling chooses from the smallest set of tokens whose cumulative probabil
 - For example:
     - If 70% of your data says “doctor → he,” generate more examples with “doctor → she.”
     - Use paraphrasing or back-translation to diversify data linguistically.
+## 11. Semantic Gap in RAG
+## 12. Fine-Tuning
+### What Is Fine-Tuning?
+- **Fine-tuning** is the process of taking a **pre-trained** language model (like GPT, BERT, or T5) and training it further on a **smaller**, **domain-specific** dataset to make it perform better on a **specific task or language style**.
+- A pre-trained model has already learned:
+    - grammar, syntax, and general world knowledge
+    - context relationships between words and phrases
+    - reasoning patterns and text structure
+- However, it doesn’t yet “know” how to handle **specialized tasks**, like:
+    - classifying sentiment (e.g., positive/negative reviews),
+    - generating medical summaries,
+    - extracting entities from legal documents,
+    - or answering customer queries in a specific tone.
+- Fine-tuning adapts this general knowledge to **task-specific objectives**.
 
+### Why Fine-Tuning Works
+- When a model like DistilBERT is pre-trained:
+    - It learns general knowledge of language patterns.
+    - But it doesn’t know how to perform **task-specific** jobs like classifying IMDb reviews as positive or negative.
+
+### Types of Fine-Tuning
+- **Full Fine-Tuning**
+    - The **entire model’s parameters** are updated on the new dataset.
+    - Pros:
+        - Maximum flexibility and task adaptation.
+    - Cons:
+        - Requires large compute resources (GPUs/TPUs).
+        - Risk of **catastrophic forgetting** (losing general knowledge).
+
+- **Parameter-Efficient Fine-Tuning (PEFT)**
+### Fine-Tuning Workflow
+1. **Start from a pre-trained base model (e.g., `bert-base-uncased`, `gpt-3.5-turbo`).**
+2. **Prepare your dataset:**
+- Input–output pairs, labeled text, or conversation data.
+- Split into train/validation sets.
+3. Choose the fine-tuning method:
+- Full fine-tuning, PEFT, or instruction tuning.
+4. **Train the model:**
+- Define hyperparameters (learning rate, epochs, batch size).
+- Use frameworks like Hugging Face Transformers or OpenAI Fine-tuning API.
+5. Evaluate:
+- Metrics: accuracy, F1 score, BLEU, or perplexity (depending on the task).
 ## 12. catastrophic forgetting
 ### Definition:
 - Catastrophic forgetting (or catastrophic interference) is the phenomenon where a neural network **forgets previously learned tasks** after being fine-tuned on new data.
@@ -798,7 +873,7 @@ Extremely small parameter count.
 | Translation             | ❌ No                  | Pure sequence-to-sequence task |
 | Sentiment analysis      | ❌ No                  | Only depends on input text     |
 
-## 14Pre. FLOP
+## 15Pre. FLOP
 ### What “FLOP” Means
 - FLOP stands for Floating-Point Operation — a single arithmetic computation (like addition or multiplication).
 - When we talk about “FLOPs” in deep learning, we usually mean the **total number of floating-point operations needed** to run a model (per token, per batch, or per forward pass).
@@ -819,7 +894,7 @@ Extremely small parameter count.
 | Reasoning           | ↑ **Success rate**, **Win rate**, etc. |
 
 ### 
-## 14. MoE
+## 15. MoE
 ### What is Mixture of Experts (MoE)?
 - **Mixture of Experts (MoE)** is a machine learning technique that divides a large neural network into multiple sub-networks (experts).
 - Each expert specializes in a **subset of the input space** or **type of task**, and a **gating network** dynamically decides **which experts to activate** for a given input.
@@ -926,136 +1001,9 @@ Input → Attention → MoE Layer (Experts + Gating) → Output
     - The **first sub-layer (down-project)** takes the output of the Transformer block as input.
     - It projects the original high-dimensional feature (dimension 𝑑) **down to a smaller dimension** 𝑚(low-dimensional space),
 
-## 17. Hallucinations
-### Definition
-- An AI hallucination refers to an output generated by an AI model that **deviates from reality or lacks a factual basis**.
-### Three main types of hallucinations
-1. **Fact-Conflicting Hallucination**
-- **Defintion**:
-    - A fact-conflicting hallucination happens when the model generates information that directly contradicts known facts or truth.
-    - In other words, the model produces content that sounds plausible but is actually false or inaccurate.
-- **Example**:
-    - If you ask an AI, “Who discovered gravity?” and it replies, “Albert Einstein discovered gravity,” that’s a fact-conflicting hallucination — because gravity was discovered by Isaac Newton.
-- **Why It Happens:**
-    - The model’s training data might contain **incorrect** or **conflicting information**.
-    - The model may **generalize** or **infer** wrongly when trying to fill in gaps.
-    - Errors can occur during **any stage of the LLM’s lifecycle** — including pre-training, fine-tuning, or inference (response generation).
 
-2. **Input-Conflicting Hallucination**
-- **Definition**:
-    - This type occurs when the model’s output doesn’t align with the **user’s instructions** or input.
-    - It’s a **failure to properly interpret** or follow the user’s intended task.
-- **Example**:
-    - If you ask the model to summarize an article about climate change, but it generates a summary about renewable energy policies not present in the article, it’s an input-conflicting hallucination.
-    
-3. **Context-Conflicting Hallucination**
-- **Definition**:
-    - A context-conflicting hallucination happens when an AI model’s output **contradicts itself or loses consistency** within a longer conversation or passage.
-- **Detailed Explanation:**
-    - These hallucinations occur when the LLM:
-        - **Forgets earlier context** in a conversation.
-        - **Contradicts something** it said previously.
-        - Produces **incoherent or self-conflicting** answers.
-    - This is common in **multi-turn dialogues** or long-form text generation, where maintaining coherence over many exchanges is difficult.
-    
-### Why do LLMs hallucinate?
-1. **Example: Google Bard’s Hallucination Case**
-- In 2023, Google’s LLM chatbot **Bard** gave an incorrect answer during a public demo.
-- **Lesson**:This example shows that even advanced AI systems can confidently produce wrong information — a textbook case of AI hallucination.
-2. **Core Reason: Nature of LLM Training**
-- LLMs don’t “understand” the world or facts like humans do — they are statistical models that learn patterns in massive text data.
-    - They predict **the next word** in a sequence based on probabilities learned from data.
-    - They do **not have true comprehension, awareness, or factual grounding**.
-    - If the data they were trained on contained **errors**, **biases**, or **outdated info**, they can reproduce or even amplify those issues.
-3. **Fluency vs. Factual Accuracy**
-- LLMs are optimized to sound **fluent**, **coherent**, and **natural**, not necessarily to be correct.
-- That means they may:
-    - Write sentences that sound **confident and grammatically perfect**,
-    - But the content itself could be **completely false or made up**.
-- This happens especially when:
-    - The prompt is **ambiguous** (unclear question or missing context),
-    - 
-### How Are LLM Hallucinations Detected?
-- Detecting hallucinations means checking whether the model’s output is trustworthy, factual, and consistent.
-1. **Cross-Referencing with Trusted Sources**
-- This method involves comparing the model’s generated text against reliable external databases or factual sources.
-    - The goal is to see if the model’s claims can be **verified**.
-    - Trusted sources include:
-        - **Structured factual databases** (like Wikidata or DBpedia),
-        - **Reputable news sites** (for recent events),
-        - **Peer-reviewed journals** (for scientific facts).
-2. **Out-of-Distribution (OOD) Detection**
-- This approach detects hallucinations by checking when the model is **less confident** or when an input is **unfamiliar** (outside the type of data the model was trained on).
-3. **Combining Both Approaches**
-- Modern hallucination detection often combines:
-    - **Automated factual validation** (checking against databases or APIs),
-    - **OOD uncertainty estimation**, and
-    - **Human evaluation**, especially for nuanced or context-based answers.
 
-### Strategies to reduce LLM hallucinations
-1. **Advanced Prompting Methods** 
-- **Definition**:
-    - Advanced prompting refers to designing smarter, structured prompts that help guide the LLM’s reasoning and constrain its responses to be factual and logical.
-    - It improves the model’s understanding of the task and encourages step-by-step reasoning instead of random guessing.
-- **a. Chain-of-Thought Prompting (CoT)**
-    - This technique instructs the model to break down its reasoning into logical steps before giving the final answer.
-        - It helps the model reason more transparently, which reduces errors caused by skipping steps or jumping to conclusions.
-        - Especially useful in complex reasoning, math, or explanation tasks.
-    - **Example:**
-        - Instead of asking:
-
-- **b. Few-Shot Prompting**
-    - Few-shot prompting involves showing the model **a few examples** of how you want it to respond **within the prompt**.
-    - These examples guide the model toward the correct style, tone, and factual precision.
-        - This narrows down the model’s possible outputs.
-        - The model learns “what a correct answer looks like” and imitates that style.
-        
-2. **Retrieval-Augmented Generation (RAG)**
-- **Definition**:
-    - **RAG** combines **information retrieval** (from external sources) with **text generation** to ensure that the AI’s answers are grounded in real, verifiable facts.
-        - It retrieves relevant documents or data from knowledge bases (like Wikipedia, PDFs, or internal databases).
-        - The retrieved information is then inserted into the prompt, giving the LLM verified context before it generates the response.
-- **How It Helps**:
-    - Prevents the LLM from making up facts.
-    - Keeps responses **contextually accurate** and up to date.
-    - Reduces the chance of the model generating plausible but incorrect content.
-- **RAG Benchmarks and Tools**
-    - Even though RAG reduces hallucination, LLMs can still sometimes contradict retrieved data.
-    - To fix this, researchers use **evaluation benchmarks** to measure how well RAG prevents hallucinations:
-        - **RGB (Retrieval-Augmented Generation Benchmark)**:
-            - A dataset used for testing RAG systems in English and Chinese.
-- **Step by Step of How RAG (Retrieval-Augmented Generation) helps Reduce or Eliminate Hallucinations**
-    - **Step1: Generate Response**
-        - The **LLM first generates a draft answer** based on the user’s query.
-        - This response may include product **names**, **facts**, or **entities** mentioned by the model.
-        - At this stage, hallucinations might exist — the model could invent product names that **don’t actually exist** in the database.
-    - **Step 2: Extract Product Names from the Response**
-        - The system then **extracts all entities or product names** from the generated response using **Named Entity Recognition (NER)** or similar techniques.
-        - his transforms the free-form text into **structured data**, e.g., a list of product names.
-        - **Example Output**:
-            ```text
-            ["MacBook Air 15", "MacBook Pro X Ultra 2023"]
-            ```
-            
-3. **Few-Shot and Zero-Shot Learning**
-- **Few-Shot Learning**
-    - The model is given **a few examples** before performing a task.
-    - These examples help the model infer **patterns**, **tone**, and **factual context**.
-    - It minimizes errors that arise when the model misunderstands the desired output or context.
-- **Zero-Shot Learning**
-    - The model receives **no examples**, but relies on its general language knowledge.
-    - This is useful when examples aren’t available or for new types of tasks.
-    - Despite not being explicitly trained, zero-shot learning still allows LLMs to reason based on prior linguistic patterns — helping them avoid unsupported assumptions.
-
-4. **Fine-Tuning LLMs**
-- **Definition**:
-    - Fine-tuning means **retraining an existing LLM** on a **smaller**, **domain-specific** dataset that contains verified, factual, and updated information.
-    - This process aligns the model’s outputs with a specific **domain**, **task**, or **knowledge base**, improving accuracy and reducing outdated or incorrect claims.
-- **How Fine-Tuning Reduces Hallucination:**
-    - It corrects or updates the model’s internal knowledge.
-    - It reinforces factual grounding and discourages speculative answers.
-    - It helps the model learn contextual nuances (e.g., medical, legal, or scientific language).
-
+## [17. Hallucinations](./Hallucinations/Readme.md)
 ## [18. Knowledge Distillation](./KnowledgeDistillation/Readme.md)
 ## 19. Model Uncertainty
 ### 1. What Is Uncertainty Quantification?

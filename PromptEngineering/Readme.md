@@ -1,6 +1,5 @@
 # Prompt Engineering
 ## Table of Contennts
-
 - [What is Prompt Engineering](#what-is-prompt-engineering)
 - [Why is Prompt Engineering Important](#why-is-prompt-engineering-important)
 - [What Skills Does a Prompt Engineer Need](#what-skills-does-a-prompt-engineer-need)
@@ -13,6 +12,10 @@
     - [Calibrate and Fine tune](#3-calibrate-and-fine-tune)
     - [Summary: the Lifecycle of Prompt Engineering](#summary-the-lifecycle-of-prompt-engineering)
 - [Prompt Engineering Responsibilities](#prompt-engineer-responsibilities)
+    - [Craft Effective Prompts](#craft-effective-prompts)
+    - [Test AI Behavior](#test-ai-behavior)
+    - [Refine and Optimize Prompts](#refine-and-optimize-prompts)
+    
 ## What is Prompt Engineering
 - **Prompt engineering** is the process of **designing, refining, and optimizing prompts** — the input instructions given to a large language model (LLM) — to guide it toward producing accurate, relevant, and high-quality outputs for a specific task.
 - Generative AI models are trained to generate outputs based on patterns in language, so well-structured prompts help them:
@@ -230,22 +233,23 @@
 | **3. Calibrate and Fine-Tune**   | Model-level optimization         | Enhance model consistency and domain fit |
 
 ### Prompt Engineer Responsibilities
-- **Craft Effective Prompts**
-    - Develop precise and contextually appropriate prompts to elicit the desired responses from AI models.
-    - This is the **primary role** of a prompt engineer — designing inputs (prompts) that guide an AI model to generate useful and accurate outputs.
-        - The goal is to **translate human intent into clear, structured instructions** the AI can understand.
-        - Effective prompts consider **context**, **tone**, **format**, and constraints (e.g., length limits or reasoning style).
-        - A prompt engineer tests various phrasing patterns (“Explain simply” vs “Summarize concisely”) to find what works best for a given model.
-    - **Example:**
-        - A vague prompt: “Tell me about AI.”
-        - An effective prompt: “Explain artificial intelligence in 3 bullet points, focusing on its applications in healthcare.”
-- **Test AI Behavior**
+#### **Craft Effective Prompts**
+- Develop precise and contextually appropriate prompts to elicit the desired responses from AI models.
+- This is the **primary role** of a prompt engineer — designing inputs (prompts) that guide an AI model to generate useful and accurate outputs.
+    - The goal is to **translate human intent into clear, structured instructions** the AI can understand.
+    - Effective prompts consider **context**, **tone**, **format**, and constraints (e.g., length limits or reasoning style).
+    - A prompt engineer tests various phrasing patterns (“Explain simply” vs “Summarize concisely”) to find what works best for a given model.
+- **Example:**
+    - A vague prompt: “Tell me about AI.”
+    - An effective prompt: “Explain artificial intelligence in 3 bullet points, focusing on its applications in healthcare.”
+
+#### Test AI Behavior
     - Analyze how models respond to different prompts, identifying patterns, biases, or inconsistencies in the generated outputs.
     - This involves **systematic experimentation**:
         - Testing how the AI reacts to changes in tone, context, or detail.
         - Detecting **biases** (e.g., gender, race, or cultural bias).
         - Observing when the model produces **inconsistent** or **incorrect** results.
-- **Refine and Optimize Prompts**
+#### **Refine and Optimize Prompts**
     - Continuously improve prompts through iterative testing to enhance the accuracy and reliability of model responses.
     - Prompt engineering is an **iterative process** — similar to debugging code.
         - Refine wording and structure to remove ambiguity.
