@@ -69,38 +69,39 @@
 
 ## 1. What is LLM
 ### Definition of LLM
-    - A Large Language Model is a **deep neural network**, typically based on the Transformer architecture, trained on billions or trillions of words from books, websites, code, and other sources to predict the next word (token) in a sequence.
-    - Built on the **Transformer architecture**, LLMs are trained on massive text datasets to learn patterns in grammar, semantics, logic, and world knowledge.
-    - It is **“large”** because:
-        - It has **billions of parameters** (learned weights),
-        - It is trained on **massive datasets**, and
-        - It requires **high computational power** to train.
+- A Large Language Model is a **deep neural network**, typically based on the Transformer architecture, trained on billions or trillions of words from books, websites, code, and other sources to predict the next word (token) in a sequence.
+- Built on the **Transformer architecture**, LLMs are trained on massive text datasets to learn patterns in grammar, semantics, logic, and world knowledge.
+- It is **“large”** because:
+    - It has **billions of parameters** (learned weights),
+    - It is trained on **massive datasets**, and
+    - It requires **high computational power** to train.
 ### Key Components of LLM
 1. **Model Architecture (Transformer)**
-    - The **Transformer** is the foundation of all modern LLMs.
-    - It consists of repeating layers of:
-        - **Self-Attention Mechanism** – lets the model focus on relevant words in context.
-        - **Feedforward Neural Network** – processes and transforms embeddings.
-        - **Normalization & Residual Connections** – stabilize training and preserve gradients.
+- The **Transformer** is the foundation of all modern LLMs.
+- It consists of repeating layers of:
+    - **Self-Attention Mechanism** – lets the model focus on relevant words in context.
+    - **Feedforward Neural Network** – processes and transforms embeddings.
+    - **Normalization & Residual Connections** – stabilize training and preserve gradients.
 2. **Tokenization Layer**
-    - Before text enters the model, it’s converted into tokens:
-        - Uses **Byte Pair Encoding (BPE)** or **SentencePiece**.
-        - Converts words/subwords into **numerical IDs**.
-        - Enables models to process arbitrary text efficiently.
+- Before text enters the model, it’s converted into tokens:
+    - Uses **Byte Pair Encoding (BPE)** or **SentencePiece**.
+    - Converts words/subwords into **numerical IDs**.
+    - Enables models to process arbitrary text efficiently.
 3. **Embedding Layer**
-    - Transforms token IDs into **dense vectors** (numerical representations).
-    - These embeddings encode:
-        - **Semantic meaning** of words.
-        - **Positional information** (so the model knows word order).
+- Transforms token IDs into **dense vectors** (numerical representations).
+- These embeddings encode:
+    - **Semantic meaning** of words.
+    - **Positional information** (so the model knows word order).
 4. **Positional Encoding**
-    - Since Transformers don’t inherently know sequence order, **positional encodings** add this information.
-        - Each token’s embedding is adjusted based on its position in the sentence.
-        - Can be **sinusoidal** (static) or **learned** (trainable).
+- Since Transformers don’t inherently know sequence order, **positional encodings** add this information.
+    - Each token’s embedding is adjusted based on its position in the sentence.
+    - Can be **sinusoidal** (static) or **learned** (trainable).
 5. **Training Objectives**
-    - LLMs learn via pre-training on massive text corpora:
-        - **Autoregressive (AR)** — predict the next token (used in GPT).
-        - **Masked Language Modeling (MLM)** — predict masked tokens (used in BERT).
-        - **Sequence-to-sequence** — predict target sequence from input (used in T5).
+- LLMs learn via pre-training on massive text corpora:
+    - **Autoregressive (AR)** — predict the next token (used in GPT).
+    - **Masked Language Modeling (MLM)** — predict masked tokens (used in BERT).
+    - **Sequence-to-sequence** — predict target sequence from input (used in T5).
+    
 ## 2. Basic Concepts
 ### 2.1 Token
 - **Definition**: A token is the smallest unit of text the model processes — usually a word, subword, or symbol.
@@ -1262,6 +1263,28 @@ Answer: 12
     - **Reason** (analyze, infer, plan)
     - **Act** (take steps using external tools)
     - **Observe** (reflect on the results and adjust behavior)
+### Workflow of React Agent
+![React Agent Workflow](images/react_agent_loop.png)
+#### 1. Query
+- **Definition**: The user’s input or question, such as:
+    - “What’s the latest stock price of Apple?”
+- This query is sent to the **Agent**, which will plan how to solve it.
+- The Agent doesn’t answer directly; instead, it **thinks** about what to do next.
+#### 2. Thought (Reasoning Phase)
+- The Agent uses the LLM’s **Chain-of-Thought (CoT)** ability to reason about the problem.
+- Example reasoning:
+    - “To answer this, I should fetch current stock data using a finance API.”
+- This reasoning is an **internal process** — it’s not shown to the user but is crucial for determining which **tool** or action to use next.
+#### 3. Tool (Action Phase)
+- The Agent executes an **action** based on its reasoning.
+- Common examples of tools:
+    - API calls (e.g., weather, finance)
+    - Database queries
+    - Web searches
+    - Calculators or Python code execution
+#### The Loops Explained
+- **“Not ok” Loop — The ReAct Feedback Loop**
+    - If the Agent detects that the **output is incomplete**, uncertain, or inconsistent, it loops back to “Thought”.
 ## Setup
 1. Clone the Repository
 ```sh
