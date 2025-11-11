@@ -67,21 +67,39 @@
 - [Setup](#setup)
 
 ## 1. What is LLM
-- **Definition of LLM**
+### Definition of LLM
     - A Large Language Model is a **deep neural network**, typically based on the Transformer architecture, trained on billions or trillions of words from books, websites, code, and other sources to predict the next word (token) in a sequence.
     - Built on the **Transformer architecture**, LLMs are trained on massive text datasets to learn patterns in grammar, semantics, logic, and world knowledge.
     - It is **“large”** because:
         - It has **billions of parameters** (learned weights),
         - It is trained on **massive datasets**, and
         - It requires **high computational power** to train.
-- **Key Components of LLM**
-    - **Model Architecture (Transformer)**
-        - The **Transformer** is the foundation of all modern LLMs.
-        - It consists of repeating layers of:
-            - **Self-Attention Mechanism** – lets the model focus on relevant words in context.
-            - **Feedforward Neural Network** – processes and transforms embeddings.
-            - **Normalization & Residual Connections** – stabilize training and preserve gradients.
-        - 
+### Key Components of LLM
+1. **Model Architecture (Transformer)**
+    - The **Transformer** is the foundation of all modern LLMs.
+    - It consists of repeating layers of:
+        - **Self-Attention Mechanism** – lets the model focus on relevant words in context.
+        - **Feedforward Neural Network** – processes and transforms embeddings.
+        - **Normalization & Residual Connections** – stabilize training and preserve gradients.
+2. **Tokenization Layer**
+    - Before text enters the model, it’s converted into tokens:
+        - Uses **Byte Pair Encoding (BPE)** or **SentencePiece**.
+        - Converts words/subwords into **numerical IDs**.
+        - Enables models to process arbitrary text efficiently.
+3. **Embedding Layer**
+    - Transforms token IDs into **dense vectors** (numerical representations).
+    - These embeddings encode:
+        - **Semantic meaning** of words.
+        - **Positional information** (so the model knows word order).
+4. **Positional Encoding**
+    - Since Transformers don’t inherently know sequence order, **positional encodings** add this information.
+        - Each token’s embedding is adjusted based on its position in the sentence.
+        - Can be **sinusoidal** (static) or **learned** (trainable).
+5. **Training Objectives**
+    - LLMs learn via pre-training on massive text corpora:
+        - **Autoregressive (AR)** — predict the next token (used in GPT).
+        - **Masked Language Modeling (MLM)** — predict masked tokens (used in BERT).
+        - **Sequence-to-sequence** — predict target sequence from input (used in T5).
 ## 2. Basic Concepts
 ### 2.1 Token
 - **Definition**: A token is the smallest unit of text the model processes — usually a word, subword, or symbol.
@@ -370,6 +388,15 @@ Top-P sampling chooses from the smallest set of tokens whose cumulative probabil
 | **Storage**        | Inside model checkpoint                      | In config or training script                  |
 | **Effect**         | Determines model knowledge                   | Determines training behavior and output style |
 
+### Dataset Collection
+- **dataset** — this is the source of knowledge the model learns from.
+- The dataset provides examples (e.g., text, code, conversations).
+- The **training algorithm** uses those examples to **adjust parameters**.
+- The **hyperparameters** guide how that learning happens — for instance:
+    - A **high learning rate** → model learns faster but may become unstable.
+    - A **low learning rate** → more stable but slower learning.
+    - A **larger batch size** → smoother gradients but more memory usage.
+
 ### Three major types of parameters in Large Language Models
 #### Weights
 - Weights are **trainable parameters** that determine the **strength or importance of each input** when generating outputs.
@@ -379,23 +406,29 @@ Top-P sampling chooses from the smallest set of tokens whose cumulative probabil
 #### Hyperparameters
 - **Definition**
     - Hyperparameters are **external configurations** set by developers **before training**.
-#### **Categories of Hyperparameters**
+#### Categories of Hyperparameters
 - **Architecture Hyperparameters**
     - Number of layers (`num_layers`)
     - Hidden dimension size (`hidden_size`)
     - Number of attention heads (`num_heads`)
-        - Feedforward dimension (`ffn_dim`)
-- **Training Hyperparameters**
+    - Feedforward dimension (`ffn_dim`)
+
+- **Training Hyperparameters**: Affect how learning progresses
     - **Learning rate** → step size for weight updates
     - **Batch size** → number of samples per gradient update
     - **Dropout rate** → fraction of neurons deactivated to prevent overfitting
     - **Optimizer type** → e.g., AdamW, Adafactor
-- **Inference Hyperparameters**:
+- **Inference Hyperparameters**:Affect how the model generates text
     - **Temperature** → controls randomness (higher = more creative)
     - **Top-p (nucleus) sampling** → restricts output to top probability mass
     - **Top-k** → restricts output to k most probable tokens
 - **Memory and Compute Hyperparameters**
     - **Context window size** → max number of tokens model can “remember”
+    - **Precision type (fp16/fp32)** → affects computation speed and accuracy
+    - **Gradient accumulation steps** → balance between memory use and batch size
+- **Output Quality Hyperparameters**: Used to fine-tune generation style
+    - **Repetition penalty** → prevents the model from looping phrases
+
 ## 7. How can you incorporate external knowledge into an LLM?
 - LLMs (Large Language Models) are trained on vast corpora of text, but their knowledge is static — limited to what they saw during training.
 - To make them useful in **real-world**, **dynamic**, or **domain-specific applications**, we can inject external knowledge in several ways:
@@ -665,6 +698,37 @@ Top-P sampling chooses from the smallest set of tokens whose cumulative probabil
 | **Cost**          | $$$                                    | $$                              | $                            |
 | **Best For**      | Enterprises                            | Individual users                | Real-time or low-budget apps |
 ## 10. Semantic Gap in RAG
+### **What Is the Semantic Gap?**:
+- The **Semantic Gap** refers to the **discrepancy between how humans express meaning (natural language) and how machines interpret or represent that meaning** (numerical embeddings, keywords, or features).
+- Formally: The semantic gap is the difference between the intended meaning of a query (human language semantics) and the retrieved meaning based on how data is represented in the system (machine-level semantics).
+### Example
+- Let’s say the user asks:
+    - “How can I make my website load faster?”
+- If the knowledge base stores documents like:
+    - “Ways to reduce server response time”
+    - “Improving page performance using caching”
+- A **semantic gap** may arise if the retriever fails to recognize that “load faster” ≈ “improving performance” ≈ “reducing response time.”
+- Even though the human understands these are semantically related, the system might **miss them due to representational differences** in how embeddings or keywords are calculated.
+### Where Semantic Gap Occurs
+
+| **Stage**                                      | **Description**                                                               | Example Issue                                                    |
+| ---------------------------------------------- | ----------------------------------------------------------------------------- | ---------------------------------------------------------------- |
+| **1. Query Understanding**                     | The model fails to fully capture user intent from a short or ambiguous query. | “AI safety” vs “AI security”                                     |
+| **2. Document Representation**                 | Embedding or indexing method doesn’t encode deep semantics.                   | Keyword-based search ignores synonyms.                           |
+| **3. Cross-modal or Multi-source Integration** | Combining text, images, or tables causes loss of meaning alignment.           | “Figure 2 shows results” — but figure is not linked to the text. |
+| **4. Domain/Context Drift**                    | Domain-specific terms not represented in general embeddings.                  | “LLM grounding” vs “retrieval conditioning.”                     |
+
+### Techniques to Reduce the Semantic Gap
+#### 1. Query Rewriting (LLM-based expansion)
+- Rewrite user queries into more explicit and domain-aligned forms.
+- Example:
+    - “How to start my AWS server?” → “How to launch an Amazon EC2 instance?”
+#### 2. Hybrid Retrieval (Keyword + Vector)
+- Combine **BM25 (lexical)** and **semantic embeddings** to catch both exact matches and similar meanings.
+#### 3. Cross-Encoder Re-ranking
+- Use a transformer (like **BERT Cross-Encoder** or **E5**) to re-score candidate documents for semantic similarity.
+#### 4. Domain-Adaptive Embeddings
+- 
 ## 11. How can bias in prompt-based learning be mitigated?
 ### 1. Prompt Calibration
 - This involves carefully designing and testing prompts so that the LLM produces balanced, unbiased responses.
