@@ -64,6 +64,7 @@
     - [Quantitative Metrics](#quantitative-metrics)
         - [Common Quantitative Metrics](#common-quantitative-metrics)
     - [Qualitative Evaluation](#qualitative-evaluation)
+- [React Agent](#23-react-agent)
 - [Setup](#setup)
 
 ## 1. What is LLM
@@ -256,13 +257,21 @@ F1 Score is the **harmonic mean** of Precision and Recall. It is especially usef
 F1=(2*Precision*Recall)/(Precision+Recall)
 
 ### 4.4 BLEU (Bilingual Evaluation Understudy) Score
-- **Definition**:
-    - BLEU measures how close the model-generated text is to one or more **reference translations**.
-    - It evaluates **machine translation** and **text generation** quality by comparing overlapping **n-grams** (word sequences).
-- **How it works**:
-    1. Split sentences into n-grams (e.g., unigrams, bigrams, trigrams).
-    2. Count overlapping n-grams between generated and reference text.
-    3. Apply a **brevity penalty** to prevent favoring overly short outputs.
+#### **Definition**:
+- BLEU measures how close the model-generated text is to one or more **reference translations**.
+- It evaluates **machine translation** and **text generation** quality by comparing overlapping **n-grams** (word sequences).
+
+#### **How it works**:
+1. Split sentences into n-grams (e.g., unigrams, bigrams, trigrams).
+2. Count overlapping n-grams between generated and reference text.
+3. Apply a **brevity penalty** to prevent favoring overly short outputs.
+
+#### **Interpretation**:
+- **BLEU = 1 (100%)** → Perfect match.
+- **Higher BLEU** = better translation fluency and adequacy.
+
+#### Use Case:
+- Commonly used in **machine translation**, **text summarization**, and **paraphrasing models**.
 
 ### 4.5 ROUGE (Recall-Oriented Understudy for Gisting Evaluation)
 - **Definition**
@@ -698,7 +707,7 @@ Top-P sampling chooses from the smallest set of tokens whose cumulative probabil
 | **Cost**          | $$$                                    | $$                              | $                            |
 | **Best For**      | Enterprises                            | Individual users                | Real-time or low-budget apps |
 ## 10. Semantic Gap in RAG
-### **What Is the Semantic Gap?**:
+### What Is the Semantic Gap?
 - The **Semantic Gap** refers to the **discrepancy between how humans express meaning (natural language) and how machines interpret or represent that meaning** (numerical embeddings, keywords, or features).
 - Formally: The semantic gap is the difference between the intended meaning of a query (human language semantics) and the retrieved meaning based on how data is represented in the system (machine-level semantics).
 ### Example
@@ -718,6 +727,15 @@ Top-P sampling chooses from the smallest set of tokens whose cumulative probabil
 | **3. Cross-modal or Multi-source Integration** | Combining text, images, or tables causes loss of meaning alignment.           | “Figure 2 shows results” — but figure is not linked to the text. |
 | **4. Domain/Context Drift**                    | Domain-specific terms not represented in general embeddings.                  | “LLM grounding” vs “retrieval conditioning.”                     |
 
+### What cause semantic gap
+#### 1. Context Disconnection
+- The system fails to maintain coherent context between user queries and document content — often due to short query text or missing history.
+#### 2. Insufficient Timeliness
+- The data or model embeddings are outdated, so retrieval results are semantically stale.
+#### 3. Cross-modal Mismatch
+- When combining text with tables, charts, or images, semantic alignment across modalities fails.
+#### 4. Accuracy Drop
+- The retrieval model pulls documents that are semantically distant or only partially relevant.
 ### Techniques to Reduce the Semantic Gap
 #### 1. Query Rewriting (LLM-based expansion)
 - Rewrite user queries into more explicit and domain-aligned forms.
@@ -1231,6 +1249,19 @@ Answer: 12
 - Qualitative evaluation is **human-centered** — it focuses on how good, natural, or useful the AI’s responses feel to a human reader.
 - It deals with **meaning**, **tone**, **coherence**, and contextual accuracy — aspects that numbers alone can’t fully capture.
 
+## 23. React Agent
+### Definition
+- A **ReAct agent** is an AI agent that uses the **Reasoning + Acting (ReAct)** framework.
+- It combines two major AI mechanisms:
+    - **Chain of Thought (CoT) reasoning** — the model’s internal “thinking process”.
+    - **External tool use** — the model’s ability to act (e.g., retrieve data, call APIs, use calculators, search the web).
+- Together, these make the model not just a “text generator” but a **decision-making agent** capable of interacting with the world.
+
+### Core Idea
+- The ReAct framework enables an LLM to:
+    - **Reason** (analyze, infer, plan)
+    - **Act** (take steps using external tools)
+    - **Observe** (reflect on the results and adjust behavior)
 ## Setup
 1. Clone the Repository
 ```sh
