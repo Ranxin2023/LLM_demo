@@ -1263,6 +1263,14 @@ Answer: 12
     - **Reason** (analyze, infer, plan)
     - **Act** (take steps using external tools)
     - **Observe** (reflect on the results and adjust behavior)
+### Origin
+- ReAct was first introduced in the 2023 paper:
+    - **“ReAct: Synergizing Reasoning and Acting in Language Models”** by Yao et al.
+- It’s not just a programming trick — it’s a **conceptual framework in machine learning (ML)** designed to:
+    - Integrate **reasoning (thinking)** and **acting (tool use)** inside a single loop.
+    - Enable LLMs to **coordinate multiple steps** dynamically during interaction.
+### Conceptual Framework
+- 
 ### Workflow of React Agent
 ![React Agent Workflow](images/react_agent_loop.png)
 #### 1. Query
@@ -1282,9 +1290,67 @@ Answer: 12
     - Database queries
     - Web searches
     - Calculators or Python code execution
+#### 4. Output (Observation Phase)
+- The tool returns a **result**, which the Agent observes.
+- Example output:
+    - “AAPL: $187.34 at 2:30 PM.”
+- Now the Agent must evaluate:
+    - **Is this output sufficient and correct?**
+    -  **Or does it need further action or clarification?**
+#### 5. Answer (Final Response Phase)
+- If the output passes the Agent’s internal check (the “Ok” path), it becomes the final answer shown to the user:
+    - ✅ “Apple’s stock price is $187.34 as of 2:30 PM.”
+- If not, the Agent loops back to the reasoning step for another round of **thought → tool → output**.
+
 #### The Loops Explained
 - **“Not ok” Loop — The ReAct Feedback Loop**
-    - If the Agent detects that the **output is incomplete**, uncertain, or inconsistent, it loops back to “Thought”.
+    - If the Agent detects that the **output is incomplete**, **uncertain**, or **inconsistent**, it loops back to “Thought”.
+    - This is the **core ReAct loop** — the Agent:
+        1. **Reflects** on the last output.
+        2. **Generates new reasoning** about what might have gone wrong.
+        3. **Chooses another tool** or tries a different query/action.
+    - **Example**:
+        - Output: “Error: Data not found.”
+        - Agent’s next reasoning: “Maybe I used the wrong API endpoint — I’ll retry using AlphaVantage API.”
+    - This enables **iterative problem-solving** and **self-correction**.
+- **“Ok” Path — Completion Condition**
+    - Once the Agent validates that the **output satisfies the goal**, it proceeds to “Answer.”
+### How does React Agent Work
+#### Why the ReAct Framework Works (Human Analogy)
+- The text draws an analogy to **how humans naturally think** when performing complex tasks.
+- 
+#### LLMs Dynamically Adjust, Instead of Following Rules
+- Traditional AI systems rely on:
+    - static rules,
+    - predetermined workflows, or
+    - rigid decision trees.
+- ReAct agents do something more powerful:
+    - **They rely on LLM reasoning capabilities**
+- Instead of following fixed steps, the agent can:
+    - interpret new information
+    - reevaluate the situation
+    - choose different actions
+    - adjust its plan dynamically
+- This is why ReAct agents are extremely flexible and can handle unexpected situations.
+### React Prompting
+#### What Is ReAct Prompting?
+- ReAct prompting is a specific prompting technique designed to guide an LLM to follow the **ReAct paradigm**, which consists of three interleaving steps:
+    - **Thought** (reasoning)
+    - **Action** (tool use)
+    - **Observation** (reading results)
+- A ReAct agent must alternate between these phases. To enforce this behavior, we use **ReAct prompts**, which teach the LLM:
+    - How to express thoughts
+    - When to call tools
+    - How to read tool outputs
+    - When to stop the loop and output the final answer
+- Even though you can build a ReAct agent without explicit ReAct prompts (LangGraph can enforce tool execution), **most ReAct agents still use explicit prompting** because:
+    - It increases clarity
+    - It reduces hallucinations
+    - 
+#### Purpose of ReAct Prompting
+- The LLM learns what actions are available
+- The LLM learns when it should reason internally
+- 
 ## Setup
 1. Clone the Repository
 ```sh
