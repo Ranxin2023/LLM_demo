@@ -1333,7 +1333,7 @@ Answer: 12
     - adjust its plan dynamically
 - This is why ReAct agents are extremely flexible and can handle unexpected situations.
 ### React Prompting
-#### What Is ReAct Prompting?
+#### 1. What Is ReAct Prompting?
 - ReAct prompting is a specific prompting technique designed to guide an LLM to follow the **ReAct paradigm**, which consists of three interleaving steps:
     - **Thought** (reasoning)
     - **Action** (tool use)
@@ -1347,10 +1347,69 @@ Answer: 12
     - It increases clarity
     - It reduces hallucinations
     - 
-#### Purpose of ReAct Prompting
+#### 2. Purpose of ReAct Prompting
 - The LLM learns what actions are available
 - The LLM learns when it should reason internally
-- 
+- The LLM learns **how** to structure Thoughts, Actions, and Observations
+- The LLM understands the loop continues until it finds the final answer
+- This is how an LLM becomes a **tool-using agent**, rather than just a chatbot.
+#### 3. How ReAct Prompting Works
+- ReAct prompting can be implemented in two ways:
+- **Explicit instructions**
+    - A system message tells the model:
+        - “Reason step-by-step”
+        - “Use the tools listed below”
+        - “After each tool call, report an Observation”
+- **Few-shot examples**
+        - You show the model sample Thought → Action → Observation sequences.
+#### 4. What Should a ReAct Prompt Contain?
+- The text lists five core elements every ReAct prompt must include.
+- Let’s break them down:
+1. **Guide Chain-of-Thought Reasoning**
+- “Prompt the model to reason its way through tasks by thinking step by step…”
+- This tells the model to:
+    - express internal reasoning as **Thought**:
+    - break complex tasks into smaller pieces
+    - think before acting
+    - evaluate tool results
+- This is the “Reason” part of **ReAct (Reason + Act)**.
+2. **Define Actions (Tool Use)**
+- “Establish the specific actions available to the model.”
+- The prompt must explicitly tell the LLM:
+    - which tools are available
+    - what each tool is used for
+    - how to call them
+    - what format to follow
+- For example:
+```makefile
+Action: Wikipedia
+Action Input: "Albert Einstein"
+
+```
+- This is the “Act” part of ReAct.
+- Without this, the model won't know how to use tools correctly.
+3. **Instruct the Model to Make Observations**
+- “Prompt the model to reassess its context after each action.”
+- After each tool execution, the agent must read the returned output and write:
+    ```javascript
+    Observation: <tool response>
+
+    ```
+- This step is crucial:
+    - It updates the agent’s knowledge
+    - It triggers the next Thought step
+    - It prevents the agent from hallucinating the tool output
+- This is the “Observe” part of ReAct.
+4. **Looping Behavior**
+- “Instruct the model to repeat the previous steps if necessary.”
+- A good ReAct prompt must specify:
+    - loops may repeat several times
+    - the agent should stop only when:
+        - maximum loops reached, OR
+        - the agent knows the final answer
+- This prevents premature answers and ensures correct multi-step reasoning.
+
+5. **Output the Final Answer**
 ## Setup
 1. Clone the Repository
 ```sh

@@ -57,4 +57,48 @@ def calculator(expression: str) -> str:
     - Allows the agent to solve math expressions.
     - 
 ## 3. Agent State Definition
-- 
+```python
+class AgentState(TypedDict):
+    messages: List[BaseMessage]
+    done: Optional[bool]
+
+```
+- **Purpose**:
+    - The state is what moves along the LangGraph graph.
+- **Contains**:
+    - **messages**:
+        - The entire conversation (Thought, Action, Observation, Final Answer).
+        - This is the core of ReAct.
+    - **done**:
+        - Optional flag used to signal if the agent should terminate the loop.
+- This separation allows LangGraph to:
+    - resume nodes,
+    - checkpoint state,
+    - loop state through nodes until END.
+## 4. ReAct LLM Node (Reasoning Step)
+```python
+llm = ChatOpenAI(model="gpt-4o-mini", temperature=0).bind_tools(TOOLS)
+
+def react_agent_node(state: AgentState) -> AgentState:
+    response = llm.invoke(state["messages"])
+    return {
+        "messages": state["messages"] + [response],
+        "done": state.get("done"),
+    }
+
+```
+- **What happens here**:
+1. **LLM is bound to tools**
+```python
+.bind_tools(TOOLS)
+
+```
+- The LLM may generate tool calls.
+- LangChain automatically parses them and routes them to `ToolNode`.
+2. **LLM reads entire history**
+```python
+llm.invoke(state["messages"])
+```
+- The LLM sees:
+    - System instructions
+    - User query
