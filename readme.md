@@ -43,17 +43,14 @@
     - [What is Fine Tuning](#what-is-fine-tuning)
     - [Why Fine Tuning Works](#why-fine-tuning-works)
     - [Types of Fine Tuning](#types-of-fine-tuning)
-- [Catastrophic Forgetting](#12-catastrophic-forgetting)
+    - [Four Methods for Fine Tuning](#four-methods-for-fine-tuning)
+- [Catastrophic Forgetting](#13-catastrophic-forgetting)
     - [Prompt Calibration](#1-prompt-calibration)
     - [Fine Tuning](#2-fine-tuning)
     - [Data Agumentation](#3-data-augmentation)
-- [LoRA](#13preknowledge-lora)
-- [PEFT](#13-peft)
-- [FLOP](#15pre-flop)
-- [MOE](#15-moe)
-    - [What is Mixture of Experts(MOE)](#what-is-mixture-of-experts-moe)
-    - [Core Idea of MOE](#core-idea-of-moe)
-    - [How MOE Works](#how-moe-works)
+- [LoRA](#14preknowledge-lora)
+- [PEFT](#14-peft)
+
 - [Adapter Tuning](#16-adapter-tuning)
 - [Hallucination](#17-hallucinations)
 - [Knowledge Distillation](#18-knowledge-distillation)
@@ -65,6 +62,13 @@
         - [Common Quantitative Metrics](#common-quantitative-metrics)
     - [Qualitative Evaluation](#qualitative-evaluation)
 - [React Agent](#23-react-agent)
+    - [React Prompting](#react-prompting)
+- [Vector Store Use Case](#24-vector-store-use-case)
+- [FLOP](#25pre-flop)
+- [MOE](#25-moe)
+    - [What is Mixture of Experts(MOE)](#what-is-mixture-of-experts-moe)
+    - [Core Idea of MOE](#core-idea-of-moe)
+    - [How MOE Works](#how-moe-works)
 - [Setup](#setup)
 
 ## 1. What is LLM
@@ -784,16 +788,7 @@ Top-P sampling chooses from the smallest set of tokens whose cumulative probabil
     - It learns general knowledge of language patterns.
     - But it doesn’t know how to perform **task-specific** jobs like classifying IMDb reviews as positive or negative.
 
-### Types of Fine-Tuning
-- **Full Fine-Tuning**
-    - The **entire model’s parameters** are updated on the new dataset.
-    - Pros:
-        - Maximum flexibility and task adaptation.
-    - Cons:
-        - Requires large compute resources (GPUs/TPUs).
-        - Risk of **catastrophic forgetting** (losing general knowledge).
 
-- **Parameter-Efficient Fine-Tuning (PEFT)**
 ### Fine-Tuning Workflow
 1. **Start from a pre-trained base model (e.g., `bert-base-uncased`, `gpt-3.5-turbo`).**
 2. **Prepare your dataset:**
@@ -806,7 +801,51 @@ Top-P sampling chooses from the smallest set of tokens whose cumulative probabil
 - Use frameworks like Hugging Face Transformers or OpenAI Fine-tuning API.
 5. Evaluate:
 - Metrics: accuracy, F1 score, BLEU, or perplexity (depending on the task).
-## 12. catastrophic forgetting
+
+### Four Methods for Fine-Tuning
+#### Prompt Tuning (a.k.a Soft Prompting / P-Tuning / Prefix Tuning)
+- **Definition**:
+    - Prompt tuning does not modify the model weights at all.
+    - Instead, it learns a small set of trainable prompt embeddings that are prepended to the input.
+#### Full Fine-Tuning (Standard Fine-Tuning)
+- **Defintion**:
+    - You update all the parameters of the model.
+    - This is the original and most powerful form of fine-tuning.
+- **How It Works**:
+    - Unfreeze all layers.
+    - Train on your custom dataset.
+    - Every weight is updated via backpropagation.
+- **Characteristics**
+
+| **Property**       | **Value**                            |
+| ------------------ | ------------------------------------ |
+| Parameters trained | 100%                                 |
+| Cost               | extremely expensive                  |
+| Memory             | very high (needs multiple GPUs)      |
+| Quality            | best performance possible            |
+| Best for           | large datasets, domain-specific LLMs |
+
+## 13. Full Fine-tuning
+
+### Full Fine-Tuning Workflow Explained (Step-by-Step)
+![Full Fine-tuning Workflow](images/full_fine_tuning.png)
+1. **Training Data (Step 1)**
+- **Training data is divided into batches**
+    - Training datasets are large.
+    - Instead of feeding the entire dataset at once, we split it into **batches** (Batch 1, Batch 2, …).
+- **Why batches?**
+    - Reduce memory usage
+    - More stable optimization
+    - Support gradient accumulation
+2. **Start: Input a batch into the model (Step 2)**
+- Each batch is passed into the model:
+```nginx
+Batch → Model → Output
+```
+- This produces predictions (logits or probabilities).
+- The model still uses **old parameters** at this stage.
+
+## 14. catastrophic forgetting
 ### Definition:
 - Catastrophic forgetting (or catastrophic interference) is the phenomenon where a neural network **forgets previously learned tasks** after being fine-tuned on new data.
 - In the context of LLMs, it means:
@@ -816,7 +855,7 @@ Top-P sampling chooses from the smallest set of tokens whose cumulative probabil
 1. **Shared Parameters**
 - In deep neural networks, the same weights are used across many tasks.
 - When fine-tuning, backpropagation updates these shared parameters to fit the new task.
-2. **No Replay Memory**:
+    2. **No Replay Memory**:
 - Unlike humans, models don’t “remember” earlier tasks unless we retrain them together.
 - They only see the new task’s dataset — and gradients push them entirely toward that new distribution.
 3. **High Capacity Models Still Forget**:
@@ -839,7 +878,7 @@ Top-P sampling chooses from the smallest set of tokens whose cumulative probabil
     - **PEFT**: “Write on sticky notes” (small, new parameters) — don’t touch the main whiteboard.
     - **EWC**: “Highlight what’s important and don’t erase it” — preserve critical parts of the old notes.
 
-## 13PreKnowledge. LoRA
+## 14PreKnowledge. LoRA
 ### What is Low-Rank Adaptation (LoRA)?
 
 **Low-Rank Adaptation (LoRA)** is a **parameter-efficient fine-tuning (PEFT)** technique designed to adapt large pre-trained models for specific tasks **without significantly increasing computational or memory costs**.
@@ -887,7 +926,7 @@ Only \( A \) and \( B \) are trained, while \( W \) remains frozen — significa
    - Fine-tune only the low-rank matrices for a specific task (like sentiment analysis or translation).  
    - The model learns the new task efficiently while maintaining previous capabilities.
 
-## 13. PEFT
+## 14. PEFT
 ### What is PEFT?
 - **Parameter-Efficient Fine-Tuning (PEFT)** adapts a frozen pretrained model by training only a small set of extra parameters (or a tiny subset of existing ones). The backbone weights stay fixed, so you keep the general knowledge while learning a new task/domain cheaply.
 ### Major PEFT families (how they plug in)
@@ -938,145 +977,7 @@ Extremely small parameter count.
 - Huge domain shift or very complex tasks → increase LoRA rank / adapter width, or fall back to partial/full fine-tuning.
 - If you keep updating the **same** adapter sequentially across tasks, you can still forget—use separate adapters or multi-task training.
 
-## 13. Vector Store Use Case
-### 🧠 Detailed Explanation
-- A **vector store** (or **vector database**) stores embeddings — numerical representations of text that capture semantic meaning rather than literal words.
-- This allows the model to **search by meaning** (semantic similarity) instead of by exact keyword matches.
-### When You Need a Vector Store
-- Vector stores are essential when your LLM must **retrieve external knowledge** to ground its responses.
-- Examples include:
-    - **Document Retrieval / Question Answering**
-    - **Chat with Documents / PDFs / Knowledge Base**
-    - **Retrieval-Augmented Generation (RAG) systems**
-- **Reason**:
-    - LLMs have limited context windows and can’t remember all your documents.
-    - A vector store allows dynamic retrieval of relevant text based on embeddings created by models like text-embedding-3-small.
 
-### When You Don’t Need a Vector Store
-- Tasks like:
-    - **Text summarization**
-    - **Translation**
-    - **Paraphrasing**
-    - **Sentiment classification**
-    - **Simple conversation flows**
-
-### ⚖️ Summary Table
-| Task Type               | Requires Vector Store? | Why                            |
-| ----------------------- | ---------------------- | ------------------------------ |
-| Document Q&A / RAG      | ✅ Yes                 | Needs semantic retrieval       |
-| Knowledge-grounded chat | ✅ Yes                 | Pulls facts from stored data   |
-| Summarization           | ❌ No                  | Uses text directly             |
-| Translation             | ❌ No                  | Pure sequence-to-sequence task |
-| Sentiment analysis      | ❌ No                  | Only depends on input text     |
-
-## 15Pre. FLOP
-### What “FLOP” Means
-- FLOP stands for Floating-Point Operation — a single arithmetic computation (like addition or multiplication).
-- When we talk about “FLOPs” in deep learning, we usually mean the **total number of floating-point operations needed** to run a model (per token, per batch, or per forward pass).
-- For example:
-    - A dense Transformer layer might require ~10⁹ FLOPs per token.
-    - A Mixture of Experts layer (with sparse activation) might require only ~2×10⁸ FLOPs, even if its total parameters are much larger.
-- So **FLOPs** ≈ **computational cost**.
-
-### What “Quality-per-FLOP” Means
-- **Quality-per-FLOP measures** how much performance or output quality you get for each unit of computation.
-- Quality-per-FLOP=Number of FLOPs/Model Quality Metric​
-- **Example Quality Metrics**
-| **Domain**          | **Quality Metric**                     |
-| ------------------- | -------------------------------------- |
-| Language modeling   | ↓ **Perplexity** (lower = better)      |
-| Classification      | ↑ **Accuracy** / **F1 score**          |
-| Machine translation | ↑ **BLEU score**                       |
-| Reasoning           | ↑ **Success rate**, **Win rate**, etc. |
-
-### 
-## 15. MoE
-### What is Mixture of Experts (MoE)?
-- **Mixture of Experts (MoE)** is a machine learning technique that divides a large neural network into multiple sub-networks (experts).
-- Each expert specializes in a **subset of the input space** or **type of task**, and a **gating network** dynamically decides **which experts to activate** for a given input.
-### Core Idea of Moe
-- Instead of activating the entire neural network for every input (which is computationally expensive), MoE activates **only the relevant experts**.
-- This design **reduces computation cost**, **allows parallelization**, and enables scaling up model parameters without proportionally increasing inference time.
-### How MoE Works
-1. **Overview**
-- A **Mixture of Experts** model divides a large neural network into multiple **expert sub-networks**, each focusing on a **specific subset of input patterns or tasks**.
-- However, instead of using all experts at once, MoE activates **only a few experts** per input using a **gating network (or router)**.
-2. **The Role of the Gating Network**
-- The **gating network** (or router) is a small neural network trained to decide **which experts to activate**.
-- It produces a **probability distribution** over all experts.
-- Only the **Top-K experts** (e.g., 2 out of 8) are selected per input based on these probabilities.
-- Formally:\n
-
-$$
-w = \text{softmax}(W_g x)
-$$
-- where:
-    - 𝑥 = input token representation
-    - 𝑊𝑔 = gating network weights
-    - 𝑤 = expert weight vector
-- Then the final output:\n
-
-$$
-y = \sum_{i \in \text{Top-K}} w_i \cdot E_i(x)
-$$
-- where 𝐸𝑖(𝑥) is the output of expert 𝑖.
-- This ensures **sparse activation**, meaning only a few experts work at a time, keeping computations efficient.
-
-3. **Sparsity = Efficiency + Scale**
-- In a normal dense neural network:
-    - Every input goes through **every neuron** or **every layer**.
-    - Computation cost scales with model size.
-- In a **Mixture of Experts** model:
-    - Only a small number of experts (e.g., 2 of 64) are active for each token.
-    - Thus, even with **hundreds of billions of parameters**, computation per token remains roughly constant.
-### How MoE makes LLMs improve the efficiency of LLM
-1. **Sparsity (conditional computation)**
-- In a dense Transformer, every token passes through every FFN in every layer.
-2. **Capacity ↑ without compute ↑**
-- Because only K experts run, you can scale to **hundreds of billions/trillions of params** while keeping **FLOPs per token roughly constant**.
-- This yields **higher representational power** (more specialists) at **similar inference cost** to a smaller dense model.
-3. **Specialization improves quality-per-FLOP**
-- 
-### How does LLM use MoE?
-1. **Why LLMs Use MoE**
-- Large Language Models (LLMs) like GPT-4, Mixtral, and Switch Transformer have **hundreds of billions** (or even **trillions**) of parameters.
-- The challenge:
-    - Training and running all parameters at once is **computationally** and **financially massive**.
-    - Not all neurons or layers are needed for every input token.
-    - Many tokens require **specialized processing** (e.g., code vs. poetry vs. math).
-- **Solution → Mixture of Experts (MoE)**:
-    - LLMs integrate MoE to increase capacity (number of parameters) **without increasing inference cost**.
-
-2. **Where MoE Fits Inside an LLM**
-- In a typical Transformer-based LLM, each layer has:
-```css
-[ Multi-Head Attention ] → [ Feed-Forward Network (FFN) ]
-
-```
-- LLMs **replace the dense FFN block** with a **Mixture of Experts (MoE)** block.
-```css
-Input → Attention → MoE Layer (Experts + Gating) → Output
-
-```
-3. **How It Works (Step-by-Step)(Similar with what has already been showed above)**
-4. **Real-World Examples in LLMs**
-
-| **Model**                            | **Architecture**            | **Active Experts per Token** | **Notes**                                                  |
-| ------------------------------------ | --------------------------- | ---------------------------- | ------------------------------------------------------ |
-| **Google Switch Transformer (2021)** | 1.6T parameters, 64 experts | 1 expert per token           | First large-scale MoE LLM                              |
-| **GLaM (Google, 2021)**              | 1.2T parameters             | 2 experts per token          | Balanced routing improves diversity                    |
-| **Mistral Mixtral 8×7B (2024)**      | 8 experts × 7B each         | 2 experts per token          | Efficient open-weight MoE LLM                          |
-| **DeepSeek-V2 (2024)**               | 236B total                  | 2–4 experts per token        | Specialized experts for coding, math                   |
-| **GPT-4 (rumored)**                  | MoE-based                   | Unknown                      | Believed to route tokens across multiple expert towers |
-
-5. **Why This Is So Powerful**
-
-| Advantage             | Explanation                                                                    |
-| --------------------- | ------------------------------------------------------------------------------ |
-| **Scalable capacity** | You can scale to trillions of parameters without increasing compute per token. |
-| **Specialization**    | Different experts learn domain-specific skills (math, code, logic, dialogue).  |
-| **Efficiency**        | Only a few experts are active → lower inference cost.                          |
-| **Parallelism**       | Experts can run concurrently on different GPUs or TPUs.                        |
 
 ## 16. Adapter Tuning
 ### 16.1 Background
@@ -1410,6 +1311,147 @@ Action Input: "Albert Einstein"
 - This prevents premature answers and ensures correct multi-step reasoning.
 
 5. **Output the Final Answer**
+
+## 24. Vector Store Use Case
+### 🧠 Detailed Explanation
+- A **vector store** (or **vector database**) stores embeddings — numerical representations of text that capture semantic meaning rather than literal words.
+- This allows the model to **search by meaning** (semantic similarity) instead of by exact keyword matches.
+### When You Need a Vector Store
+- Vector stores are essential when your LLM must **retrieve external knowledge** to ground its responses.
+- Examples include:
+    - **Document Retrieval / Question Answering**
+    - **Chat with Documents / PDFs / Knowledge Base**
+    - **Retrieval-Augmented Generation (RAG) systems**
+- **Reason**:
+    - LLMs have limited context windows and can’t remember all your documents.
+    - A vector store allows dynamic retrieval of relevant text based on embeddings created by models like text-embedding-3-small.
+
+### When You Don’t Need a Vector Store
+- Tasks like:
+    - **Text summarization**
+    - **Translation**
+    - **Paraphrasing**
+    - **Sentiment classification**
+    - **Simple conversation flows**
+
+### ⚖️ Summary Table
+| Task Type               | Requires Vector Store? | Why                            |
+| ----------------------- | ---------------------- | ------------------------------ |
+| Document Q&A / RAG      | ✅ Yes                 | Needs semantic retrieval       |
+| Knowledge-grounded chat | ✅ Yes                 | Pulls facts from stored data   |
+| Summarization           | ❌ No                  | Uses text directly             |
+| Translation             | ❌ No                  | Pure sequence-to-sequence task |
+| Sentiment analysis      | ❌ No                  | Only depends on input text     |
+
+## 25Pre. FLOP
+### What “FLOP” Means
+- FLOP stands for Floating-Point Operation — a single arithmetic computation (like addition or multiplication).
+- When we talk about “FLOPs” in deep learning, we usually mean the **total number of floating-point operations needed** to run a model (per token, per batch, or per forward pass).
+- For example:
+    - A dense Transformer layer might require ~10⁹ FLOPs per token.
+    - A Mixture of Experts layer (with sparse activation) might require only ~2×10⁸ FLOPs, even if its total parameters are much larger.
+- So **FLOPs** ≈ **computational cost**.
+
+### What “Quality-per-FLOP” Means
+- **Quality-per-FLOP measures** how much performance or output quality you get for each unit of computation.
+- Quality-per-FLOP=Number of FLOPs/Model Quality Metric​
+- **Example Quality Metrics**
+| **Domain**          | **Quality Metric**                     |
+| ------------------- | -------------------------------------- |
+| Language modeling   | ↓ **Perplexity** (lower = better)      |
+| Classification      | ↑ **Accuracy** / **F1 score**          |
+| Machine translation | ↑ **BLEU score**                       |
+| Reasoning           | ↑ **Success rate**, **Win rate**, etc. |
+
+### 
+## 25. MoE
+### What is Mixture of Experts (MoE)?
+- **Mixture of Experts (MoE)** is a machine learning technique that divides a large neural network into multiple sub-networks (experts).
+- Each expert specializes in a **subset of the input space** or **type of task**, and a **gating network** dynamically decides **which experts to activate** for a given input.
+### Core Idea of Moe
+- Instead of activating the entire neural network for every input (which is computationally expensive), MoE activates **only the relevant experts**.
+- This design **reduces computation cost**, **allows parallelization**, and enables scaling up model parameters without proportionally increasing inference time.
+### How MoE Works
+1. **Overview**
+- A **Mixture of Experts** model divides a large neural network into multiple **expert sub-networks**, each focusing on a **specific subset of input patterns or tasks**.
+- However, instead of using all experts at once, MoE activates **only a few experts** per input using a **gating network (or router)**.
+2. **The Role of the Gating Network**
+- The **gating network** (or router) is a small neural network trained to decide **which experts to activate**.
+- It produces a **probability distribution** over all experts.
+- Only the **Top-K experts** (e.g., 2 out of 8) are selected per input based on these probabilities.
+- Formally:\n
+
+$$
+w = \text{softmax}(W_g x)
+$$
+- where:
+    - 𝑥 = input token representation
+    - 𝑊𝑔 = gating network weights
+    - 𝑤 = expert weight vector
+- Then the final output:\n
+
+$$
+y = \sum_{i \in \text{Top-K}} w_i \cdot E_i(x)
+$$
+- where 𝐸𝑖(𝑥) is the output of expert 𝑖.
+- This ensures **sparse activation**, meaning only a few experts work at a time, keeping computations efficient.
+
+3. **Sparsity = Efficiency + Scale**
+- In a normal dense neural network:
+    - Every input goes through **every neuron** or **every layer**.
+    - Computation cost scales with model size.
+- In a **Mixture of Experts** model:
+    - Only a small number of experts (e.g., 2 of 64) are active for each token.
+    - Thus, even with **hundreds of billions of parameters**, computation per token remains roughly constant.
+### How MoE makes LLMs improve the efficiency of LLM
+1. **Sparsity (conditional computation)**
+- In a dense Transformer, every token passes through every FFN in every layer.
+2. **Capacity ↑ without compute ↑**
+- Because only K experts run, you can scale to **hundreds of billions/trillions of params** while keeping **FLOPs per token roughly constant**.
+- This yields **higher representational power** (more specialists) at **similar inference cost** to a smaller dense model.
+3. **Specialization improves quality-per-FLOP**
+- 
+### How does LLM use MoE?
+1. **Why LLMs Use MoE**
+- Large Language Models (LLMs) like GPT-4, Mixtral, and Switch Transformer have **hundreds of billions** (or even **trillions**) of parameters.
+- The challenge:
+    - Training and running all parameters at once is **computationally** and **financially massive**.
+    - Not all neurons or layers are needed for every input token.
+    - Many tokens require **specialized processing** (e.g., code vs. poetry vs. math).
+- **Solution → Mixture of Experts (MoE)**:
+    - LLMs integrate MoE to increase capacity (number of parameters) **without increasing inference cost**.
+
+2. **Where MoE Fits Inside an LLM**
+- In a typical Transformer-based LLM, each layer has:
+```css
+[ Multi-Head Attention ] → [ Feed-Forward Network (FFN) ]
+
+```
+- LLMs **replace the dense FFN block** with a **Mixture of Experts (MoE)** block.
+```css
+Input → Attention → MoE Layer (Experts + Gating) → Output
+
+```
+3. **How It Works (Step-by-Step)(Similar with what has already been showed above)**
+4. **Real-World Examples in LLMs**
+
+| **Model**                            | **Architecture**            | **Active Experts per Token** | **Notes**                                                  |
+| ------------------------------------ | --------------------------- | ---------------------------- | ------------------------------------------------------ |
+| **Google Switch Transformer (2021)** | 1.6T parameters, 64 experts | 1 expert per token           | First large-scale MoE LLM                              |
+| **GLaM (Google, 2021)**              | 1.2T parameters             | 2 experts per token          | Balanced routing improves diversity                    |
+| **Mistral Mixtral 8×7B (2024)**      | 8 experts × 7B each         | 2 experts per token          | Efficient open-weight MoE LLM                          |
+| **DeepSeek-V2 (2024)**               | 236B total                  | 2–4 experts per token        | Specialized experts for coding, math                   |
+| **GPT-4 (rumored)**                  | MoE-based                   | Unknown                      | Believed to route tokens across multiple expert towers |
+
+5. **Why This Is So Powerful**
+
+| Advantage             | Explanation                                                                    |
+| --------------------- | ------------------------------------------------------------------------------ |
+| **Scalable capacity** | You can scale to trillions of parameters without increasing compute per token. |
+| **Specialization**    | Different experts learn domain-specific skills (math, code, logic, dialogue).  |
+| **Efficiency**        | Only a few experts are active → lower inference cost.                          |
+| **Parallelism**       | Experts can run concurrently on different GPUs or TPUs.                        |
+
 ## Setup
 1. Clone the Repository
 ```sh
