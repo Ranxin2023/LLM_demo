@@ -769,6 +769,7 @@ Top-P sampling chooses from the smallest set of tokens whose cumulative probabil
 - For example:
     - If 70% of your data says “doctor → he,” generate more examples with “doctor → she.”
     - Use paraphrasing or back-translation to diversify data linguistically.
+
 ## 12. Fine-Tuning
 ### What Is Fine-Tuning?
 - **Fine-tuning** is the process of taking a **pre-trained** language model (like GPT, BERT, or T5) and training it further on a **smaller**, **domain-specific** dataset to make it perform better on a **specific task or language style**.
@@ -826,10 +827,25 @@ Top-P sampling chooses from the smallest set of tokens whose cumulative probabil
 | Best for           | large datasets, domain-specific LLMs |
 
 ## 13. Full Fine-tuning
+### Definition of Full Fine-tuning
+- Full fine-tuning is a training method where all parameters of a pre-trained foundation model are updated using a **smaller**, **task-specific dataset**.
+- Instead of freezing layers or adding adapter modules (like in LoRA or QLoRA), full fine-tuning **modifies every weight** of the base model.
+
+### How Full Fine-Tuning Works
+#### 1. Prepare Training Data
+- You provide a dataset of **input** → **target** output pairs, such as:
+    ```vbnet
+        Input: "Summarize this text..."
+        Output: "This article explains..."
+    ```
+- These examples define how you want the model to behave.
+#### 2. Feed Each Batch Into the Model
+- The training data is split into batches (e.g., 32 or 64 samples per batch).
+- 
 
 ### Full Fine-Tuning Workflow Explained (Step-by-Step)
 ![Full Fine-tuning Workflow](images/full_fine_tuning.png)
-1. **Training Data (Step 1)**
+#### 1. **Training Data (Step 1)**
 - **Training data is divided into batches**
     - Training datasets are large.
     - Instead of feeding the entire dataset at once, we split it into **batches** (Batch 1, Batch 2, …).
@@ -837,14 +853,34 @@ Top-P sampling chooses from the smallest set of tokens whose cumulative probabil
     - Reduce memory usage
     - More stable optimization
     - Support gradient accumulation
-2. **Start: Input a batch into the model (Step 2)**
+#### 2. **Start: Input a batch into the model (Step 2)**
 - Each batch is passed into the model:
 ```nginx
 Batch → Model → Output
 ```
 - This produces predictions (logits or probabilities).
 - The model still uses **old parameters** at this stage.
-
+#### 3. Compare model output vs. expected output → Compute Loss (Step 3)
+- Compare:
+    - **Model output** (predicted result)
+    - **Training data output** (true labels)
+- Loss function
+#### 4. Update Model Weights (Step 4)
+- **Optimizer updates all model weights**
+    - Since this is full fine-tuning, every parameter in every layer is updated.
+    - Common optimizers:
+        - AdamW
+        - SGD
+        - RMSProp
+- **Controlled by learning rate**
+    - The diagram shows:
+        - Adjust by learning rate
+    - Learning rate controls the size of each update step.
+    - Too high → unstable training
+    - Too low → slow training
+- **Gradient accumulation**
+- **Model ready for next iteration (Step 5)**
+    - 
 ## 14. catastrophic forgetting
 ### Definition:
 - Catastrophic forgetting (or catastrophic interference) is the phenomenon where a neural network **forgets previously learned tasks** after being fine-tuned on new data.
@@ -1311,6 +1347,24 @@ Action Input: "Albert Einstein"
 - This prevents premature answers and ensures correct multi-step reasoning.
 
 5. **Output the Final Answer**
+
+### Benefits of ReAct Agents
+#### Why ReAct Matters
+- **Before ReAct**
+    - LLMs worked mostly as text generators, limited to:
+        - answering questions
+        - writing content
+        - doing simple reasoning
+    - But they **could not take action**, fetch data, or use tools.
+- **After ReAct**
+    - LLMs became capable of:
+        - retrieving real-time data (weather, stock prices, etc.)
+        - calling APIs
+        - searching documents or the internet
+        - running tools or calculators
+        - interacting with multi-step workflows
+#### ReAct’s Influence on Modern Research
+- Reflexion = LLMs learn from their mistakes through self-reflection.
 
 ## 24. Vector Store Use Case
 ### 🧠 Detailed Explanation

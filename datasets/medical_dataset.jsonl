@@ -1,0 +1,50 @@
+{"instruction": "What are symptoms of anemia?", "output": "Fatigue, pale skin, dizziness, shortness of breath, cold hands and feet."}
+{"instruction": "How is asthma diagnosed?", "output": "Diagnosis includes spirometry, medical history, physical examination, and sometimes allergy testing."}
+{"instruction": "Explain the function of red blood cells.", "output": "They transport oxygen from the lungs to tissues and carry carbon dioxide back to the lungs."}
+{"instruction": "What causes high blood pressure?", "output": "Genetics, stress, obesity, high salt intake, lack of exercise, and chronic conditions like kidney disease."}
+{"instruction": "How do vaccines work?", "output": "They train the immune system to recognize and fight infections by exposing it to weakened or inactive antigens."}
+{"instruction": "What are common symptoms of diabetes?", "output": "Increased thirst, frequent urination, fatigue, blurry vision, and slow-healing wounds."}
+{"instruction": "How is Type 2 diabetes treated?", "output": "Lifestyle changes, oral medications, blood sugar monitoring, and sometimes insulin therapy."}
+{"instruction": "What causes migraines?", "output": "Triggers include hormonal changes, stress, certain foods, sleep disturbances, and environmental factors."}
+{"instruction": "What are treatments for migraine headaches?", "output": "NSAIDs, triptans, anti-nausea drugs, lifestyle management, and preventive medications."}
+{"instruction": "Explain what cholesterol is.", "output": "A waxy substance used to build cells and hormones; high levels can increase heart disease risk."}
+{"instruction": "What is the purpose of insulin?", "output": "Insulin helps cells absorb glucose from the blood to use for energy or store for later."}
+{"instruction": "How does dehydration affect the body?", "output": "It causes headache, fatigue, dizziness, dry mouth, and can lead to low blood pressure or heat stroke."}
+{"instruction": "What are the signs of a heart attack?", "output": "Chest pain, shortness of breath, nausea, sweating, arm or jaw pain, and lightheadedness."}
+{"instruction": "How is pneumonia treated?", "output": "Antibiotics for bacterial pneumonia, rest, fluids, fever reducers, and oxygen therapy when needed."}
+{"instruction": "What causes pneumonia?", "output": "Viruses, bacteria, or fungi infecting the lungs."}
+{"instruction": "What are symptoms of pneumonia?", "output": "Cough, fever, chest pain, shortness of breath, and fatigue."}
+{"instruction": "What is COPD?", "output": "Chronic obstructive pulmonary disease, caused by long-term lung damage from smoking or pollution."}
+{"instruction": "How is COPD managed?", "output": "Inhalers, oxygen therapy, pulmonary rehabilitation, and smoking cessation."}
+{"instruction": "What is a stroke?", "output": "A medical emergency where blood flow to the brain is blocked or a vessel ruptures."}
+{"instruction": "What causes a stroke?", "output": "Blood clots, ruptured blood vessels, high blood pressure, or plaque buildup."}
+{"instruction": "What are symptoms of a stroke?", "output": "Face drooping, arm weakness, speech difficulty, sudden confusion, or severe headache."}
+{"instruction": "How is high cholesterol treated?", "output": "Diet changes, exercise, weight control, and medications such as statins."}
+{"instruction": "What is hypothyroidism?", "output": "A condition where the thyroid produces too little hormone, slowing metabolism."}
+{"instruction": "What causes hypothyroidism?", "output": "Autoimmune disease, iodine deficiency, thyroid surgery, or certain medications."}
+{"instruction": "What are symptoms of hypothyroidism?", "output": "Fatigue, weight gain, cold intolerance, dry skin, and depression."}
+{"instruction": "How is hypothyroidism treated?", "output": "Daily thyroid hormone replacement medication."}
+{"instruction": "What is hyperthyroidism?", "output": "A condition where the thyroid produces too much hormone, speeding metabolism."}
+{"instruction": "What are symptoms of hyperthyroidism?", "output": "Weight loss, rapid heartbeat, heat intolerance, anxiety, and tremors."}
+{"instruction": "How is hyperthyroidism treated?", "output": "Anti-thyroid medications, radioactive iodine, or surgery."}
+{"instruction": "What is kidney failure?", "output": "A condition where the kidneys lose the ability to filter waste and excess fluids from the blood."}
+{"instruction": "What are common causes of kidney failure?", "output": "Diabetes, high blood pressure, infections, and autoimmune diseases."}
+{"instruction": "How is chronic kidney disease managed?", "output": "Diet control, blood pressure management, medications, dialysis, or kidney transplant."}
+{"instruction": "What is anemia?", "output": "A condition where the body lacks enough healthy red blood cells or hemoglobin."}
+{"instruction": "What causes anemia?", "output": "Iron deficiency, vitamin B12 deficiency, chronic disease, or bleeding."}
+{"instruction": "How is anemia treated?", "output": "Iron supplements, vitamin therapy, dietary changes, or treatment of underlying disease."}
+{"instruction": "What is osteoporosis?", "output": "A disease that weakens bones, making them fragile and prone to fractures."}
+{"instruction": "How is osteoporosis treated?", "output": "Calcium, vitamin D, weight-bearing exercise, and medications like bisphosphonates."}
+{"instruction": "What causes joint inflammation?", "output": "Injury, infection, autoimmune diseases like rheumatoid arthritis, or overuse."}
+{"instruction": "What are symptoms of the flu?", "output": "Fever, chills, sore throat, body aches, cough, and fatigue."}
+{"instruction": "How is the flu treated?", "output": "Rest, hydration, antiviral medications, and fever reducers."}
+{"instruction": "What is influenza?", "output": "A contagious viral infection affecting the nose, throat, and lungs."}
+{"instruction": "What is COVID-19?", "output": "A viral respiratory illness caused by SARS-CoV-2."}
+{"instruction": "What are common COVID-19 symptoms?", "output": "Fever, cough, loss of taste or smell, fatigue, and difficulty breathing."}
+{"instruction": "How does COVID-19 spread?", "output": "Through respiratory droplets, close contact, and airborne particles."}
+{"instruction": "How is COVID-19 treated?", "output": "Supportive care, antivirals, oxygen therapy, steroids, and hospitalization for severe cases."}
+{"instruction": "What causes seasonal allergies?", "output": "Immune reactions to pollen, dust, mold, or pet dander."}
+{"instruction": "What are symptoms of seasonal allergies?", "output": "Sneezing, runny nose, itchy eyes, congestion, and coughing."}
+{"instruction": "How are seasonal allergies treated?", "output": "Antihistamines, nasal sprays, eye drops, and avoiding triggers."}
+{"instruction": "What is bronchitis?", "output": "Inflammation of the bronchial tubes, often caused by infection or irritants like smoke."}
+{"instruction": "How is bronchitis treated?", "output": "Rest, fluids, cough suppressants, inhalers, and antibiotics if bacterial."}
