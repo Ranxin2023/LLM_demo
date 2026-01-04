@@ -69,7 +69,9 @@
     - [What is Mixture of Experts(MOE)](#what-is-mixture-of-experts-moe)
     - [Core Idea of MOE](#core-idea-of-moe)
     - [How MOE Works](#how-moe-works)
-- [Different AI Frameworks]()
+- [Different AI Frameworks](#26-different-ai-frameworks)
+    - [The Crossrods of AI Application Development](#the-crossroads-of-ai-application-development)
+    - [Langchain](#langchain-the-king-of-deep-customization)
 - [Setup](#setup)
 
 ## 1. What is LLM
@@ -1358,7 +1360,7 @@ Input → Attention → MoE Layer (Experts + Gating) → Output
 ## 26. Different AI Frameworks
 ### The Crossroads of AI Application Development:
 - Developers and teams often need to **balance and make trade-offs** across three key dimensions.
-#### Deep Customization Capability
+#### 1. Deep Customization Capability
 - “How much control do you have over AI behavior and business logic?”
 - What this dimension means
     - Deep customization capability measures **how freely you can design complex, domain-specific AI logic**, instead of relying on predefined templates.
@@ -1370,7 +1372,7 @@ Input → Attention → MoE Layer (Experts + Gating) → Output
     - Custom memory schemas
     - Tool orchestration logic
     - Domain rules & constraints
-#### Why it matters
+##### Why it matters
 - Real-world AI applications are **not generic chatbots**.
 - Examples:
     - A legal AI assistant must follow jurisdiction rules
@@ -1378,12 +1380,77 @@ Input → Attention → MoE Layer (Experts + Gating) → Output
     - A finance AI must enforce risk constraints
     - A job-matching AI must compute weighted scores
 - These cannot be solved with “one prompt + one model”.
-#### What high capability looks like
+##### What high capability looks like
 - You can **control every step**
 - You can **insert custom logic anywhere**
 - You can **debug and test each component**
 - You can evolve the system over time
+#### 3. Integration & Automation
+- “How easily can AI become part of existing systems and workflows?”
+##### What this dimension means
+- This measures how well AI can:
+    - Connect to databases
+    - Trigger workflows
+    - Call APIs
+    - React to events
+    - Automate repetitive tasks
+    - 
+### LangChain: The King of Deep Customization
+#### 1. “Modular Thinking” — Why LangChain Is Powerful
+![LangChain Workflow](images/langchain_agent_workflow.png)
+- LangChain treats an AI application not as one giant prompt, but as a system composed of modules.
+- Traditional approach ❌
+```text
+User input → Prompt → LLM → Output
+```
+- Hard to:
+    - Debug
+    - Reuse
+    - Scale
+    - 
+#### 2. “Independent, Reusable Components” — What Are These Components?
+##### The diagram shows:
+1. **Models**
+- GPT-4o, Claude, Gemini, LLaMA, DeepSeek, etc.
+- LangChain **does not** **lock you into one model**
+- You can swap models with minimal code changes
+2. **Memory (Conversation & State)**
+- Memory is **not just chat history**.
+- It can store:
+    - Conversation messages
+    - User preferences
+    - Intermediate reasoning
+    - Tool outputs
+    - Long-term summaries
+- Types of memory:
+    - Buffer memory (full history)
+    - Summary memory (compressed)
+    - Vector memory (semantic recall)
+3. **Tools (External Abilities)**
+- Tools turn an LLM from a “talker” into a doer.
+- Examples:
+    - Web search
+    - Database queries
+    - File reading
+    - Code execution
+    - APIs (weather, finance, email, Slack)
+4. **Agent (The Brain That Orchestrates Everything)**
+- The **Agent** is not a model — it is a **decision-making loop**.
+- An Agent:
+    1. Reads the current state
+    2. Decides whether to:
+        - Answer directly
+        - Call a tool
+        - Ask another agent
+    3. Updates memory
+    4. Repeats until task is done
 
+### Dify: Zero-Code, Ultra-Fast Deployment
+#### Core Capability
+- Build AI applications in a **drag-and-drop** manner.
+- Through an intuitive **visual interface**, no coding is required, which **greatly lowers the barrier** to AI development.
+#### Rapid Prototyping
+- 
 ## Setup
 1. Clone the Repository
 ```sh

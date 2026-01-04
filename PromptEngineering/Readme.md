@@ -15,8 +15,14 @@
     - [Craft Effective Prompts](#craft-effective-prompts)
     - [Test AI Behavior](#test-ai-behavior)
     - [Refine and Optimize Prompts](#refine-and-optimize-prompts)
-- [How do you Evaluate the Effectiveness of a Prompt](#how-do-you-evaluate-the-effectiveness-of-a-prompt)
-    - [Output Quality](#1-output-quality)
+- [Interview Questions](#interview-questions)
+    - [How do you Evaluate the Effectiveness of a Prompt](#how-do-you-evaluate-the-effectiveness-of-a-prompt)
+        - [Output Quality](#1-output-quality)
+        - [Consistency](#2-consistency)
+        - [Task Specific Metrics](#3-task-specific-metrics)
+        - [Human Evaluation](#4-human-evaluation)
+        - [A/B Testing](#5-ab-testing)
+    - 
 ## What is Prompt Engineering
 - **Prompt engineering** is the process of **designing, refining, and optimizing prompts** — the input instructions given to a large language model (LLM) — to guide it toward producing accurate, relevant, and high-quality outputs for a specific task.
 - Generative AI models are trained to generate outputs based on patterns in language, so well-structured prompts help them:
@@ -304,7 +310,7 @@
         - Write better prompts
         - Interpret model responses
         - Avoid common pitfalls or misuses of generative AI
-
+## Interview Questions
 ### How do you evaluate the effectiveness of a prompt?
 #### 1. Output Quality
 - “Assessing the relevance, coherence, and accuracy of the model’s responses.”
@@ -353,7 +359,25 @@
     - **Bias / Fairness**: Is the answer neutral and ethical?
     - **Creativity / Engagement**: For creative tasks, does it feel original and natural?
 
-
+#### 5. A/B Testing
+- “Comparing different prompts to determine which one yields better performance.”
+##### What this means
+- A/B testing is **comparative evaluation**.
+1. Create two (or more) prompt versions
+2. Run them on the same inputs
+3. Compare outputs using:
+    - Quantitative metrics
+    - Human ratings
+    - Business KPIs (click-through, satisfaction, time saved)
+##### Example
+- Prompt A: “Summarize this article.”
+- Prompt B: “Summarize this article in 3 concise bullet points focusing on key insights.”
+- You evaluate:
+    - Accuracy
+    - Readability
+    - User preference
+    - Consistency
+- The better-performing prompt becomes the new baseline.
 #### Summary Table
 
 | Evaluation Aspect    | Type         | What It Checks               | Example Metric         |
@@ -363,3 +387,36 @@
 | **Task Metrics**     | Quantitative | Alignment to human benchmark | BLEU, ROUGE, F1        |
 | **Human Evaluation** | Qualitative  | Clarity, usefulness, tone    | Rating scale           |
 | **A/B Testing**      | Experimental | Comparative effectiveness    | Win rate, satisfaction |
+
+### What are some strategies for avoiding common pitfalls in prompt design (e.g., leading questions, ambiguous instructions)?
+#### 1. Avoid Leading Questions
+- “Ensure that prompts do not imply a specific answer, which can bias the model’s response.”
+- **What is a Leading Question?**
+    - A leading question subtly **pushes the model toward a predetermined conclusion**.
+- **Bad (Leading) Prompt**
+    - “Why is renewable energy the best solution for climate change?”
+- This prompt:
+    - Assumes renewable energy is the best solution
+    - Encourages one-sided reasoning
+    - Biases the output
+- **Good (Neutral) Prompt**
+    - “What are the advantages and disadvantages of renewable energy compared to fossil fuels in addressing climate change?”
+- **Why This Works**
+    - Removes assumptions
+    - Encourages balanced reasoning
+    - Reduces ideological or confirmation bias
+- **Key principle**:
+    - If a prompt contains an opinion, rephrase it as a comparison or analysis question.
+
+#### 2. Clear and Concise Instructions
+- “Provide unambiguous and straightforward instructions to reduce confusion.”
+##### The Pitfall
+- Ambiguous prompts leave too much interpretation to the model:
+    - Unclear task boundaries
+    - Undefined output format
+    - Vague expectations
+- Bad Prompt
+    - “Explain AI briefly.”
+    - What does briefly mean?
+    - Who is the audience?
+    - 
