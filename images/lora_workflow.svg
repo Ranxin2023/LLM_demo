@@ -1,0 +1,264 @@
+<svg width="1062" height="721" viewBox="0 0 1062 721" fill="none" xmlns="http://www.w3.org/2000/svg">
+<rect width="1062" height="721" fill="white"/>
+<rect x="409.5" y="134.5" width="88" height="75" fill="#F6F2FF"/>
+<rect x="409.5" y="134.5" width="88" height="75" stroke="#BE95FF"/>
+<text fill="black" xml:space="preserve" style="white-space: pre" font-family="Arial" font-size="14" letter-spacing="0.32px"><tspan x="435.166" y="154.354">Input &#10;</tspan><tspan x="438.853" y="169.354">from </tspan><tspan x="429.238" y="184.354">training </tspan><tspan x="439.382" y="199.354">data</tspan></text>
+<rect width="46" height="8" transform="translate(854 260) rotate(-180)" fill="white" fill-opacity="0.01" style="mix-blend-mode:multiply"/>
+<rect width="39" height="0" transform="translate(847 256) rotate(-180)" fill="white" fill-opacity="0.01" style="mix-blend-mode:multiply"/>
+<path d="M847 256L808 256" stroke="black"/>
+<rect width="8" height="8" transform="matrix(1 4.75124e-08 1.60858e-07 -1 846 260)" fill="white" fill-opacity="0.01" style="mix-blend-mode:multiply"/>
+<path d="M846 260L854 256L846 252L846 260Z" fill="black"/>
+<rect width="46" height="8" transform="translate(854 274) rotate(-180)" fill="white" fill-opacity="0.01" style="mix-blend-mode:multiply"/>
+<rect width="39" height="0" transform="translate(854 270) rotate(-180)" fill="white" fill-opacity="0.01" style="mix-blend-mode:multiply"/>
+<path d="M854 270L815 270" stroke="black"/>
+<rect width="8" height="8" transform="translate(816 274) rotate(-180)" fill="white" fill-opacity="0.01" style="mix-blend-mode:multiply"/>
+<path d="M816 274L808 270L816 266L816 274Z" fill="black"/>
+<rect width="58" height="8" transform="translate(510 450) rotate(-90)" fill="white" fill-opacity="0.01" style="mix-blend-mode:multiply"/>
+<g clip-path="url(#clip0_201_3849)">
+<rect width="44" height="0" transform="translate(514 443) rotate(-90)" fill="white" fill-opacity="0.01" style="mix-blend-mode:multiply"/>
+<path d="M514 443L514 399" stroke="black"/>
+</g>
+<rect width="8" height="8" transform="translate(510 400) rotate(-90)" fill="white" fill-opacity="0.01" style="mix-blend-mode:multiply"/>
+<path d="M510 400L514 392L518 400L510 400Z" fill="black"/>
+<rect width="8" height="8" transform="matrix(4.37114e-08 1 1 -4.37114e-08 510 442)" fill="white" fill-opacity="0.01" style="mix-blend-mode:multiply"/>
+<path d="M510 442L514 450L518 442L510 442Z" fill="black"/>
+<path d="M357.29 338.595C346.954 328.153 340.914 311.399 339.178 292.526" stroke="black" stroke-miterlimit="10"/>
+<path d="M339.209 285C337.962 288.467 335.872 292.87 333.715 295.761L339.006 292.852L344.185 293.892C342.156 291.763 340.285 288.059 339.209 285Z" fill="black"/>
+<path d="M395.003 380.474C422.15 397.711 458.489 402.122 494.978 392.034" stroke="black" stroke-miterlimit="10"/>
+<path d="M389.809 375.386C391.454 378.047 393.095 381.821 393.469 384.913L395.849 379.392L401.277 375.884C397.78 376.41 393.184 376.051 389.809 375.386Z" fill="black"/>
+<path d="M537.4 369.098C556.174 354.96 571.371 340.304 583.508 317.5" stroke="black" stroke-miterlimit="10"/>
+<path d="M533.64 372.709C536.021 369.787 538.696 365.729 539.906 362.539L540.833 367.837L545.387 370.676C541.984 370.609 537.234 371.581 533.64 372.709Z" fill="black"/>
+<path d="M341.864 236.175C345.867 224.425 350.661 211.968 358.746 201.575C372.288 184.168 381.922 176.939 401.738 169.04" stroke="black" stroke-miterlimit="10"/>
+<path d="M407.118 166.844C404.636 169.102 401.79 172.427 400.392 175.315L399.979 169.626L395.963 165.344C399.131 166.454 403.659 166.896 407.118 166.844Z" fill="black"/>
+<path d="M500.261 162.904C512.143 167.125 524.773 172.099 535.546 179.951C546.651 188.044 553.849 194.602 559.835 202.728" stroke="black" stroke-miterlimit="10"/>
+<path d="M562.081 208.171C561.721 204.831 561.772 200.462 562.592 197.396L558.637 201.267L552.96 201.663C555.984 203.011 559.58 205.772 562.081 208.171Z" fill="black"/>
+<rect width="46" height="12" transform="translate(343 352)" fill="white"/>
+<text fill="black" xml:space="preserve" style="white-space: pre" font-family="Arial" font-size="14" letter-spacing="0.32px"><tspan x="347.067" y="362.854">Score</tspan></text>
+<rect x="235.5" y="242.5" width="152" height="37" fill="white"/>
+<rect x="235.5" y="242.5" width="152" height="37" stroke="black" stroke-dasharray="4 4"/>
+<rect width="30" height="38" transform="translate(235 242)" fill="black"/>
+<path d="M250 255C250.494 255 250.978 255.147 251.389 255.421C251.8 255.696 252.12 256.086 252.31 256.543C252.499 257 252.548 257.503 252.452 257.988C252.356 258.473 252.117 258.918 251.768 259.268C251.418 259.617 250.973 259.856 250.488 259.952C250.003 260.048 249.5 259.999 249.043 259.81C248.586 259.62 248.196 259.3 247.921 258.889C247.647 258.478 247.5 257.994 247.5 257.5C247.5 256.837 247.763 256.201 248.232 255.732C248.701 255.263 249.337 255 250 255ZM250 254C249.308 254 248.631 254.205 248.056 254.59C247.48 254.974 247.031 255.521 246.766 256.161C246.502 256.8 246.432 257.504 246.567 258.183C246.702 258.862 247.036 259.485 247.525 259.975C248.015 260.464 248.638 260.798 249.317 260.933C249.996 261.068 250.7 260.998 251.339 260.734C251.979 260.469 252.526 260.02 252.91 259.444C253.295 258.869 253.5 258.192 253.5 257.5C253.5 256.572 253.131 255.682 252.475 255.025C251.818 254.369 250.928 254 250 254Z" fill="white"/>
+<path d="M255 268H254V265.5C254 265.172 253.935 264.847 253.81 264.543C253.684 264.24 253.5 263.964 253.268 263.732C253.036 263.5 252.76 263.316 252.457 263.19C252.153 263.065 251.828 263 251.5 263H248.5C247.837 263 247.201 263.263 246.732 263.732C246.263 264.201 246 264.837 246 265.5V268H245V265.5C245 264.572 245.369 263.682 246.025 263.025C246.682 262.369 247.572 262 248.5 262H251.5C252.428 262 253.318 262.369 253.975 263.025C254.631 263.682 255 264.572 255 265.5V268Z" fill="white"/>
+<text fill="black" xml:space="preserve" style="white-space: pre" font-family="Arial" font-size="12" font-weight="bold" letter-spacing="0.32px"><tspan x="273" y="258.16">Adjusted adapter &#10;</tspan><tspan x="273" y="272.16">weights</tspan></text>
+<rect width="52" height="12" transform="translate(488 377)" fill="white"/>
+<text fill="black" xml:space="preserve" style="white-space: pre" font-family="Arial" font-size="14" letter-spacing="0.32px"><tspan x="492.166" y="387.854">Output</tspan></text>
+<rect x="713.5" y="410.5" width="300" height="183" fill="white"/>
+<rect x="713.5" y="410.5" width="300" height="183" stroke="#A56EFF"/>
+<rect x="714" y="411" width="299" height="182" fill="#F6F2FF"/>
+<g clip-path="url(#clip1_201_3849)">
+<text fill="black" xml:space="preserve" style="white-space: pre" font-family="Arial" font-size="14" font-weight="bold" letter-spacing="0.16px"><tspan x="729" y="429.854">Training data</tspan></text>
+<rect x="728.5" y="441.5" width="33" height="33" fill="black"/>
+<rect x="728.5" y="441.5" width="33" height="33" stroke="black" stroke-dasharray="4 4"/>
+<rect width="16" height="16" transform="translate(737 450)" fill="white" fill-opacity="0.01" style="mix-blend-mode:multiply"/>
+<path d="M745 452C745.494 452 745.978 452.147 746.389 452.421C746.8 452.696 747.12 453.086 747.31 453.543C747.499 454 747.548 454.503 747.452 454.988C747.356 455.473 747.117 455.918 746.768 456.268C746.418 456.617 745.973 456.856 745.488 456.952C745.003 457.048 744.5 456.999 744.043 456.81C743.586 456.62 743.196 456.3 742.921 455.889C742.647 455.478 742.5 454.994 742.5 454.5C742.5 453.837 742.763 453.201 743.232 452.732C743.701 452.263 744.337 452 745 452ZM745 451C744.308 451 743.631 451.205 743.056 451.59C742.48 451.974 742.031 452.521 741.766 453.161C741.502 453.8 741.432 454.504 741.567 455.183C741.702 455.862 742.036 456.485 742.525 456.975C743.015 457.464 743.638 457.798 744.317 457.933C744.996 458.068 745.7 457.998 746.339 457.734C746.979 457.469 747.526 457.02 747.91 456.444C748.295 455.869 748.5 455.192 748.5 454.5C748.5 453.572 748.131 452.682 747.475 452.025C746.818 451.369 745.928 451 745 451Z" fill="white"/>
+<path d="M750 465H749V462.5C749 462.172 748.935 461.847 748.81 461.543C748.684 461.24 748.5 460.964 748.268 460.732C748.036 460.5 747.76 460.316 747.457 460.19C747.153 460.065 746.828 460 746.5 460H743.5C742.837 460 742.201 460.263 741.732 460.732C741.263 461.201 741 461.837 741 462.5V465H740V462.5C740 461.572 740.369 460.682 741.025 460.025C741.682 459.369 742.572 459 743.5 459H746.5C747.428 459 748.318 459.369 748.975 460.025C749.631 460.682 750 461.572 750 462.5V465Z" fill="white"/>
+<text fill="black" xml:space="preserve" style="white-space: pre" font-family="Arial" font-size="14" letter-spacing="0.16px"><tspan x="843.959" y="455.854">determines # of </tspan><tspan x="769" y="473.854">samples per experiment.</tspan></text>
+<text fill="black" xml:space="preserve" style="white-space: pre" font-family="Arial" font-size="14" font-weight="bold" letter-spacing="0.16px"><tspan x="769" y="455.854">Batch size </tspan></text>
+</g>
+<text fill="black" xml:space="preserve" style="white-space: pre" font-family="Arial" font-size="12" letter-spacing="0.32px"><tspan x="406.397" y="289.104">Adjustment occurs </tspan><tspan x="401.226" y="305.104">after outputs for # of </tspan><tspan x="402.726" y="321.104">batches in </tspan><tspan x="517.443" y="337.104"> </tspan><tspan x="426.865" y="353.104">are scored.</tspan></text>
+<text fill="black" xml:space="preserve" style="white-space: pre" font-family="Arial" font-size="12" font-weight="bold" letter-spacing="0.32px"><tspan x="464.335" y="321.104">gradient </tspan><tspan x="399.557" y="337.104">accumulation steps</tspan></text>
+<text fill="black" xml:space="preserve" style="white-space: pre" font-family="Arial" font-size="14" letter-spacing="0.32px"><tspan x="753" y="619.854">Process ends after all training data </tspan><tspan x="753" y="635.854">batches are used and repeats based </tspan><tspan x="753" y="651.854">on the </tspan></text>
+<text fill="black" xml:space="preserve" style="white-space: pre" font-family="Arial" font-size="14" font-weight="bold" letter-spacing="0.32px"><tspan x="798.101" y="651.854"># of training data cycles.</tspan></text>
+<text fill="black" xml:space="preserve" style="white-space: pre" font-family="Arial" font-size="20" letter-spacing="0px"><tspan x="432.367" y="111.934">Start</tspan></text>
+<text fill="black" xml:space="preserve" style="white-space: pre" font-family="Arial" font-size="20" letter-spacing="0px"><tspan x="712.197" y="679.877">End</tspan></text>
+<mask id="path-35-inside-1_201_3849" fill="white">
+<path d="M230 34H198V50H230V34Z"/>
+</mask>
+<path d="M230 34H198V50H230V34Z" fill="#DEFBE6" stroke="#198038" stroke-width="2" mask="url(#path-35-inside-1_201_3849)"/>
+<text fill="#525252" xml:space="preserve" style="white-space: pre" font-family="Arial" font-size="14" letter-spacing="0.0016em"><tspan x="238" y="46.8535">Model</tspan></text>
+<rect x="349.5" y="34.5" width="31" height="15" fill="#F6F2FF" stroke="#A56EFF"/>
+<text fill="#525252" xml:space="preserve" style="white-space: pre" font-family="Arial" font-size="14" letter-spacing="0.0016em"><tspan x="389" y="46.8535">Training data</tspan></text>
+<rect x="543" y="34" width="32" height="16" fill="#EDF5FF" stroke="#0F62FE" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="0.1 3"/>
+<text fill="#525252" xml:space="preserve" style="white-space: pre" font-family="Arial" font-size="14" letter-spacing="0.0016em"><tspan x="583" y="46.8535">Low-rank adapters</tspan></text>
+<rect x="772.5" y="34.5" width="19" height="19" stroke="black" stroke-dasharray="4 4"/>
+<rect width="16" height="16" transform="translate(774 36)" fill="white" fill-opacity="0.01" style="mix-blend-mode:multiply"/>
+<path d="M782 38C782.494 38 782.978 38.1466 783.389 38.4213C783.8 38.696 784.12 39.0865 784.31 39.5433C784.499 40.0001 784.548 40.5028 784.452 40.9877C784.356 41.4727 784.117 41.9181 783.768 42.2678C783.418 42.6174 782.973 42.8555 782.488 42.952C782.003 43.0484 781.5 42.9989 781.043 42.8097C780.586 42.6205 780.196 42.3 779.921 41.8889C779.647 41.4778 779.5 40.9945 779.5 40.5C779.5 39.837 779.763 39.2011 780.232 38.7322C780.701 38.2634 781.337 38 782 38ZM782 37C781.308 37 780.631 37.2053 780.056 37.5899C779.48 37.9744 779.031 38.5211 778.766 39.1606C778.502 39.8001 778.432 40.5039 778.567 41.1828C778.702 41.8617 779.036 42.4854 779.525 42.9749C780.015 43.4644 780.638 43.7977 781.317 43.9327C781.996 44.0678 782.7 43.9985 783.339 43.7336C783.979 43.4687 784.526 43.0201 784.91 42.4445C785.295 41.8689 785.5 41.1922 785.5 40.5C785.5 39.5717 785.131 38.6815 784.475 38.0251C783.818 37.3687 782.928 37 782 37Z" fill="black"/>
+<path d="M787 51H786V48.5C786 48.1717 785.935 47.8466 785.81 47.5433C785.684 47.24 785.5 46.9644 785.268 46.7322C785.036 46.5001 784.76 46.3159 784.457 46.1903C784.153 46.0647 783.828 46 783.5 46H780.5C779.837 46 779.201 46.2634 778.732 46.7322C778.263 47.2011 778 47.837 778 48.5V51H777V48.5C777 47.5717 777.369 46.6815 778.025 46.0251C778.682 45.3687 779.572 45 780.5 45H783.5C784.428 45 785.318 45.3687 785.975 46.0251C786.631 46.6815 787 47.5717 787 48.5V51Z" fill="black"/>
+<text fill="#525252" xml:space="preserve" style="white-space: pre" font-family="Arial" font-size="14" letter-spacing="0.0016em"><tspan x="800" y="46.8535">User input</tspan></text>
+<rect width="268" height="28" transform="translate(729 488.943)" fill="#E8DAFF"/>
+<rect width="236" height="12" transform="translate(745 496.943)" fill="white" style="mix-blend-mode:multiply"/>
+<text fill="black" xml:space="preserve" style="white-space: pre" font-family="Arial" font-size="14" letter-spacing="0.32px"><tspan x="745" y="507.797">Batch 1</tspan></text>
+<rect width="268" height="28" transform="translate(729 516.943)" fill="#F6F2FF"/>
+<rect width="236" height="12" transform="translate(745 524.943)" fill="white" style="mix-blend-mode:multiply"/>
+<text fill="black" xml:space="preserve" style="white-space: pre" font-family="Arial" font-size="14" letter-spacing="0.32px"><tspan x="745" y="535.797">Batch 2</tspan></text>
+<rect width="268" height="34" transform="translate(729 544.943)" fill="#E8DAFF"/>
+<rect width="236" height="18" transform="translate(745 552.943)" fill="white" style="mix-blend-mode:multiply"/>
+<text fill="black" xml:space="preserve" style="white-space: pre" font-family="IBM Plex Sans" font-size="14" letter-spacing="0.16px"><tspan x="745" y="567.193">...</tspan></text>
+<rect x="805.5" y="492.443" width="27" height="7" fill="white"/>
+<rect x="805.5" y="492.443" width="27" height="7" stroke="#878D96"/>
+<rect x="806" y="492.943" width="26" height="6" fill="white"/>
+<rect x="806" y="492.943" width="26" height="6" fill="#F2F4F8"/>
+<rect x="837.5" y="492.443" width="27" height="7" fill="white"/>
+<rect x="837.5" y="492.443" width="27" height="7" stroke="#878D96"/>
+<rect x="838" y="492.943" width="26" height="6" fill="white"/>
+<rect x="838" y="492.943" width="26" height="6" fill="#F2F4F8"/>
+<rect x="869.5" y="492.443" width="27" height="7" fill="white"/>
+<rect x="869.5" y="492.443" width="27" height="7" stroke="#878D96"/>
+<rect x="870" y="492.943" width="26" height="6" fill="white"/>
+<rect x="870" y="492.943" width="26" height="6" fill="#F2F4F8"/>
+<rect x="805.5" y="505.443" width="27" height="7" fill="white"/>
+<rect x="805.5" y="505.443" width="27" height="7" stroke="#878D96"/>
+<rect x="806" y="505.943" width="26" height="6" fill="white"/>
+<rect x="806" y="505.943" width="26" height="6" fill="#F2F4F8"/>
+<rect x="837.5" y="505.443" width="27" height="7" fill="white"/>
+<rect x="837.5" y="505.443" width="27" height="7" stroke="#878D96"/>
+<rect x="838" y="505.943" width="26" height="6" fill="white"/>
+<rect x="838" y="505.943" width="26" height="6" fill="#F2F4F8"/>
+<rect x="804.5" y="525.443" width="27" height="7" fill="white"/>
+<rect x="804.5" y="525.443" width="27" height="7" stroke="#878D96"/>
+<rect x="805" y="525.943" width="26" height="6" fill="white"/>
+<rect x="805" y="525.943" width="26" height="6" fill="#F2F4F8"/>
+<rect x="836.5" y="525.443" width="27" height="7" fill="white"/>
+<rect x="836.5" y="525.443" width="27" height="7" stroke="#878D96"/>
+<rect x="837" y="525.943" width="26" height="6" fill="white"/>
+<rect x="837" y="525.943" width="26" height="6" fill="#F2F4F8"/>
+<rect x="868.5" y="525.443" width="27" height="7" fill="white"/>
+<rect x="868.5" y="525.443" width="27" height="7" stroke="#878D96"/>
+<rect x="869" y="525.943" width="26" height="6" fill="white"/>
+<rect x="869" y="525.943" width="26" height="6" fill="#F2F4F8"/>
+<rect x="804.5" y="538.443" width="27" height="7" fill="white"/>
+<rect x="804.5" y="538.443" width="27" height="7" stroke="#878D96"/>
+<rect x="805" y="538.943" width="26" height="6" fill="white"/>
+<rect x="805" y="538.943" width="26" height="6" fill="#F2F4F8"/>
+<rect x="836.5" y="538.443" width="27" height="7" fill="white"/>
+<rect x="836.5" y="538.443" width="27" height="7" stroke="#878D96"/>
+<rect x="837" y="538.943" width="26" height="6" fill="white"/>
+<rect x="837" y="538.943" width="26" height="6" fill="#F2F4F8"/>
+<rect x="901.5" y="492.443" width="27" height="7" fill="white"/>
+<rect x="901.5" y="492.443" width="27" height="7" stroke="black"/>
+<rect x="902" y="492.943" width="26" height="6" fill="white"/>
+<rect x="902" y="492.943" width="26" height="6" fill="#F4F4F4"/>
+<rect x="933.5" y="492.443" width="27" height="7" fill="white"/>
+<rect x="933.5" y="492.443" width="27" height="7" stroke="black"/>
+<rect x="934" y="492.943" width="26" height="6" fill="white"/>
+<rect x="934" y="492.943" width="26" height="6" fill="#F4F4F4"/>
+<rect x="965.5" y="492.443" width="27" height="7" fill="white"/>
+<rect x="965.5" y="492.443" width="27" height="7" stroke="black"/>
+<rect x="966" y="492.943" width="26" height="6" fill="white"/>
+<rect x="966" y="492.943" width="26" height="6" fill="#F4F4F4"/>
+<rect x="901.5" y="505.443" width="27" height="7" fill="white"/>
+<rect x="901.5" y="505.443" width="27" height="7" stroke="black"/>
+<rect x="902" y="505.943" width="26" height="6" fill="white"/>
+<rect x="902" y="505.943" width="26" height="6" fill="#F4F4F4"/>
+<rect x="933.5" y="505.443" width="27" height="7" fill="white"/>
+<rect x="933.5" y="505.443" width="27" height="7" stroke="black"/>
+<rect x="934" y="505.943" width="26" height="6" fill="white"/>
+<rect x="934" y="505.943" width="26" height="6" fill="#F4F4F4"/>
+<rect x="901.5" y="525.443" width="27" height="7" fill="white"/>
+<rect x="901.5" y="525.443" width="27" height="7" stroke="black"/>
+<rect x="902" y="525.943" width="26" height="6" fill="white"/>
+<rect x="902" y="525.943" width="26" height="6" fill="#F4F4F4"/>
+<rect x="933.5" y="525.443" width="27" height="7" fill="white"/>
+<rect x="933.5" y="525.443" width="27" height="7" stroke="black"/>
+<rect x="934" y="525.943" width="26" height="6" fill="white"/>
+<rect x="934" y="525.943" width="26" height="6" fill="#F4F4F4"/>
+<rect x="965.5" y="525.443" width="27" height="7" fill="white"/>
+<rect x="965.5" y="525.443" width="27" height="7" stroke="black"/>
+<rect x="966" y="525.943" width="26" height="6" fill="white"/>
+<rect x="966" y="525.943" width="26" height="6" fill="#F4F4F4"/>
+<rect x="901.5" y="538.443" width="27" height="7" fill="white"/>
+<rect x="901.5" y="538.443" width="27" height="7" stroke="black"/>
+<rect x="902" y="538.943" width="26" height="6" fill="white"/>
+<rect x="902" y="538.943" width="26" height="6" fill="#F4F4F4"/>
+<rect x="933.5" y="538.443" width="27" height="7" fill="white"/>
+<rect x="933.5" y="538.443" width="27" height="7" stroke="black"/>
+<rect x="934" y="538.943" width="26" height="6" fill="white"/>
+<rect x="934" y="538.943" width="26" height="6" fill="#F4F4F4"/>
+<rect x="713.5" y="608.443" width="33" height="33" fill="black"/>
+<rect x="713.5" y="608.443" width="33" height="33" stroke="black" stroke-dasharray="4 4"/>
+<rect width="16" height="16" transform="translate(722 616.943)" fill="white" fill-opacity="0.01" style="mix-blend-mode:multiply"/>
+<path d="M730 618.943C730.494 618.943 730.978 619.09 731.389 619.365C731.8 619.639 732.12 620.03 732.31 620.487C732.499 620.943 732.548 621.446 732.452 621.931C732.356 622.416 732.117 622.861 731.768 623.211C731.418 623.561 730.973 623.799 730.488 623.895C730.003 623.992 729.5 623.942 729.043 623.753C728.586 623.564 728.196 623.243 727.921 622.832C727.647 622.421 727.5 621.938 727.5 621.443C727.5 620.78 727.763 620.144 728.232 619.676C728.701 619.207 729.337 618.943 730 618.943ZM730 617.943C729.308 617.943 728.631 618.149 728.056 618.533C727.48 618.918 727.031 619.464 726.766 620.104C726.502 620.744 726.432 621.447 726.567 622.126C726.702 622.805 727.036 623.429 727.525 623.918C728.015 624.408 728.638 624.741 729.317 624.876C729.996 625.011 730.7 624.942 731.339 624.677C731.979 624.412 732.526 623.963 732.91 623.388C733.295 622.812 733.5 622.136 733.5 621.443C733.5 620.515 733.131 619.625 732.475 618.968C731.818 618.312 730.928 617.943 730 617.943Z" fill="white"/>
+<path d="M735 631.943H734V629.443C734 629.115 733.935 628.79 733.81 628.487C733.684 628.183 733.5 627.908 733.268 627.676C733.036 627.443 732.76 627.259 732.457 627.134C732.153 627.008 731.828 626.943 731.5 626.943H728.5C727.837 626.943 727.201 627.207 726.732 627.676C726.263 628.144 726 628.78 726 629.443V631.943H725V629.443C725 628.515 725.369 627.625 726.025 626.968C726.682 626.312 727.572 625.943 728.5 625.943H731.5C732.428 625.943 733.318 626.312 733.975 626.968C734.631 627.625 735 628.515 735 629.443V631.943Z" fill="white"/>
+<rect x="437.5" y="239.443" width="33" height="33" fill="black"/>
+<rect x="437.5" y="239.443" width="33" height="33" stroke="black" stroke-dasharray="4 4"/>
+<rect width="16" height="16" transform="translate(446 247.943)" fill="white" fill-opacity="0.01" style="mix-blend-mode:multiply"/>
+<path d="M454 249.943C454.494 249.943 454.978 250.09 455.389 250.365C455.8 250.639 456.12 251.03 456.31 251.487C456.499 251.943 456.548 252.446 456.452 252.931C456.356 253.416 456.117 253.861 455.768 254.211C455.418 254.561 454.973 254.799 454.488 254.895C454.003 254.992 453.5 254.942 453.043 254.753C452.586 254.564 452.196 254.243 451.921 253.832C451.647 253.421 451.5 252.938 451.5 252.443C451.5 251.78 451.763 251.144 452.232 250.676C452.701 250.207 453.337 249.943 454 249.943ZM454 248.943C453.308 248.943 452.631 249.149 452.056 249.533C451.48 249.918 451.031 250.464 450.766 251.104C450.502 251.744 450.432 252.447 450.567 253.126C450.702 253.805 451.036 254.429 451.525 254.918C452.015 255.408 452.638 255.741 453.317 255.876C453.996 256.011 454.7 255.942 455.339 255.677C455.979 255.412 456.526 254.963 456.91 254.388C457.295 253.812 457.5 253.136 457.5 252.443C457.5 251.515 457.131 250.625 456.475 249.968C455.818 249.312 454.928 248.943 454 248.943Z" fill="white"/>
+<path d="M459 262.943H458V260.443C458 260.115 457.935 259.79 457.81 259.487C457.684 259.183 457.5 258.908 457.268 258.676C457.036 258.443 456.76 258.259 456.457 258.134C456.153 258.008 455.828 257.943 455.5 257.943H452.5C451.837 257.943 451.201 258.207 450.732 258.676C450.263 259.144 450 259.78 450 260.443V262.943H449V260.443C449 259.515 449.369 258.625 450.025 257.968C450.682 257.312 451.572 256.943 452.5 256.943H455.5C456.428 256.943 457.318 257.312 457.975 257.968C458.631 258.625 459 259.515 459 260.443V262.943Z" fill="white"/>
+<rect x="414.5" y="451.5" width="202" height="48" fill="white"/>
+<rect x="414.5" y="451.5" width="202" height="48" stroke="#0F62FE"/>
+<rect x="415" y="452" width="201" height="47" fill="white"/>
+<rect x="415" y="452" width="201" height="47" fill="#EDF5FF"/>
+<g clip-path="url(#clip2_201_3849)">
+<text fill="black" xml:space="preserve" style="white-space: pre" font-family="Arial" font-size="14" font-weight="bold" letter-spacing="0.16px"><tspan x="437.625" y="479.854">Adjusted model output</tspan></text>
+</g>
+<rect width="201" height="66" transform="translate(414 544)" fill="white"/>
+<rect x="414" y="544" width="201" height="66" fill="white"/>
+<rect x="414" y="544" width="201" height="66" fill="#F6F2FF"/>
+<g clip-path="url(#clip3_201_3849)">
+<text fill="black" xml:space="preserve" style="white-space: pre" font-family="Arial" font-size="14" font-weight="bold" letter-spacing="0.16px"><tspan x="478" y="572.854">Training data </tspan><tspan x="478" y="590.854">output</tspan></text>
+<rect width="48" height="66" transform="translate(414 544)" fill="#A56EFF"/>
+<rect width="24" height="24" transform="translate(426 565)" fill="white" fill-opacity="0.01" style="mix-blend-mode:multiply"/>
+<path d="M438 568C438.742 568 439.467 568.22 440.083 568.632C440.7 569.044 441.181 569.63 441.465 570.315C441.748 571 441.823 571.754 441.678 572.482C441.533 573.209 441.176 573.877 440.652 574.402C440.127 574.926 439.459 575.283 438.732 575.428C438.004 575.573 437.25 575.498 436.565 575.215C435.88 574.931 435.294 574.45 434.882 573.833C434.47 573.217 434.25 572.492 434.25 571.75C434.25 570.755 434.645 569.802 435.348 569.098C436.052 568.395 437.005 568 438 568ZM438 566.5C436.962 566.5 435.947 566.808 435.083 567.385C434.22 567.962 433.547 568.782 433.15 569.741C432.752 570.7 432.648 571.756 432.851 572.774C433.053 573.793 433.553 574.728 434.288 575.462C435.022 576.197 435.957 576.697 436.976 576.899C437.994 577.102 439.05 576.998 440.009 576.6C440.968 576.203 441.788 575.53 442.365 574.667C442.942 573.803 443.25 572.788 443.25 571.75C443.25 570.358 442.697 569.022 441.712 568.038C440.728 567.053 439.392 566.5 438 566.5Z" fill="white"/>
+<path d="M445.5 587.5H444V583.75C444 583.258 443.903 582.77 443.715 582.315C443.526 581.86 443.25 581.447 442.902 581.098C442.553 580.75 442.14 580.474 441.685 580.285C441.23 580.097 440.742 580 440.25 580H435.75C434.755 580 433.802 580.395 433.098 581.098C432.395 581.802 432 582.755 432 583.75V587.5H430.5V583.75C430.5 582.358 431.053 581.022 432.038 580.038C433.022 579.053 434.358 578.5 435.75 578.5H440.25C441.642 578.5 442.978 579.053 443.962 580.038C444.947 581.022 445.5 582.358 445.5 583.75V587.5Z" fill="white"/>
+</g>
+<mask id="path-119-inside-2_201_3849" fill="white">
+<path d="M615 544H414V610H615V544Z"/>
+</mask>
+<path d="M615 544H414V610H615V544Z" stroke="#A56EFF" stroke-width="2" stroke-dasharray="4 4" mask="url(#path-119-inside-2_201_3849)"/>
+<rect width="8" height="78" transform="translate(406 530) rotate(180)" fill="white" fill-opacity="0.01" style="mix-blend-mode:multiply"/>
+<rect width="8" height="78" transform="translate(406 530) rotate(180)" fill="white" fill-opacity="0.01" style="mix-blend-mode:multiply"/>
+<path d="M398 530V530C402.418 530 406 526.418 406 522L406 452" stroke="black"/>
+<rect width="8" height="80" transform="matrix(-1 5.91525e-08 4.63896e-08 1 406 530)" fill="white" fill-opacity="0.01" style="mix-blend-mode:multiply"/>
+<rect width="8" height="80" transform="matrix(-1 5.91525e-08 4.63896e-08 1 406 530)" fill="white" fill-opacity="0.01" style="mix-blend-mode:multiply"/>
+<path d="M398 530V530C402.418 530 406 533.582 406 538L406 610" stroke="black"/>
+<rect width="60" height="14" transform="translate(486 515)" fill="white"/>
+<text fill="black" xml:space="preserve" style="white-space: pre" font-family="Arial" font-size="12" letter-spacing="0.32px"><tspan x="490.349" y="527.16">Compare</tspan></text>
+<rect width="58" height="48" transform="translate(326 506)" fill="white"/>
+<text fill="black" xml:space="preserve" style="white-space: pre" font-family="Arial" font-size="14" letter-spacing="0.32px"><tspan x="337.619" y="518.854">Loss &#10;</tspan><tspan x="326.451" y="534.854">gradient &#10;</tspan><tspan x="337.612" y="550.854">value</tspan></text>
+<circle cx="919" cy="264" r="65" fill="#DEFBE6" stroke="#198038" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+<text fill="black" xml:space="preserve" style="white-space: pre" font-family="Arial" font-size="14" font-weight="bold" letter-spacing="0.16px"><tspan x="899.984" y="250.854">Base &#10;</tspan><tspan x="880.069" y="268.854">foundation &#10;</tspan><tspan x="898.049" y="286.854">model</tspan></text>
+<rect width="30" height="56" transform="matrix(-4.37114e-08 1 1 4.37114e-08 172 261)" fill="white" fill-opacity="0.01" style="mix-blend-mode:multiply"/>
+<rect width="8" height="8" transform="matrix(-4.37114e-08 1 1 4.37114e-08 168 291)" fill="white" fill-opacity="0.01" style="mix-blend-mode:multiply"/>
+<path d="M168 291L172 299L176 291L168 291Z" fill="black"/>
+<rect width="30" height="56" transform="matrix(-4.37114e-08 1 1 4.37114e-08 172 261)" fill="white" fill-opacity="0.01" style="mix-blend-mode:multiply"/>
+<path d="M172 291L172 261L228 261" stroke="black"/>
+<rect width="8" height="8" transform="translate(228 257)" fill="white" fill-opacity="0.01" style="mix-blend-mode:multiply"/>
+<path d="M228 257L236 261L228 265L228 257Z" fill="black"/>
+<rect width="243" height="102" transform="translate(50 299)" fill="white"/>
+<rect x="50" y="299" width="243" height="102" fill="white"/>
+<rect x="50" y="299" width="243" height="102" fill="#EDF5FF"/>
+<g clip-path="url(#clip4_201_3849)">
+<text fill="black" xml:space="preserve" style="white-space: pre" font-family="Arial" font-size="14" letter-spacing="0.16px"><tspan x="106" y="327.854">Adjust low-rank adapter </tspan><tspan x="106" y="345.854">weights by using learning </tspan><tspan x="106" y="363.854">rate, alpha, and dropout </tspan><tspan x="106" y="381.854">parameters</tspan></text>
+<rect width="24" height="24" transform="translate(66 338)" fill="white" fill-opacity="0.01" style="mix-blend-mode:multiply"/>
+<path d="M78 341C78.7417 341 79.4667 341.22 80.0834 341.632C80.7001 342.044 81.1807 342.63 81.4645 343.315C81.7484 344 81.8226 344.754 81.6779 345.482C81.5333 346.209 81.1761 346.877 80.6517 347.402C80.1272 347.926 79.459 348.283 78.7316 348.428C78.0042 348.573 77.2502 348.498 76.5649 348.215C75.8797 347.931 75.294 347.45 74.882 346.833C74.4699 346.217 74.25 345.492 74.25 344.75C74.25 343.755 74.6451 342.802 75.3483 342.098C76.0516 341.395 77.0054 341 78 341ZM78 339.5C76.9616 339.5 75.9466 339.808 75.0833 340.385C74.2199 340.962 73.547 341.782 73.1496 342.741C72.7523 343.7 72.6483 344.756 72.8509 345.774C73.0534 346.793 73.5535 347.728 74.2877 348.462C75.0219 349.197 75.9574 349.697 76.9758 349.899C77.9942 350.102 79.0498 349.998 80.0091 349.6C80.9684 349.203 81.7883 348.53 82.3652 347.667C82.9421 346.803 83.25 345.788 83.25 344.75C83.25 343.358 82.6969 342.022 81.7123 341.038C80.7277 340.053 79.3924 339.5 78 339.5Z" fill="black"/>
+<path d="M85.5 360.5H84V356.75C84 356.258 83.903 355.77 83.7145 355.315C83.5261 354.86 83.2499 354.447 82.9017 354.098C82.5534 353.75 82.14 353.474 81.6851 353.285C81.2301 353.097 80.7425 353 80.25 353H75.75C74.7554 353 73.8016 353.395 73.0983 354.098C72.3951 354.802 72 355.755 72 356.75V360.5H70.5V356.75C70.5 355.358 71.0531 354.022 72.0377 353.038C73.0223 352.053 74.3576 351.5 75.75 351.5H80.25C81.6424 351.5 82.9777 352.053 83.9623 353.038C84.9469 354.022 85.5 355.358 85.5 356.75V360.5Z" fill="black"/>
+</g>
+<mask id="path-133-inside-3_201_3849" fill="white">
+<path d="M293 299H50V401H293V299Z"/>
+</mask>
+<path d="M293 299H50V401H293V299Z" stroke="#0F62FE" stroke-width="2" stroke-dasharray="4 4" mask="url(#path-133-inside-3_201_3849)"/>
+<rect width="243" height="104" transform="translate(547 211)" fill="white"/>
+<rect x="547" y="211" width="243" height="104" fill="white"/>
+<rect x="547" y="211" width="243" height="104" fill="#EDF5FF"/>
+<g clip-path="url(#clip5_201_3849)">
+<path d="M547 211H595V315H547V211Z" fill="#0F62FE"/>
+<rect width="24" height="24" transform="translate(559 251)" fill="white" fill-opacity="0.01" style="mix-blend-mode:multiply"/>
+<path d="M571 254C571.742 254 572.467 254.22 573.083 254.632C573.7 255.044 574.181 255.63 574.465 256.315C574.748 257 574.823 257.754 574.678 258.482C574.533 259.209 574.176 259.877 573.652 260.402C573.127 260.926 572.459 261.283 571.732 261.428C571.004 261.573 570.25 261.498 569.565 261.215C568.88 260.931 568.294 260.45 567.882 259.833C567.47 259.217 567.25 258.492 567.25 257.75C567.25 256.755 567.645 255.802 568.348 255.098C569.052 254.395 570.005 254 571 254ZM571 252.5C569.962 252.5 568.947 252.808 568.083 253.385C567.22 253.962 566.547 254.782 566.15 255.741C565.752 256.7 565.648 257.756 565.851 258.774C566.053 259.793 566.553 260.728 567.288 261.462C568.022 262.197 568.957 262.697 569.976 262.899C570.994 263.102 572.05 262.998 573.009 262.6C573.968 262.203 574.788 261.53 575.365 260.667C575.942 259.803 576.25 258.788 576.25 257.75C576.25 256.358 575.697 255.022 574.712 254.038C573.728 253.053 572.392 252.5 571 252.5Z" fill="white"/>
+<path d="M578.5 273.5H577V269.75C577 269.258 576.903 268.77 576.715 268.315C576.526 267.86 576.25 267.447 575.902 267.098C575.553 266.75 575.14 266.474 574.685 266.285C574.23 266.097 573.742 266 573.25 266H568.75C567.755 266 566.802 266.395 566.098 267.098C565.395 267.802 565 268.755 565 269.75V273.5H563.5V269.75C563.5 268.358 564.053 267.022 565.038 266.038C566.022 265.053 567.358 264.5 568.75 264.5H573.25C574.642 264.5 575.978 265.053 576.962 266.038C577.947 267.022 578.5 268.358 578.5 269.75V273.5Z" fill="white"/>
+</g>
+<mask id="path-138-inside-4_201_3849" fill="white">
+<path d="M790 211H547V315H790V211Z"/>
+</mask>
+<path d="M790 211H547V315H790V211Z" stroke="#0F62FE" stroke-width="2" stroke-dasharray="4 4" mask="url(#path-138-inside-4_201_3849)"/>
+<text fill="black" xml:space="preserve" style="white-space: pre" font-family="Arial" font-size="14" letter-spacing="0.16px"><tspan x="606" y="240.854">Low-rank adapters </tspan><tspan x="606" y="258.854">calculated based on, </tspan><tspan x="606" y="276.854">rank and target_modules </tspan><tspan x="606" y="294.854">parameters</tspan></text>
+<defs>
+<clipPath id="clip0_201_3849">
+<rect width="44" height="8" fill="white" transform="translate(510 443) rotate(-90)"/>
+</clipPath>
+<clipPath id="clip1_201_3849">
+<rect width="301" height="74" fill="white" transform="translate(713 410)"/>
+</clipPath>
+<clipPath id="clip2_201_3849">
+<rect width="203" height="48" fill="white" transform="translate(414 451)"/>
+</clipPath>
+<clipPath id="clip3_201_3849">
+<rect width="201" height="66" fill="white" transform="translate(414 544)"/>
+</clipPath>
+<clipPath id="clip4_201_3849">
+<rect width="243" height="102" fill="white" transform="translate(50 299)"/>
+</clipPath>
+<clipPath id="clip5_201_3849">
+<rect width="243" height="104" fill="white" transform="translate(547 211)"/>
+</clipPath>
+</defs>
+</svg>
