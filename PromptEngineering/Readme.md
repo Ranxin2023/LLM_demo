@@ -22,7 +22,8 @@
         - [Task Specific Metrics](#3-task-specific-metrics)
         - [Human Evaluation](#4-human-evaluation)
         - [A/B Testing](#5-ab-testing)
-    - 
+    - [What are Some Strategies for Avoiding Common Pitfalls in Prompt Design](#what-are-some-strategies-for-avoiding-common-pitfalls-in-prompt-design-eg-leading-questions-ambiguous-instructions)
+    - [How do you Approach Iterative Prompt Refinement to Improve LLM Performance](#how-do-you-approach-iterative-prompt-refinement-to-improve-llm-performance)
 ## What is Prompt Engineering
 - **Prompt engineering** is the process of **designing, refining, and optimizing prompts** — the input instructions given to a large language model (LLM) — to guide it toward producing accurate, relevant, and high-quality outputs for a specific task.
 - Generative AI models are trained to generate outputs based on patterns in language, so well-structured prompts help them:
@@ -419,4 +420,44 @@
     - “Explain AI briefly.”
     - What does briefly mean?
     - Who is the audience?
-    - 
+    - What aspect of AI?
+- Good Prompt:
+    - “Explain artificial intelligence in **3 sentences**, suitable for a **high school student**, focusing on **real-world applications**.”
+- Why This Works:
+    - Specifies **length**
+    - Specifies **audience**
+    - Specifies **focus**
+#### 3. Context Provision
+- “Include relevant context to help the model understand the task without overloading it.”
+- The Pitfall
+    - Too little context → vague or incorrect answers
+    - Too much context → confusion, dilution, or irrelevant output
+- Too Little Context
+    - “Summarize this.”
+- **Too Much Context**
+    - (Several paragraphs of background, unrelated details, multiple conflicting goals…)
+    - This overwhelms the model.
+- **Balanced Context**
+    - “Summarize the following article for a **technical audience**, focusing on **methodology and key findings**.”
+#### 4. Iterative Testing
+### How do you approach iterative prompt refinement to improve LLM performance?
+#### 1. Initial Design
+- “Start with a basic prompt based on task requirements.”
+- **What this means**
+    - You begin with a **simple, clear prompt** that captures:
+        - The core task
+        - The desired output type
+        - The minimum necessary constraints
+    - At this stage, the goal is **not perfection**, but **clarity**.
+
+#### 2. Testing and Evaluation
+- “Assess the prompt's performance using various metrics and obtain feedback.”
+- **What this means**
+    - You run the prompt on:
+        - Multiple inputs
+        - Multiple runs (to observe variability)
+        - Possibly multiple models
+    - Then you evaluate the outputs using:
+        - **Output quality** (accuracy, relevance, coherence)
+        - **Consistency** (same structure across runs)
+        - **Task-specific metrics** (ROUGE, BLEU, similarity scores)

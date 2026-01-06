@@ -9,14 +9,14 @@
     - [Prompt Calibration](#1-prompt-calibration)
     - [Fine Tuning](#2-fine-tuning)
     - [Data Agumentation](#3-data-augmentation)
-- [LoRA](#14preknowledge-lora)
+
+- [LoRA](#lora)
 - [PEFT](#14-peft)
 - [Adapter Tuning](#16-adapter-tuning)
 - [Fine Tune Methods](#fine-tune-methods)
     - [Freeze Method](#freeze-method)
     - [P-Tuning](#p-tuning-method)
     - [Full Fine Tuning](#full-fine-tuning)
-- [LoRA](#lora)
 
 ## 1. What Is Fine-Tuning?
 - **Fine-tuning** is the process of taking a **pre-trained** language model (like GPT, BERT, or T5) and training it further on a **smaller**, **domain-specific** dataset to make it perform better on a **specific task or language style**.
@@ -205,7 +205,7 @@ Only \( A \) and \( B \) are trained, while \( W \) remains frozen — significa
    - The model learns the new task efficiently while maintaining previous capabilities.
 
 ### Explanation of How LORA Works
-![Lora Workflow](images/lora_workflow.svg)
+![Lora Workflow](../images/lora_workflow.svg)
 #### 1. Training Data & Batching (Right side, purple box)
 - **Training data**
     - The dataset is split into batches (Batch 1, Batch 2, …).
