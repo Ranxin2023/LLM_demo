@@ -39,6 +39,6 @@ def domain_specific_prompt():
         print(response.content)
 
 def redirect_adaption_output():
-    with open("./output_results/PromptEngineering/prompt_based_adaptation.txt", "w", encoding="utf-8") as f:
+    with open("../output_results/PromptEngineering/prompt_based_adaptation.txt", "w", encoding="utf-8") as f:
         with redirect_stdout(f):
             domain_specific_prompt()

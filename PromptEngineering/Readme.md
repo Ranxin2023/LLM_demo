@@ -1,11 +1,15 @@
 # Prompt Engineering
 ## Table of Contennts
 - [What is Prompt Engineering](#what-is-prompt-engineering)
+- [Core Idea](#core-idea)
 - [Why is Prompt Engineering Important](#why-is-prompt-engineering-important)
 - [What Skills Does a Prompt Engineer Need](#what-skills-does-a-prompt-engineer-need)
     - [Familiar with LLMs](#familiarity-with-large-language-models-llms)
     - [Strong Communication Skills](#strong-communication-skills)
     - [Advanced Prompting Techniques](#advanced-prompting-techniques)
+        - [Zero Shot Prompting](#zero-shot-prompting)
+        - [Few Shot Prompting](#few-shot-prompting)
+        - [Chain of Thought Prompting](#chain-of-thought-prompting-cot)
 - [How Prompt Engineering Works](#how-prompt-engineering-works)
     - [Prompt Calibration](#1-prompt-calibration)
     - [Iterate and Evaluate](#2-iterate-and-evaluate)
@@ -15,6 +19,7 @@
     - [Craft Effective Prompts](#craft-effective-prompts)
     - [Test AI Behavior](#test-ai-behavior)
     - [Refine and Optimize Prompts](#refine-and-optimize-prompts)
+- [Chain of Thought Prompting](#chain-of-thought-cot-prompting)
 - [Interview Questions](#interview-questions)
     - [How do you Evaluate the Effectiveness of a Prompt](#how-do-you-evaluate-the-effectiveness-of-a-prompt)
         - [Output Quality](#1-output-quality)
@@ -23,7 +28,16 @@
         - [Human Evaluation](#4-human-evaluation)
         - [A/B Testing](#5-ab-testing)
     - [What are Some Strategies for Avoiding Common Pitfalls in Prompt Design](#what-are-some-strategies-for-avoiding-common-pitfalls-in-prompt-design-eg-leading-questions-ambiguous-instructions)
+        - [Avoid Leading Questions](#1-avoid-leading-questions)
+        - [Clear and Concise Instruction](#2-clear-and-concise-instructions)
+        - [Context Provision](#3-context-provision)
+        - [Iterative Testing](#4-iterative-testing)
     - [How do you Approach Iterative Prompt Refinement to Improve LLM Performance](#how-do-you-approach-iterative-prompt-refinement-to-improve-llm-performance)
+        - [Initial Design](#1-initial-design)
+        - [Testing and Evaluation](#2-testing-and-evaluation)
+        - [Analysis](#3-analysis)
+        - [Refinement](#4-refinement)
+        - [Repeat](#5-repeat)
 ## What is Prompt Engineering
 - **Prompt engineering** is the process of **designing, refining, and optimizing prompts** — the input instructions given to a large language model (LLM) — to guide it toward producing accurate, relevant, and high-quality outputs for a specific task.
 - Generative AI models are trained to generate outputs based on patterns in language, so well-structured prompts help them:
@@ -120,23 +134,27 @@
 - Prompt engineers must be excellent communicators because:
     - They translate **human intent into structured prompts**
     - They collaborate with **data scientists**, **developers**, and **designers**
-### **Advanced Prompting Techniques**
-- **Zero-Shot Prompting**
-    - The model is given a new task it has never been trained on — it must infer what to do from context alone.
-        - Tests the model’s generalization ability.
-        - Example:
-            - “Translate this sentence into French: ‘How are you?’” — no example given.
-- **Few-Shot Prompting**
-    - The model is provided with a few examples before performing the actual task.
-        - Helps the model **learn the pattern** of the desired response.
-        - Example：
-            - Hello → Bonjour
-            - Thank you → Merci
-            - Now translate: ‘Good night.’”
-        - The examples (“shots”) help the model infer the correct output style.
-- **Chain-of-Thought Prompting (CoT)**
-        - Encourages the model to **explain its reasoning step-by-step**.
-        - This method improves accuracy and logical consistency, especially in **math**, **reasoning**, or **decision-making tasks**.
+### Advanced Prompting Techniques
+#### **Zero-Shot Prompting**
+- The model is given a new task it has never been trained on — it must infer what to do from context alone.
+    - Tests the model’s generalization ability.
+    - Example:
+        - “Translate this sentence into French: ‘How are you?’” — no example given.
+#### **Few-Shot Prompting**
+- The model is provided with a few examples before performing the actual task.
+    - Helps the model **learn the pattern** of the desired response.
+    - Example：
+        - Hello → Bonjour
+        - Thank you → Merci
+        - Now translate: ‘Good night.’”
+    - The examples (“shots”) help the model infer the correct output style.
+#### **Chain-of-Thought Prompting (CoT)**
+- Encourages the model to **explain its reasoning step-by-step**.
+- This method improves accuracy and logical consistency, especially in **math**, **reasoning**, or **decision-making tasks**.
+- Example:
+    - “Let’s solve this step by step.”
+- CoT allows the model to simulate human reasoning, producing more coherent and traceable answers.
+
 ### **Linguistic and Contextual Understanding**
 - “English is often the primary language used to train generative AI… every word in a prompt can influence the outcome.”
 - Prompt engineers need strong knowledge of:
@@ -311,6 +329,56 @@
         - Write better prompts
         - Interpret model responses
         - Avoid common pitfalls or misuses of generative AI
+
+## Chain-of-Thought (CoT) Prompting
+### Definition:
+- **Chain-of-Thought (CoT) prompting** is a technique that improves the reasoning ability of Large Language Models (LLMs) by asking them to explain their reasoning steps before producing the final answer.
+- Instead of directly predicting an answer, the model thinks step-by-step, mimicking how humans reason through complex problems.
+### Why It Works
+- **Human-like reasoning**: It encourages the model to reason explicitly (e.g., “First, compute this → Then that → So the answer is…”).
+- **Decomposition**: Breaks complex tasks into smaller logical substeps, reducing errors in multi-step problems.
+- **Interpretability**: You can see how the model reached its conclusion.
+- **Improved accuracy**: Especially beneficial in arithmetic, logic, and commonsense reasoning tasks.
+### 🧩 Example Comparison
+- **Without CoT Prompting**
+    ```pgsql
+    Q: If a banana costs 2 dollars and an apple costs 3 dollars, how much do 3 bananas and 2 apples cost?
+
+    A: 10
+
+    ```
+    - The model explicitly reasons through the problem and produces the correct answer.
+- **With CoT Prompting**
+    - 
+```pgsql
+Q: If a banana costs 2 dollars and an apple costs 3 dollars, how much do 3 bananas and 2 apples cost?
+Let's think step by step.
+A: A banana costs 2 dollars. 3 bananas = 3 × 2 = 6 dollars.
+An apple costs 3 dollars. 2 apples = 2 × 3 = 6 dollars.
+Total = 6 + 6 = 12 dollars.
+Answer: 12
+
+```
+### Variants of CoT Prompting
+1. **Zero-Shot CoT**
+    - Add “Let’s think step by step” directly to the user prompt — no examples needed.
+    ```python
+    Q: Tom has twice as many apples as Sarah. Sarah has 3 apples. How many does Tom have?
+    A: Let’s think step by step.
+
+    ```
+2. **Few-Shot CoT**
+    - Provide **example reasoning traces** before asking the main question. This helps the model learn how to reason.
+    ```python
+    examples = """
+    Q: If 2 + 2 = ?
+    A: Let's think step by step. 2 + 2 = 4.
+
+    Q: If a pen costs $3 and you buy 5 pens, how much total?
+    A: Let's think step by step. 3 * 5 = 15. Answer: $15.
+    """
+
+    ```
 ## Interview Questions
 ### How do you evaluate the effectiveness of a prompt?
 #### 1. Output Quality
@@ -439,7 +507,20 @@
     - This overwhelms the model.
 - **Balanced Context**
     - “Summarize the following article for a **technical audience**, focusing on **methodology and key findings**.”
+
 #### 4. Iterative Testing
+- “Continuously test and refine prompts based on the model’s outputs and performance.”
+- **The Pitfall**
+    - Assuming the first version of a prompt is optimal.
+    - Language models:
+        - Respond probabilistically
+        - Are sensitive to small wording changes
+- **One-and-Done Prompting**
+    - Write a prompt once → deploy it → never evaluate again.
+- **Iterative Prompt Refinement**:
+1. Write initial prompt
+2. Test on multiple inputs
+3. Evaluate output quality and consistency
 ### How do you approach iterative prompt refinement to improve LLM performance?
 #### 1. Initial Design
 - “Start with a basic prompt based on task requirements.”
@@ -461,3 +542,42 @@
         - **Output quality** (accuracy, relevance, coherence)
         - **Consistency** (same structure across runs)
         - **Task-specific metrics** (ROUGE, BLEU, similarity scores)
+#### 3. Analysis
+- “Identify weaknesses or areas for improvement in the prompt.”
+- **What this means**
+    - You analyze why the prompt failed or underperformed.
+    - Common issues include:
+        - Ambiguous instructions
+        - Missing constraints
+        - Overly broad scope
+        - Poor output structure
+        - Unintended bias or hallucination
+- **Example Analysis**:
+    - From testing:
+        - Output is verbose → needs length constraint
+        - Output is unstructured → needs formatting instruction
+        - Output misses focus → needs guidance on key points
+- **Why this step matters**:
+    - This is where prompt engineering becomes engineering, not trial-and-error.
+#### 4. Refinement
+- “Make adjustments to the prompt to address identified issues.”
+- **What this means**
+    - You update the prompt to correct the weaknesses you identified.
+- **Example Refinement**
+    - Original:
+        ```text
+        Summarize the article.
+        ```
+    - 
+#### 5. Repeat
+- “Repeat the testing and refinement process until the desired performance is achieved.”
+- **What this means**
+    - You loop back to:
+        - Test the refined prompt
+        - Re-evaluate outputs
+        - Identify remaining weaknesses
+        - Refine again
+    - This continues until:
+        - Output quality stabilizes
+        - Consistency is acceptable
+        - Performance meets production needs

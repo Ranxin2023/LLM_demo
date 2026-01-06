@@ -15,7 +15,7 @@ prompt = ChatPromptTemplate.from_messages([
 
 # Invoke the model
 def cot_demo():
-    with open("./output_results/chain_of_thought_prompting.txt", "w", encoding="utf-8") as f:
+    with open("../output_results/PromptEngineering/chain_of_thought_prompting.txt", "w", encoding="utf-8") as f:
         with redirect_stdout(f):
             response = (prompt | llm).invoke({})
             print(response.content)

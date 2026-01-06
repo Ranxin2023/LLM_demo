@@ -15,6 +15,6 @@ def iterate_refine_prompt():
         print(f"\nVersion {version} Output:\n{result.content}")
         
 def redirect_refinement_output():
-    with open("./output_results/refinement_and_optimize.txt", "w", encoding="utf-8") as f:
+    with open("../output_results/refinement_and_optimize.txt", "w", encoding="utf-8") as f:
         with redirect_stdout(f):
             iterate_refine_prompt()

@@ -15,9 +15,9 @@ from demo_code.LLMConceptsDemo.CoTDemo import CoT_redirect_output
 from demo_code.KnowledgeDistillation.KnowledgeDistillation import knowledge_distillation_redirect
 from demo_code.PromptEngineering.three_prompt_engineering_techniques import prompt_engineering_redirect
 from PromptEngineering.ABtesting_demo import redirect_AB_testing
-from demo_code.PromptEngineering.simple_refinement_demo import redirect_refinement_output
+from PromptEngineering.simple_refinement_demo import redirect_refinement_output
 from PromptEngineering.prompt_based_adaptation import redirect_adaption_output
-from demo_code.PromptEngineering.chain_of_through_prompting import cot_demo
+from PromptEngineering.chain_of_through_prompting import cot_demo
 from demo_code.MixtureOfExpert.moe_demo import moe_demo_redirect
 
 def main():

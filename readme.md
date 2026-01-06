@@ -1,6 +1,8 @@
 # LLM DEMO
 ## Table Of Contents
 - [What is LLM](#1-what-is-llm)
+    - [Definition of LLM](#definition-of-llm)
+    - [Key Components of LLM](#key-components-of-llm)
 - [Basic Concepts](#2-basic-concepts)
     - [Token](#21-token)
     - [Parameters](#22-parameters)
@@ -962,55 +964,7 @@ $$
 - Adjust the softmax “temperature” parameter 𝑇 to make probabilities better reflect actual likelihoods.
 - A form of **uncertainty calibration**.
 ## [20. Prompt Engineering](./PromptEngineering/Readme.md)
-## 21. Chain-of-Thought (CoT) Prompting
-### Definition:
-- **Chain-of-Thought (CoT) prompting** is a technique that improves the reasoning ability of Large Language Models (LLMs) by asking them to explain their reasoning steps before producing the final answer.
-- Instead of directly predicting an answer, the model thinks step-by-step, mimicking how humans reason through complex problems.
-### Why It Works
-- **Human-like reasoning**: It encourages the model to reason explicitly (e.g., “First, compute this → Then that → So the answer is…”).
-- **Decomposition**: Breaks complex tasks into smaller logical substeps, reducing errors in multi-step problems.
-- **Interpretability**: You can see how the model reached its conclusion.
-- **Improved accuracy**: Especially beneficial in arithmetic, logic, and commonsense reasoning tasks.
-### 🧩 Example Comparison
-- **Without CoT Prompting**
-    ```pgsql
-    Q: If a banana costs 2 dollars and an apple costs 3 dollars, how much do 3 bananas and 2 apples cost?
 
-    A: 10
-
-    ```
-    - The model explicitly reasons through the problem and produces the correct answer.
-- **With CoT Prompting**
-    - 
-```pgsql
-Q: If a banana costs 2 dollars and an apple costs 3 dollars, how much do 3 bananas and 2 apples cost?
-Let's think step by step.
-A: A banana costs 2 dollars. 3 bananas = 3 × 2 = 6 dollars.
-An apple costs 3 dollars. 2 apples = 2 × 3 = 6 dollars.
-Total = 6 + 6 = 12 dollars.
-Answer: 12
-
-```
-### Variants of CoT Prompting
-1. **Zero-Shot CoT**
-    - Add “Let’s think step by step” directly to the user prompt — no examples needed.
-    ```python
-    Q: Tom has twice as many apples as Sarah. Sarah has 3 apples. How many does Tom have?
-    A: Let’s think step by step.
-
-    ```
-2. **Few-Shot CoT**
-    - Provide **example reasoning traces** before asking the main question. This helps the model learn how to reason.
-    ```python
-    examples = """
-    Q: If 2 + 2 = ?
-    A: Let's think step by step. 2 + 2 = 4.
-
-    Q: If a pen costs $3 and you buy 5 pens, how much total?
-    A: Let's think step by step. 3 * 5 = 15. Answer: $15.
-    """
-
-    ```
 ## 22. Quantitative metrics and Qualitative evaluation
 ### Quantitative Metrics
 - Quantitative metrics are **numerical**, **measurable indicators** used to evaluate model outputs objectively.
@@ -1450,7 +1404,32 @@ User input → Prompt → LLM → Output
 - Build AI applications in a **drag-and-drop** manner.
 - Through an intuitive **visual interface**, no coding is required, which **greatly lowers the barrier** to AI development.
 #### Rapid Prototyping
-- 
+- Shorten the cycle from **idea to prototype** from weeks to just a few hours.
+#### Democratized Development
+- Enable **business users** (not just engineers) to directly participate in designing and building AI products.
+#### Core Trade-off: Convenience vs. Flexibility
+- **Convenience**
+    - Achieve ultra-fast development through visual interfaces and prebuilt templates, significantly lowering technical barriers.
+- **Flexibility**
+    - When requirements exceed predefined capabilities, **deep customization becomes limited**, and migration costs may arise.
+### Dify Detailed Explanation
+#### 1. “Zero-Code, Ultra-Fast Deployment” — Why Dify Exists
+- Dify is designed for **speed-first AI development**.
+- Instead of writing backend code, prompt logic, memory handling, and APIs manually, Dify provides:
+    - A **visual workflow editor**
+    - Built-in prompt blocks
+    - Built-in RAG pipelines
+    - Built-in memory & conversation management
+    - Built-in deployment (API + UI)
+#### 2. Drag-and-Drop AI Application Building
+- In practice, this can include:
+    - User input node
+    - Prompt template node
+    - Knowledge base (RAG) node
+    - LLM node
+    - Output formatting node
+## 26Extra. Idea to Prototype
+- **Idea to prototype** is the process of turning a rough idea into a working, testable version of a product as quickly as possible—without trying to make it perfect.
 ## Setup
 1. Clone the Repository
 ```sh
