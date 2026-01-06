@@ -58,7 +58,6 @@
 - [Knowledge Distillation](#18-knowledge-distillation)
 - [Model Uncertainty](#19-model-uncertainty)
 - [Prompt Engineering](#20-prompt-engineering)
-- [Chain of thought](#21-chain-of-thought-cot-prompting)
 - [Quantitative metrics and Qualitative Evaluation](#22-quantitative-metrics-and-qualitative-evaluation)
     - [Quantitative Metrics](#quantitative-metrics)
         - [Common Quantitative Metrics](#common-quantitative-metrics)
