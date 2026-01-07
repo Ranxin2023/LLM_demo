@@ -616,6 +616,14 @@ Answer: 12
     - How to format an answer
 ### 3. Zero-Shot Learning in LLMs (Prompt-Based)
 - In LLMs, **zero-shot learning happens through prompts**.
+- Instead of:
+    - Fine-tuning the model
+    - Providing labeled examples
+- You simply:
+    - **Describe the task in natural language**
+    - Provide the input
+    - Let the model infer what to do
+- This is why zero-shot learning and prompt engineering are tightly connected.
 ### 4. How Zero-Shot Learning Applies to LLMs (From the Image)
 #### Example 1: Zero-Shot Text Classification
 - **Task**
@@ -630,3 +638,21 @@ Classify the following text as Positive, Neutral, or Negative:
 - **What the model does**
     - Recognizes this as a **sentiment classification task**
     - Uses its understanding of sentiment words (“love”, “easy”)
+
+### 5. Zero-Shot vs Few-Shot vs Fine-Tuning
+| **Approach**    | Examples Provided? | Model Retrained? | When Used                      |
+| --------------- | ------------------ | ---------------- | ------------------------------ |
+| **Zero-shot**   | ❌ None             | ❌ No             | Fast, flexible tasks           |
+| **Few-shot**    | ✅ A few            | ❌ No             | Improve reliability            |
+| **Fine-tuning** | ✅ Many             | ✅ Yes            | Specialized, high-stakes tasks |
+
+### 6. Why Zero-Shot Learning Is Powerful
+- No labeled data required
+- No retraining cost
+- Extremely flexible
+- Rapid prototyping
+- Works across many tasks
+
+### 7. Limitations of Zero-Shot Learning
+- Lower accuracy for domain-specific tasks
+- Sensitive to prompt wording

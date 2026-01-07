@@ -58,6 +58,7 @@
 - [Knowledge Distillation](#18-knowledge-distillation)
 - [Model Uncertainty](#19-model-uncertainty)
 - [Prompt Engineering](#20-prompt-engineering)
+- [What are some approaches to reduce the computational cost of LLMs?](#21-what-are-some-approaches-to-reduce-the-computational-cost-of-llms)
 - [Quantitative metrics and Qualitative Evaluation](#22-quantitative-metrics-and-qualitative-evaluation)
     - [Quantitative Metrics](#quantitative-metrics)
         - [Common Quantitative Metrics](#common-quantitative-metrics)
@@ -964,6 +965,54 @@ $$
 - A form of **uncertainty calibration**.
 ## [20. Prompt Engineering](./PromptEngineering/Readme.md)
 
+## 21. What are some approaches to reduce the computational cost of LLMs?
+### 1. Model Pruning — Remove what the model doesn’t really need
+#### What it is
+- Model pruning removes **less important parameters** (weights, neurons, or even entire attention heads) after or during training.
+#### Why it reduces cost
+- Fewer parameters → fewer multiplications
+- Smaller model → lower memory footprint
+- Faster inference
+#### Types of pruning
+- **Unstructured pruning**: removes individual weights (hard to accelerate on GPUs)
+- **Structured pruning**: removes whole neurons, layers, or attention heads (hardware-friendly)
+#### Trade-off
+- Too much pruning can hurt accuracy
+- Needs careful criteria (magnitude-based, gradient-based, or importance scoring)
+
+### 2. Quantization — Use fewer bits per number
+#### What it is
+- Quantization reduces numerical precision:
+    - FP32 → FP16 / BF16
+    - FP16 → INT8 / INT4
+#### Why it reduces cost
+- Less memory bandwidth
+- Faster matrix multiplication
+- Lower power consumption
+- Fits large models into smaller GPUs or even CPUs
+#### Why performance is preserved
+- Neural networks are **robust to small numeric noise**, especially at inference time.
+### 3. Knowledge Distillation — Teach a small model to behave like a big one
+#### What it is
+- A large “teacher” model trains a smaller “student” model using soft probability outputs instead of hard labels.
+#### Why it reduces cost
+- Student model has:
+    - fewer layers
+    - fewer parameters
+    - faster inference
+- Still retains much of the teacher’s reasoning behavior
+#### Why it works
+- Teacher outputs encode **dark knowledge**:
+### 4. Sparse Attention — Stop attending to everything
+#### Problem with standard Transformers
+- Self-attention scales as:
+O(n^2)
+- This becomes extremely expensive for long sequences.
+#### Solution: sparse attention
+- Instead of attending to all tokens:
+    - attend to **local windows**
+    - attend to **selected global tokens**
+    - attend to **patterns (blocks, hashes, strides)**
 ## 22. Quantitative metrics and Qualitative evaluation
 ### Quantitative Metrics
 - Quantitative metrics are **numerical**, **measurable indicators** used to evaluate model outputs objectively.
