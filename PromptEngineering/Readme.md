@@ -39,6 +39,10 @@
         - [Refinement](#4-refinement)
         - [Repeat](#5-repeat)
 - [What is Zero Shot Learning and How Does It Apply to LLMs](#what-is-zero-shot-learning-and-how-does-it-apply-to-llms)
+    - [What is Zero SHot Learning](#1-what-is-zero-shot-learning)
+    - [Why Zero Shot Learning Works for LLMs](#2-why-zero-shot-learning-works-for-llms)
+    - [Zero Shot Learning in LLMs(Prompt Based)](#3-zero-shot-learning-in-llms-prompt-based)
+- [Explain the concept of "few-shot learning" in LLMs and its advantages](#explain-the-concept-of-few-shot-learning-in-llms-and-its-advantages)
 ## What is Prompt Engineering
 - **Prompt engineering** is the process of **designing, refining, and optimizing prompts** — the input instructions given to a large language model (LLM) — to guide it toward producing accurate, relevant, and high-quality outputs for a specific task.
 - Generative AI models are trained to generate outputs based on patterns in language, so well-structured prompts help them:
@@ -656,3 +660,14 @@ Classify the following text as Positive, Neutral, or Negative:
 ### 7. Limitations of Zero-Shot Learning
 - Lower accuracy for domain-specific tasks
 - Sensitive to prompt wording
+- May struggle with subtle distinctions
+- Less reliable than fine-tuned models for high-stakes use
+
+### 8. How Prompt Engineering Improves Zero-Shot Performance
+- Because zero-shot relies entirely on prompts, **prompt quality matters a lot**.
+
+
+## Explain the concept of "few-shot learning" in LLMs and its advantages.
+### 1. What Is Few-Shot Learning in LLMs?
+- **Definition**
+    - **Few-shot learning** in large language models (LLMs) refers to the ability of a model to perform a new task after being shown only a small number of examples (shots) directly in the prompt.

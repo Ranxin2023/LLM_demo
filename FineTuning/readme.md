@@ -13,7 +13,8 @@
 - [LoRA](#lora)
 - [PEFT](#14-peft)
 - [Adapter Tuning](#16-adapter-tuning)
-- [Fine Tune Methods](#fine-tune-methods)
+- [Fine Tuning Methods Overview](#fine-tuning-methods-overview)
+- [Fine Tuning Methods in Details](#fine-tune-methods-in-details)
     - [Freeze Method](#freeze-method)
     - [P-Tuning](#p-tuning-method)
     - [Full Fine Tuning](#full-fine-tuning)
@@ -73,12 +74,60 @@
 | Quality            | best performance possible            |
 | Best for           | large datasets, domain-specific LLMs |
 
-## Fine-Tune Methods
+## Fine-Tuning Methods Overview
+### Tier 1: Full & Partial Weight Fine-Tuning (Classic Methods)
+#### 1. Full Fine-Tuning
+- Updates **100% of model weights**
+- Highest cost and memory usage
+- Best when:
+    - You have large datasets
+    - You control the model weights
+- **Pros**
+    - Maximum flexibility
+    - Strong domain adaptation
+- **Cons**
+    - Very expensive
+    - Risk of overfitting
+    - One model per task
+
+#### 2. Layer Freezing / Partial Fine-Tuning
+- **(Train only some layers)**
+    - Freeze lower layers
+    - Train top layers only
+- **Pros**
+    - Cheaper than full fine-tuning
+    - Retains general language ability
+- **Cons**
+    - Limited adaptability
+    - Rarely used for modern LLMs
+### Tier 2: Parameter-Efficient Fine-Tuning (PEFT)
+#### 1. LoRA (Low-Rank Adaptation)
+- Injects low-rank adapter matrices
+- Freezes base model
+- Trains ~0.1–2% of parameters
+##### Pros
+- Very efficient
+- Widely adopted
+- Multiple tasks = multiple adapters
+##### Cons
+- Slightly less expressive than full FT
+#### 2. QLoRA (Quantized LoRA)
+- Base model in **4-bit**
+- Adapters in FP16
+##### Pros
+- Enables fine-tuning 7B–70B models on a single GPU
+- Extremely memory efficient
+##### Cons
+- Slightly slower training
+- More complex setup
+#### 3. Adapter Tuning (Houlsby / Pfeiffer Adapters)
+- Inserts small neural modules between layers
+- Older than LoRA
+## Fine-Tune Methods in Details
 ### Freeze Method
 - The Freeze method literally means freezing parameters.
 - In this approach, most of the parameters of the original large model are frozen, and only a small subset of parameters is trained.
 - By doing so, memory usage can be significantly reduced, making it possible to fine-tune large models more efficiently.
-
 
 ### P-tuning Method
 #### What is P-tuning
@@ -118,7 +167,7 @@
 - 
 
 ##### Full Fine-Tuning Workflow Explained (Step-by-Step)
-![Full Fine-tuning Workflow](images/full_fine_tuning.png)
+![Full Fine-tuning Workflow](../images/full_fine_tuning.png)
 #### 1. **Training Data (Step 1)**
 - **Training data is divided into batches**
     - Training datasets are large.
@@ -159,10 +208,10 @@ Batch → Model → Output
 ## LoRA
 ### What is Low-Rank Adaptation (LoRA)?
 
-**Low-Rank Adaptation (LoRA)** is a **parameter-efficient fine-tuning (PEFT)** technique designed to adapt large pre-trained models for specific tasks **without significantly increasing computational or memory costs**.
+- **Low-Rank Adaptation (LoRA)** is a **parameter-efficient fine-tuning (PEFT)** technique designed to adapt large pre-trained models for specific tasks **without significantly increasing computational or memory costs**.
 
-As large language models (LLMs) grow in size and complexity, fine-tuning them on new tasks often requires **substantial computational power and GPU memory**.  
-LoRA solves this problem by reducing the number of trainable parameters — making the fine-tuning process **faster, lighter, and more efficient**.
+- As large language models (LLMs) grow in size and complexity, fine-tuning them on new tasks often requires **substantial computational power and GPU memory**.  
+- LoRA solves this problem by reducing the number of trainable parameters — making the fine-tuning process **faster, lighter, and more efficient**.
 
 ---
 
@@ -229,4 +278,35 @@ Only \( A \) and \( B \) are trained, while \( W \) remains frozen — significa
 - This is the core of LoRA
 - LoRA inserts **small trainable matrices** into specific layers:
     - Usually **Q, K, V** projections in attention
-- 
+- These adapters are defined by:
+    - **Rank (r)** → how expressive the adapter is
+    - **Target modules** → which layers get adapters
+- Mathematically:
+$$W_{\text{effective}} = W_{\text{base}} + \Delta W$$
+$$\Delta W = B \cdot A \quad (r \ll d)$$
+- Only A and B are trainable.
+
+#### 5. Forward Pass → Adjusted Model Output (Bottom center)
+```css
+Input → Base Model (frozen)
+      → LoRA adapters applied
+      → Adjusted model output
+
+```
+
+- The output looks like a fully fine-tuned model, but:
+    - The base weights are unchanged
+    - The adapters steer the behavior
+#### 6. Compare with Training Data Output (Purple dashed box)
+- The model output is compared with the **ground-truth output**.
+- A **loss function** (e.g. cross-entropy) is computed.
+
+#### 7. Backpropagation (Only into adapters)
+- **This is the biggest difference vs full fine-tuning**
+- Gradients **flow only into LoRA adapters**
+- The base model **does not receive gradients**
+- This drastically reduces:
+    - Memory usage
+    - Training time
+    - Overfitting risk
+

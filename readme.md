@@ -59,6 +59,7 @@
 - [Model Uncertainty](#19-model-uncertainty)
 - [Prompt Engineering](#20-prompt-engineering)
 - [What are some approaches to reduce the computational cost of LLMs?](#21-what-are-some-approaches-to-reduce-the-computational-cost-of-llms)
+- [What is the purpose of quantization in training large language models?](#)
 - [Quantitative metrics and Qualitative Evaluation](#22-quantitative-metrics-and-qualitative-evaluation)
     - [Quantitative Metrics](#quantitative-metrics)
         - [Common Quantitative Metrics](#common-quantitative-metrics)
@@ -1006,13 +1007,50 @@ $$
 ### 4. Sparse Attention — Stop attending to everything
 #### Problem with standard Transformers
 - Self-attention scales as:
-O(n^2)
+$O(n^2)$
 - This becomes extremely expensive for long sequences.
 #### Solution: sparse attention
 - Instead of attending to all tokens:
     - attend to **local windows**
     - attend to **selected global tokens**
     - attend to **patterns (blocks, hashes, strides)**
+#### Examples
+- Longformer (local + global attention)
+- Reformer (LSH attention)
+- BigBird (block sparse attention)
+#### Result
+- Near-linear complexity
+- Enables long-context LLMs efficiently
+#### Analogy: “You don’t need to reread the entire book to understand the current chapter.”
+### 5. Efficient Architectures — Design cheaper models from the start
+#### What it means
+- Instead of optimizing a costly Transformer after training, design architectures that are **efficient by construction**.
+#### Examples
+- **Reformer**: reversible layers → lower memory
+- **Longformer**: sparse attention → long context
+- ALBERT: parameter sharing → fewer weights
+- Mobile-style transformers: optimized for edge devices
+## 21Extra. What is the purpose of quantization in training large language models?
+### Quantization is mainly about resource efficiency, but there are two common contexts:
+#### **A)During training (less common, but important)**
+- Training is expensive because you store:
+    - weights
+    - gradients
+    - optimizer states (Adam keeps extra moment tensors)
+    - activations for backprop
+- So people use **mixed precision training**(FP16/BF16) to:
+    - reduce memory (fit bigger batches / longer context)
+    - speed up matrix multiplications on modern GPUs (Tensor Cores)
+    - lower cost
+- This is “quantization-like” (lower precision), even though it’s often not integer quantization.
+#### **B) After training, for deployment/inference (most common)**
+- After the model is trained, quantization is widely used to:
+    - **shrink the model** so it fits in GPU/CPU RAM
+    - **increase throughput** (more tokens/sec)
+    - **reduce latency** (faster responses)
+    - **reduce energy/cost**
+- That’s exactly what the screenshot’s answer is describing: “use fewer bits (e.g., 8-bit instead of 32-bit), reduce memory + compute while maintaining performance.”
+
 ## 22. Quantitative metrics and Qualitative evaluation
 ### Quantitative Metrics
 - Quantitative metrics are **numerical**, **measurable indicators** used to evaluate model outputs objectively.
