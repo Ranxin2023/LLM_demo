@@ -9,15 +9,18 @@
     - [Prompt Calibration](#1-prompt-calibration)
     - [Fine Tuning](#2-fine-tuning)
     - [Data Agumentation](#3-data-augmentation)
-
 - [LoRA](#lora)
-- [PEFT](#14-peft)
+- [PEFT](#peft)
 - [Adapter Tuning](#16-adapter-tuning)
 - [Fine Tuning Methods Overview](#fine-tuning-methods-overview)
+    - [Full or Partial Weight Fine-Tuning Classic Methods](#tier-1-full--partial-weight-fine-tuning-classic-methods)
+    - [Parameter Efficient Fine-Tuning(PEFT)](#tier-2-parameter-efficient-fine-tuning-peft)
 - [Fine Tuning Methods in Details](#fine-tune-methods-in-details)
     - [Freeze Method](#freeze-method)
     - [P-Tuning](#p-tuning-method)
+        - [Top Half](#1-top-half-fine-tuning-full--partial-model-updates)
     - [Full Fine Tuning](#full-fine-tuning)
+    - [Prompt Tuning](#prompt-tuning)
 
 ## 1. What Is Fine-Tuning?
 - **Fine-tuning** is the process of taking a **pre-trained** language model (like GPT, BERT, or T5) and training it further on a **smaller**, **domain-specific** dataset to make it perform better on a **specific task or language style**.
@@ -101,7 +104,7 @@
     - Limited adaptability
     - Rarely used for modern LLMs
 ### Tier 2: Parameter-Efficient Fine-Tuning (PEFT)
-#### 1. LoRA (Low-Rank Adaptation)
+#### 3. LoRA (Low-Rank Adaptation)
 - Injects low-rank adapter matrices
 - Freezes base model
 - Trains ~0.1–2% of parameters
@@ -111,7 +114,7 @@
 - Multiple tasks = multiple adapters
 ##### Cons
 - Slightly less expressive than full FT
-#### 2. QLoRA (Quantized LoRA)
+#### 4. QLoRA (Quantized LoRA)
 - Base model in **4-bit**
 - Adapters in FP16
 ##### Pros
@@ -120,9 +123,28 @@
 ##### Cons
 - Slightly slower training
 - More complex setup
-#### 3. Adapter Tuning (Houlsby / Pfeiffer Adapters)
+#### 5. Adapter Tuning (Houlsby / Pfeiffer Adapters)
 - Inserts small neural modules between layers
 - Older than LoRA
+
+### Tier 3: Prompt-Level & Output-Level Tuning
+#### 6. Prompt Tuning / Prefix Tuning
+- Learns **soft prompts** (trainable embeddings)
+- Model weights frozen
+##### Pros
+- Extremely lightweight
+- Fast training
+##### Cons
+- Limited capability
+- Sensitive to task complexity
+
+#### 7. Instruction Tuning (Supervised Fine-Tuning, SFT)
+- Teaches the model how to follow instructions
+- Can be:
+    - Full fine-tuning
+    - LoRA-based
+    - API-based (e.g., OpenAI)
+
 ## Fine-Tune Methods in Details
 ### Freeze Method
 - The Freeze method literally means freezing parameters.
@@ -139,15 +161,33 @@
         - **learns continuous prompt embeddings automatically**
         - keeps the **entire pretrained model frozen**
         - optimizes only a **small number of prompt parameters**
+
 #### prefix tuning
-![Prefix Tuning Diagram](../images/p_tuning)
+![Prefix Tuning Diagram](../images/p_tuning.png)
 ##### 1. Top Half: Fine-tuning (Full / Partial Model Updates)
-- What the diagram shows:
+- **What the diagram shows**
     - You see multiple Transformer stacks, each labeled with a task:
         - **Translation**
         - **Summarization**
         - **Table-to-text**
-#### 2. 
+    - Each task has its **own adapted Transformer**.
+- What is happening conceptually
+1. **Start from a pre-trained Transformer**
+- The model already knows general language patterns.
+2. **Duplicate the model for each task**
+- One copy fine-tuned for translation
+- Another for summarization
+- Another for table-to-text
+3. **Update (train) model parameters**
+- **All parameters** (full fine-tuning), or
+- **Some layers** (freeze-based fine-tuning)
+##### 2. Bottom Half: Prefix-tuning (Parameter-Efficient Fine-Tuning)
+- **What the diagram shows**
+    - A **single frozen pre-trained Transformer** (gray block).
+    - Small **task-specific “prefix” blocks**:
+        - Prefix (Translation)
+        - Prefix (Summarization)
+        - Prefix (Table-to-text)
 
 ### Full Fine-tuning
 #### Definition of Full Fine-tuning
@@ -310,3 +350,122 @@ Input → Base Model (frozen)
     - Training time
     - Overfitting risk
 
+### Prompt Tuning
+#### What Is Prompt Tuning?
+- **Prompt tuning** is a lightweight model adaptation technique where **you do NOT change the model’s weights at all**.
+- Instead, you **modify the input prompt** in a systematic way so that the model’s output aligns with a desired task, style, or behavior.
+#### What Does “Adjusting the Prompt” Actually Mean?
+##### 1. Manual Prompt Engineering (Basic Prompt Tuning)
+- **Example**
+```text
+You are a professional medical assistant.
+Answer the following question clearly and concisely.
+
+Question: What are the symptoms of anemia?
+
+```
+##### 2. Few-Shot Prompt Tuning (In-Context Learning)
+- **Example**
+```text
+Q: What causes headaches?
+A: Stress, dehydration, lack of sleep.
+
+Q: What causes chest pain?
+A: Heart problems, muscle strain, acid reflux.
+
+Q: What causes anemia?
+A:
+
+```
+##### 3. Soft Prompt Tuning (Learned Prompt Embeddings)
+- This is where prompt tuning becomes **trainable**, but still **does not update the model itself**.
+- Instead of text tokens, you train a small set of **continuous vectors** (called soft prompts) that are prepended to the input embeddings.
+```arduino
+[ p1 p2 p3 p4 ] + "What are symptoms of anemia?"
+
+```
+- `p1…p4` are **learned vectors**
+- The base LLM is **frozen**
+- Only these vectors are updated during training
+
+#### Why Prompt Tuning Works (Intuition)
+- Large Language Models already contain:
+    - Grammar
+    - World knowledge
+    - Reasoning patterns
+    - Task representations
+- Prompt tuning **selects and activates** the right behavior **without rewriting knowledge**.
+#### How prompt tuning works
+##### 1. Why prompt tuning exists (problem motivation)
+- **Sensitivity to input**
+    - Foundation models are **extremely sensitive to how input is phrased**.
+    - Even small wording changes can alter:
+        - reasoning depth
+        - format
+        - factual accuracy
+        - verbosity
+- **Limitations of manual prompt engineering**
+- 
+
+##### 2. Key idea: prompts don’t have to be words
+- **Traditional prompting**
+    - Normally, prompts are:
+    ```css
+    Text → Tokens → Token IDs → Embeddings
+
+    ```
+    - Example:
+    ```css
+    "What is anemia?"
+    → ["What", "is", "anemia", "?"]
+    → [1096, 318, 3291, 30]
+    → embedding vectors
+
+    ```
+##### 3. What is a “prompt vector”?
+- A **prompt vector** is:
+    - A sequence of trainable embedding vectors
+    - Same dimensionality as token embeddings
+    - Prepended to the input embeddings
+- Conceptually:
+```scss
+[p1, p2, p3, p4] + Embeddings("What is anemia?")
+
+```
+- Important:
+    - `p1…p4` are **not words**
+    - They never pass through the tokenizer
+    - They are learned via gradient descent
+    
+#### Diagram of Prompt Tuning
+![Prompt Tuning Workflow](../images/prompt_tuning.png)
+##### 1. Start → Initialization Method (Top of Diagram)
+- **“Initialization Method” box**
+    - This is where the system decides **how to initialize the prompt vector**.
+- You have **two choices**:
+    - **Option A: Text-based initialization (Left branch)**
+        - **Flow**:
+        ```arduino
+        Initialization text
+        → Tokenized initialization text
+        → Prompt vector
+
+        ```
+        - **What this means**:
+            - You provide human-written text (e.g. “Answer medical questions concisely”)
+            - The text is tokenized
+            - Tokens are converted to embeddings
+            - These embeddings become the **initial prompt vector**
+##### 2. Number of Virtual Tokens
+- **“# of virtual tokens (for example, 5)”**
+    - This controls the **length of the prompt vector**.
+        - Virtual tokens = **soft tokens**
+        - They do NOT correspond to real words
+        - Each token = one embedding vector
+    - 
+##### 3. Prompt Vector Construction
+- **“Prompt vector (dimension = virtual token #)”**
+- This is the **core trainable object**.
+##### 4. Concatenation With Training Input
+##### 5. Forward Pass Through the Model
+- **“Model” (green box)**
