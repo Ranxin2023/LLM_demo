@@ -776,7 +776,7 @@ Top-P sampling chooses from the smallest set of tokens whose cumulative probabil
     - If 70% of your data says “doctor → he,” generate more examples with “doctor → she.”
     - Use paraphrasing or back-translation to diversify data linguistically.
 
-## 12. Fine-Tuning
+## [12. Fine-Tuning](FineTuning/readme.md)
 
 
 
