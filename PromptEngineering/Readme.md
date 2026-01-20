@@ -671,3 +671,32 @@ Classify the following text as Positive, Neutral, or Negative:
 ### 1. What Is Few-Shot Learning in LLMs?
 - **Definition**
     - **Few-shot learning** in large language models (LLMs) refers to the ability of a model to perform a new task after being shown only a small number of examples (shots) directly in the prompt.
+- Instead of:
+    - Training the model on thousands of labeled examples
+    - Or relying purely on instructions (zero-shot)
+### 2. How Few-Shot Learning Works in LLMs
+- LLMs are pre-trained on massive corpora that include:
+    - Question–answer patterns
+    - Explanations
+    - Lists
+    - Translations
+    - Classifications
+- When you provide examples in a prompt, the model:
+1. Recognizes the **task type**
+2. Infers the **mapping between inputs and outputs**
+3. Generalizes that pattern to the new input
+- This is often called **in-context learning**.
+- **Example: Few-Shot Sentiment Classification**
+```text
+Text: "I love this product!" → Sentiment: Positive
+Text: "This was a waste of money." → Sentiment: Negative
+
+Text: "The service was okay, nothing special." → Sentiment:
+
+```
+### 3. Few-Shot vs Zero-Shot vs Fine-Tuning
+| **Approach**    |**Examples Given** | Model Retrained | Use Case                       |
+| --------------- | ------------------| --------------- | ------------------------------ |
+| **Zero-shot**   | ❌ None          | ❌ No            | Fast, general tasks            |
+| **Few-shot**    | ✅ Few           | ❌ No            | Improve accuracy & consistency |
+| **Fine-tuning** | ✅ Many          | ✅ Yes           | High-stakes or domain-specific |
