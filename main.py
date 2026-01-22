@@ -11,7 +11,7 @@
 # from demo_code.LLMConceptsDemo.mitigate_bias import mitigate_bias_output
 from demo_code.FineTuning.catastrophic_forgetting import catastrophic_forgetting_redirect
 from demo_code.RAG.AgenticRAGDemo import run_agentic_RAG
-from demo_code.LLMConceptsDemo.CoTDemo import CoT_redirect_output
+from PromptEngineering.CoTDemo import CoT_redirect_output
 from demo_code.KnowledgeDistillation.KnowledgeDistillation import knowledge_distillation_redirect
 from demo_code.PromptEngineering.three_prompt_engineering_techniques import prompt_engineering_redirect
 from PromptEngineering.ABtesting_demo import redirect_AB_testing

@@ -51,7 +51,6 @@
     - [Prompt Calibration](#1-prompt-calibration)
     - [Fine Tuning](#2-fine-tuning)
     - [Data Agumentation](#3-data-augmentation)
-- [LoRA](#14preknowledge-lora)
 - [PEFT](#14-peft)
 - [Adapter Tuning](#16-adapter-tuning)
 - [Hallucination](#17-hallucinations)
@@ -59,7 +58,7 @@
 - [Model Uncertainty](#19-model-uncertainty)
 - [Prompt Engineering](#20-prompt-engineering)
 - [What are some approaches to reduce the computational cost of LLMs?](#21-what-are-some-approaches-to-reduce-the-computational-cost-of-llms)
-- [What is the purpose of quantization in training large language models?](#)
+- [What is the purpose of quantization in training large language models?](#21extra-what-is-the-purpose-of-quantization-in-training-large-language-models)
 - [Quantitative metrics and Qualitative Evaluation](#22-quantitative-metrics-and-qualitative-evaluation)
     - [Quantitative Metrics](#quantitative-metrics)
         - [Common Quantitative Metrics](#common-quantitative-metrics)
@@ -777,41 +776,6 @@ Top-P sampling chooses from the smallest set of tokens whose cumulative probabil
     - Use paraphrasing or back-translation to diversify data linguistically.
 
 ## [12. Fine-Tuning](./FineTuning/readme.md)
-
-
-
-## 14. catastrophic forgetting
-### Definition:
-- Catastrophic forgetting (or catastrophic interference) is the phenomenon where a neural network **forgets previously learned tasks** after being fine-tuned on new data.
-- In the context of LLMs, it means:
-    - When you fine-tune a model (like GPT, BERT, or T5) on a new dataset or task, its performance on older tasks suddenly drops dramatically.
-
-### ⚙️ Why It Happens (Mechanism):
-1. **Shared Parameters**
-- In deep neural networks, the same weights are used across many tasks.
-- When fine-tuning, backpropagation updates these shared parameters to fit the new task.
-    2. **No Replay Memory**:
-- Unlike humans, models don’t “remember” earlier tasks unless we retrain them together.
-- They only see the new task’s dataset — and gradients push them entirely toward that new distribution.
-3. **High Capacity Models Still Forget**:
-- Even very large LLMs (billions of parameters) are not immune.
-- Their large capacity helps, but without constraints or regularization, they still optimize for the current objective and drift away from older ones.
-### 🧩 Mitigation Techniques
-| **Technique**                                  | **How It Works**                                                                        | **Why It Helps**                                                                |
-| ------------------------------------------ | ----------------------------------------------------------------------------------- | --------------------------------------------------------------------------- |
-| **PEFT (Parameter-Efficient Fine-Tuning)** | Freezes most weights and trains small adapter modules (like LoRA or prefix tuning). | Preserves old knowledge in frozen weights.                                  |
-| **EWC (Elastic Weight Consolidation)**     | Penalizes changes to parameters that are important for old tasks.                   | Uses Fisher Information Matrix to identify which parameters are “critical.” |
-| **Replay / Rehearsal**                     | Mixes data from old and new tasks during fine-tuning.                               | Helps maintain representation balance.                                      |
-| **Regularization Methods**                 | Adds penalty terms that discourage large weight shifts.                             | Keeps parameters near their old values.                                     |
-
-### 🧮 Intuitive Analogy
-- Think of the model’s parameters as a **shared whiteboard**:
-    - During pretraining, it writes general knowledge.
-    - During fine-tuning, it writes notes for new tasks.
-- If you erase and overwrite everything for the new topic (without saving the old ones), you lose the old knowledge — that’s catastrophic forgetting.
-- Techniques like PEFT or EWC act like:
-    - **PEFT**: “Write on sticky notes” (small, new parameters) — don’t touch the main whiteboard.
-    - **EWC**: “Highlight what’s important and don’t erase it” — preserve critical parts of the old notes.
 
 ## 16. Adapter Tuning
 ### 16.1 Background

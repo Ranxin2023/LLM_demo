@@ -4,7 +4,7 @@
     - [Why Fine Tuning Works](#why-fine-tuning-works)
     - [Types of Fine Tuning](#types-of-fine-tuning)
     - [Four Methods for Fine Tuning](#four-methods-for-fine-tuning)
-- [Catastrophic Forgetting](#13-catastrophic-forgetting)
+- [Catastrophic Forgetting](#catastrophic-forgetting)
     - [Prompt Calibration](#1-prompt-calibration)
     - [Fine Tuning](#2-fine-tuning)
     - [Data Agumentation](#3-data-augmentation)
@@ -29,6 +29,9 @@
         - [What is Prompt Tuning](#what-is-prompt-tuning)
         - [What does Adjusting the Prompt Actually Mean](#what-does-adjusting-the-prompt-actually-mean)
         - [Why Prompt Tuning Works(Intuition)](#why-prompt-tuning-works-intuition)
+        - [Diagram of Prompt Tuning](#diagram-of-prompt-tuning)
+            - [Start->Initialization Method](#1-start--initialization-method-top-of-diagram)
+            - [Number of Virtual Tokens](#2-number-of-virtual-tokens)
 
 ## 1. What Is Fine-Tuning?
 - **Fine-tuning** is the process of taking a **pre-trained** language model (like GPT, BERT, or T5) and training it further on a **smaller**, **domain-specific** dataset to make it perform better on a **specific task or language style**.
@@ -85,6 +88,39 @@
 | Quality            | best performance possible            |
 | Best for           | large datasets, domain-specific LLMs |
 
+## Catastrophic Forgetting
+### Definition:
+- Catastrophic forgetting (or catastrophic interference) is the phenomenon where a neural network **forgets previously learned tasks** after being fine-tuned on new data.
+- In the context of LLMs, it means:
+    - When you fine-tune a model (like GPT, BERT, or T5) on a new dataset or task, its performance on older tasks suddenly drops dramatically.
+
+### ⚙️ Why It Happens (Mechanism):
+1. **Shared Parameters**
+- In deep neural networks, the same weights are used across many tasks.
+- When fine-tuning, backpropagation updates these shared parameters to fit the new task.
+    2. **No Replay Memory**:
+- Unlike humans, models don’t “remember” earlier tasks unless we retrain them together.
+- They only see the new task’s dataset — and gradients push them entirely toward that new distribution.
+3. **High Capacity Models Still Forget**:
+- Even very large LLMs (billions of parameters) are not immune.
+- Their large capacity helps, but without constraints or regularization, they still optimize for the current objective and drift away from older ones.
+### 🧩 Mitigation Techniques
+| **Technique**                                  | **How It Works**                                                                        | **Why It Helps**                                                                |
+| ------------------------------------------ | ----------------------------------------------------------------------------------- | --------------------------------------------------------------------------- |
+| **PEFT (Parameter-Efficient Fine-Tuning)** | Freezes most weights and trains small adapter modules (like LoRA or prefix tuning). | Preserves old knowledge in frozen weights.                                  |
+| **EWC (Elastic Weight Consolidation)**     | Penalizes changes to parameters that are important for old tasks.                   | Uses Fisher Information Matrix to identify which parameters are “critical.” |
+| **Replay / Rehearsal**                     | Mixes data from old and new tasks during fine-tuning.                               | Helps maintain representation balance.                                      |
+| **Regularization Methods**                 | Adds penalty terms that discourage large weight shifts.                             | Keeps parameters near their old values.                                     |
+
+### 🧮 Intuitive Analogy
+- Think of the model’s parameters as a **shared whiteboard**:
+    - During pretraining, it writes general knowledge.
+    - During fine-tuning, it writes notes for new tasks.
+- If you erase and overwrite everything for the new topic (without saving the old ones), you lose the old knowledge — that’s catastrophic forgetting.
+- Techniques like PEFT or EWC act like:
+    - **PEFT**: “Write on sticky notes” (small, new parameters) — don’t touch the main whiteboard.
+    - **EWC**: “Highlight what’s important and don’t erase it” — preserve critical parts of the old notes.
+    
 ## PEFT
 ### What is PEFT?
 - **Parameter-Efficient Fine-Tuning (PEFT)** adapts a frozen pretrained model by training only a small set of extra parameters (or a tiny subset of existing ones). The backbone weights stay fixed, so you keep the general knowledge while learning a new task/domain cheaply.
@@ -525,10 +561,34 @@ A:
         - Virtual tokens = **soft tokens**
         - They do NOT correspond to real words
         - Each token = one embedding vector
-    - 
+    - Example:
+    ```cpp
+    5 virtual tokens
+    → Prompt vector shape = [5, embedding_dim]
+
+    ```
+    - 📌 More tokens = more expressive power
+    - 📌 Too many tokens = harder to optimize
 ##### 3. Prompt Vector Construction
 - **“Prompt vector (dimension = virtual token #)”**
 - This is the **core trainable object**.
 ##### 4. Concatenation With Training Input
 ##### 5. Forward Pass Through the Model
 - **“Model” (green box)**
+    - This is the **frozen foundation model**
+    - Transformer layers run normally
+    - Attention sees prompt vectors as **extra context tokens**
+
+##### 6. Model Output → Scoring
+- **“Model output” → “Score”**
+    - The model generates predictions
+    - Predictions are compared against:
+    - A loss is computed (e.g. cross-entropy)
+- This is standard supervised learning **except**:
+    - ❗ Gradients flow ONLY into the prompt vector
+
+##### 7. Gradient Update (Critical Part)
+- **“Edited prompt vector”**
+    - Loss gradients are computed
+    - Prompt vector values are updated
+    - Model parameters remain frozen

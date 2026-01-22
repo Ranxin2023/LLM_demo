@@ -20,6 +20,6 @@ def CoT_demo():
     print(f"Response in coTFunction{response.content}")
 
 def CoT_redirect_output():
-    with open("./output_results/Cot_demo.txt", "w", encoding="utf-8") as f:
+    with open("../output_results/Cot_demo.txt", "w", encoding="utf-8") as f:
         with redirect_stdout(f):
             CoT_demo()
