@@ -10,10 +10,12 @@
     - [Data Agumentation](#3-data-augmentation)
 - [PEFT](#peft)
     - [What is PEFT](#what-is-peft)
+    - [Major PEFT Families?(How They Plug In?)](#major-peft-families-how-they-plug-in)
 - [Adapter Tuning](#16-adapter-tuning)
 - [Fine Tuning Methods Overview](#fine-tuning-methods-overview)
     - [Full or Partial Weight Fine-Tuning Classic Methods](#tier-1-full--partial-weight-fine-tuning-classic-methods)
     - [Parameter Efficient Fine-Tuning(PEFT)](#tier-2-parameter-efficient-fine-tuning-peft)
+    - [Prompt Level & Output Level Tuning](#tier-3-prompt-level--output-level-tuning)
 - [Fine Tuning Methods in Details](#fine-tune-methods-in-details)
     - [Freeze Method](#freeze-method)
     - [P-Tuning Method](#p-tuning-method)
@@ -29,9 +31,14 @@
         - [What is Prompt Tuning](#what-is-prompt-tuning)
         - [What does Adjusting the Prompt Actually Mean](#what-does-adjusting-the-prompt-actually-mean)
         - [Why Prompt Tuning Works(Intuition)](#why-prompt-tuning-works-intuition)
+        - [How Prompt Tuning Works](#how-prompt-tuning-works)
+            - [Why Prompt-Tuning Exists(Problem Motivation)](#1-why-prompt-tuning-exists-problem-motivation)
+            - [Key Idea: Prompts Don't Have to be Words](#2-key-idea-prompts-dont-have-to-be-words)
+            - [What is a Prompt Vector](#3-what-is-a-prompt-vector)
         - [Diagram of Prompt Tuning](#diagram-of-prompt-tuning)
             - [Start->Initialization Method](#1-start--initialization-method-top-of-diagram)
             - [Number of Virtual Tokens](#2-number-of-virtual-tokens)
+            - [Prompt Vector Construction](#3-prompt-vector-construction)
 
 ## 1. What Is Fine-Tuning?
 - **Fine-tuning** is the process of taking a **pre-trained** language model (like GPT, BERT, or T5) and training it further on a **smaller**, **domain-specific** dataset to make it perform better on a **specific task or language style**.
@@ -124,10 +131,9 @@
 ## PEFT
 ### What is PEFT?
 - **Parameter-Efficient Fine-Tuning (PEFT)** adapts a frozen pretrained model by training only a small set of extra parameters (or a tiny subset of existing ones). The backbone weights stay fixed, so you keep the general knowledge while learning a new task/domain cheaply.
+
 ### Major PEFT families (how they plug in)
-
-
-#### **LoRA (Low-Rank Adapters)**
+#### LoRA (Low-Rank Adapters)
 Learn two small matrices \( A \in \mathbb{R}^{d \times r} \), \( B \in \mathbb{R}^{r \times d} \) and add their product to a frozen weight \( W \):
 
 \[
@@ -182,22 +188,22 @@ Extremely small parameter count.
 - Best when:
     - You have large datasets
     - You control the model weights
-- **Pros**
-    - Maximum flexibility
-    - Strong domain adaptation
-- **Cons**
-    - Very expensive
-    - Risk of overfitting
-    - One model per task
+##### **Pros**
+- Maximum flexibility
+- Strong domain adaptation
+##### **Cons**
+- Very expensive
+- Risk of overfitting
+- One model per task
 
 #### 2. Layer Freezing / Partial Fine-Tuning
 - **(Train only some layers)**
     - Freeze lower layers
     - Train top layers only
-- **Pros**
+##### **Pros**
     - Cheaper than full fine-tuning
     - Retains general language ability
-- **Cons**
+##### **Cons**
     - Limited adaptability
     - Rarely used for modern LLMs
 ### Tier 2: Parameter-Efficient Fine-Tuning (PEFT)
@@ -242,14 +248,14 @@ Extremely small parameter count.
     - LoRA-based
     - API-based (e.g., OpenAI)
 
-## Fine-Tune Methods in Details
-### Freeze Method
+# Fine-Tune Methods in Details
+## Freeze Method
 - The Freeze method literally means freezing parameters.
 - In this approach, most of the parameters of the original large model are frozen, and only a small subset of parameters is trained.
 - By doing so, memory usage can be significantly reduced, making it possible to fine-tune large models more efficiently.
 
-### P-tuning Method
-#### What is P-tuning
+## P-tuning Method
+### What is P-tuning
 - P-tuning is a parameter-efficient fine-tuning (PEFT) method that teaches a language model how to prompt itself.
 - Instead of:
     - manually writing text prompts like
@@ -259,9 +265,9 @@ Extremely small parameter count.
         - keeps the **entire pretrained model frozen**
         - optimizes only a **small number of prompt parameters**
 
-#### Prefix-Tuning Workflow
+### Prefix-Tuning Workflow
 ![Prefix Tuning Diagram](../images/p_tuning.png)
-##### 1. Top Half: Fine-tuning (Full / Partial Model Updates)
+#### 1. Top Half: Fine-tuning (Full / Partial Model Updates)
 - **What the diagram shows**
     - You see multiple Transformer stacks, each labeled with a task:
         - **Translation**
@@ -278,7 +284,7 @@ Extremely small parameter count.
 3. **Update (train) model parameters**
 - **All parameters** (full fine-tuning), or
 - **Some layers** (freeze-based fine-tuning)
-##### 2. Bottom Half: Prefix-tuning (Parameter-Efficient Fine-Tuning)
+#### 2. Bottom Half: Prefix-tuning (Parameter-Efficient Fine-Tuning)
 - **What the diagram shows**
     - A **single frozen pre-trained Transformer** (gray block).
     - Small **task-specific “prefix” blocks**:
@@ -286,26 +292,26 @@ Extremely small parameter count.
         - Prefix (Summarization)
         - Prefix (Table-to-text)
 
-### Full Fine-tuning
-#### Definition of Full Fine-tuning
+## Full Fine-tuning
+### Definition of Full Fine-tuning
 - Full fine-tuning is a training method where all parameters of a pre-trained foundation model are updated using a **smaller**, **task-specific dataset**.
 - Instead of freezing layers or adding adapter modules (like in LoRA or QLoRA), full fine-tuning **modifies every weight** of the base model.
 
-#### How Full Fine-Tuning Works
-##### 1. Prepare Training Data
+### How Full Fine-Tuning Works
+#### 1. Prepare Training Data
 - You provide a dataset of **input** → **target** output pairs, such as:
     ```vbnet
         Input: "Summarize this text..."
         Output: "This article explains..."
     ```
 - These examples define how you want the model to behave.
-##### 2. Feed Each Batch Into the Model
+#### 2. Feed Each Batch Into the Model
 - The training data is split into batches (e.g., 32 or 64 samples per batch).
 - 
 
-#### Full Fine-Tuning Workflow Explained (Step-by-Step)
+### Full Fine-Tuning Workflow Explained (Step-by-Step)
 ![Full Fine-tuning Workflow](../images/full_fine_tuning.png)
-##### 1. **Training Data (Step 1)**
+#### 1. **Training Data (Step 1)**
 - **Training data is divided into batches**
     - Training datasets are large.
     - Instead of feeding the entire dataset at once, we split it into **batches** (Batch 1, Batch 2, …).
@@ -313,19 +319,19 @@ Extremely small parameter count.
     - Reduce memory usage
     - More stable optimization
     - Support gradient accumulation
-##### 2. **Start: Input a batch into the model (Step 2)**
+#### 2. **Start: Input a batch into the model (Step 2)**
 - Each batch is passed into the model:
 ```nginx
 Batch → Model → Output
 ```
 - This produces predictions (logits or probabilities).
 - The model still uses **old parameters** at this stage.
-##### 3. Compare model output vs. expected output → Compute Loss (Step 3)
+#### 3. Compare model output vs. expected output → Compute Loss (Step 3)
 - Compare:
     - **Model output** (predicted result)
     - **Training data output** (true labels)
 - Loss function
-##### 4. Update Model Weights (Step 4)
+#### 4. Update Model Weights (Step 4)
 - **Optimizer updates all model weights**
     - Since this is full fine-tuning, every parameter in every layer is updated.
     - Common optimizers:
@@ -342,8 +348,8 @@ Batch → Model → Output
 - **Model ready for next iteration (Step 5)**
     - 
 
-### LoRA
-#### What is Low-Rank Adaptation (LoRA)?
+## LoRA
+### What is Low-Rank Adaptation (LoRA)?
 
 - **Low-Rank Adaptation (LoRA)** is a **parameter-efficient fine-tuning (PEFT)** technique designed to adapt large pre-trained models for specific tasks **without significantly increasing computational or memory costs**.
 
@@ -352,7 +358,7 @@ Batch → Model → Output
 
 ---
 
-#### 🧠 Key Idea
+### 🧠 Key Idea
 
 LoRA modifies the standard fine-tuning process by **inserting small trainable low-rank matrices** into specific layers (typically the attention projections) of a frozen pre-trained model.  
 Instead of updating the full parameter matrix \( W \), LoRA decomposes it into two smaller matrices \( A \) and \( B \):
@@ -370,7 +376,7 @@ Only \( A \) and \( B \) are trained, while \( W \) remains frozen — significa
 
 ---
 
-#### ⚙️ Architecture of LoRA
+### ⚙️ Architecture of LoRA
 
 - LoRA is typically integrated into **Transformer-based models** (like GPT, BERT, or T5).  
 - Here’s how it works step by step:
@@ -390,28 +396,28 @@ Only \( A \) and \( B \) are trained, while \( W \) remains frozen — significa
    - Fine-tune only the low-rank matrices for a specific task (like sentiment analysis or translation).  
    - The model learns the new task efficiently while maintaining previous capabilities.
 
-#### Explanation of How LORA Works
+### Explanation of How LORA Works
 ![Lora Workflow](../images/lora_workflow.svg)
-##### 1. Training Data & Batching (Right side, purple box)
+#### 1. Training Data & Batching (Right side, purple box)
 - **Training data**
     - The dataset is split into batches (Batch 1, Batch 2, …).
     - **Batch size** determines how many samples are processed per step.
     - Multiple batches = one epoch.
     - Multiple epochs = full training.
-##### 2. Input from Training Data (Top center)
+#### 2. Input from Training Data (Top center)
 - Each batch provides:
     - **Input text** (e.g. prompt, question)
     - **Expected output** (ground truth)
 - This input flows into the model through **the LoRA adapters**, not directly into trainable base weights.
-##### 3. Base Foundation Model (Green circle, right)
-###### **Frozen model**
+#### 3. Base Foundation Model (Green circle, right)
+##### **Frozen model**
 - This is the original pre-trained model (GPT, LLaMA, Mistral, etc.).
 - All original weights are frozen:
     - Attention layers
     - Feed-forward layers
     - Embeddings
 - Unlike full fine-tuning, **no gradients update these weights**.
-##### 4. Low-Rank Adapters (Blue dashed box, center-right)
+#### 4. Low-Rank Adapters (Blue dashed box, center-right)
 - This is the core of LoRA
 - LoRA inserts **small trainable matrices** into specific layers:
     - Usually **Q, K, V** projections in attention
@@ -423,7 +429,7 @@ $$W_{\text{effective}} = W_{\text{base}} + \Delta W$$
 $$\Delta W = B \cdot A \quad (r \ll d)$$
 - Only A and B are trainable.
 
-##### 5. Forward Pass → Adjusted Model Output (Bottom center)
+#### 5. Forward Pass → Adjusted Model Output (Bottom center)
 ```css
 Input → Base Model (frozen)
       → LoRA adapters applied
@@ -434,11 +440,11 @@ Input → Base Model (frozen)
 - The output looks like a fully fine-tuned model, but:
     - The base weights are unchanged
     - The adapters steer the behavior
-##### 6. Compare with Training Data Output (Purple dashed box)
+#### 6. Compare with Training Data Output (Purple dashed box)
 - The model output is compared with the **ground-truth output**.
 - A **loss function** (e.g. cross-entropy) is computed.
 
-##### 7. Backpropagation (Only into adapters)
+#### 7. Backpropagation (Only into adapters)
 - **This is the biggest difference vs full fine-tuning**
 - Gradients **flow only into LoRA adapters**
 - The base model **does not receive gradients**
@@ -449,12 +455,12 @@ Input → Base Model (frozen)
 
 
 
-### Prompt Tuning
-#### What Is Prompt Tuning?
+## Prompt Tuning
+### What Is Prompt Tuning?
 - **Prompt tuning** is a lightweight model adaptation technique where **you do NOT change the model’s weights at all**.
 - Instead, you **modify the input prompt** in a systematic way so that the model’s output aligns with a desired task, style, or behavior.
-#### What Does “Adjusting the Prompt” Actually Mean?
-##### 1. Manual Prompt Engineering (Basic Prompt Tuning)
+### What Does “Adjusting the Prompt” Actually Mean?
+#### 1. Manual Prompt Engineering (Basic Prompt Tuning)
 - **Example**
 ```text
 You are a professional medical assistant.
@@ -463,7 +469,7 @@ Answer the following question clearly and concisely.
 Question: What are the symptoms of anemia?
 
 ```
-##### 2. Few-Shot Prompt Tuning (In-Context Learning)
+#### 2. Few-Shot Prompt Tuning (In-Context Learning)
 - **Example**
 ```text
 Q: What causes headaches?
@@ -476,7 +482,7 @@ Q: What causes anemia?
 A:
 
 ```
-##### 3. Soft Prompt Tuning (Learned Prompt Embeddings)
+#### 3. Soft Prompt Tuning (Learned Prompt Embeddings)
 - This is where prompt tuning becomes **trainable**, but still **does not update the model itself**.
 - Instead of text tokens, you train a small set of **continuous vectors** (called soft prompts) that are prepended to the input embeddings.
 ```arduino
@@ -487,15 +493,16 @@ A:
 - The base LLM is **frozen**
 - Only these vectors are updated during training
 
-#### Why Prompt Tuning Works (Intuition)
+### Why Prompt Tuning Works (Intuition)
 - Large Language Models already contain:
     - Grammar
     - World knowledge
     - Reasoning patterns
     - Task representations
 - Prompt tuning **selects and activates** the right behavior **without rewriting knowledge**.
-#### How prompt tuning works
-##### 1. Why prompt tuning exists (problem motivation)
+
+### How prompt tuning works
+#### 1. Why prompt tuning exists (problem motivation)
 - **Sensitivity to input**
     - Foundation models are **extremely sensitive to how input is phrased**.
     - Even small wording changes can alter:
@@ -506,7 +513,7 @@ A:
 - **Limitations of manual prompt engineering**
 - 
 
-##### 2. Key idea: prompts don’t have to be words
+#### 2. Key idea: prompts don’t have to be words
 - **Traditional prompting**
     - Normally, prompts are:
     ```css
@@ -521,7 +528,7 @@ A:
     → embedding vectors
 
     ```
-##### 3. What is a “prompt vector”?
+#### 3. What is a “prompt vector”?
 - A **prompt vector** is:
     - A sequence of trainable embedding vectors
     - Same dimensionality as token embeddings
@@ -536,9 +543,9 @@ A:
     - They never pass through the tokenizer
     - They are learned via gradient descent
 
-#### Diagram of Prompt Tuning
+### Diagram of Prompt Tuning
 ![Prompt Tuning Workflow](../images/prompt_tuning.png)
-##### 1. Start → Initialization Method (Top of Diagram)
+#### 1. Start → Initialization Method (Top of Diagram)
 - **“Initialization Method” box**
     - This is where the system decides **how to initialize the prompt vector**.
 - You have **two choices**:
@@ -555,7 +562,7 @@ A:
             - The text is tokenized
             - Tokens are converted to embeddings
             - These embeddings become the **initial prompt vector**
-##### 2. Number of Virtual Tokens
+#### 2. Number of Virtual Tokens
 - **“# of virtual tokens (for example, 5)”**
     - This controls the **length of the prompt vector**.
         - Virtual tokens = **soft tokens**
@@ -569,17 +576,17 @@ A:
     ```
     - 📌 More tokens = more expressive power
     - 📌 Too many tokens = harder to optimize
-##### 3. Prompt Vector Construction
+#### 3. Prompt Vector Construction
 - **“Prompt vector (dimension = virtual token #)”**
 - This is the **core trainable object**.
-##### 4. Concatenation With Training Input
-##### 5. Forward Pass Through the Model
+#### 4. Concatenation With Training Input
+#### 5. Forward Pass Through the Model
 - **“Model” (green box)**
     - This is the **frozen foundation model**
     - Transformer layers run normally
     - Attention sees prompt vectors as **extra context tokens**
 
-##### 6. Model Output → Scoring
+#### 6. Model Output → Scoring
 - **“Model output” → “Score”**
     - The model generates predictions
     - Predictions are compared against:
@@ -587,7 +594,7 @@ A:
 - This is standard supervised learning **except**:
     - ❗ Gradients flow ONLY into the prompt vector
 
-##### 7. Gradient Update (Critical Part)
+#### 7. Gradient Update (Critical Part)
 - **“Edited prompt vector”**
     - Loss gradients are computed
     - Prompt vector values are updated

@@ -42,16 +42,7 @@
 - [Semantic Gap in RAG](#10-semantic-gap-in-rag)
 - [How can bias in prompt-based learning be mitigated?](#11-how-can-bias-in-prompt-based-learning-be-mitigated)
 - [Fine Tuning](#12-fine-tuning)
-- [Fine Tuning](#12-fine-tuning)
-    - [What is Fine Tuning](#what-is-fine-tuning)
-    - [Why Fine Tuning Works](#why-fine-tuning-works)
-    - [Types of Fine Tuning](#types-of-fine-tuning)
-    - [Four Methods for Fine Tuning](#four-methods-for-fine-tuning)
-- [Catastrophic Forgetting](#13-catastrophic-forgetting)
-    - [Prompt Calibration](#1-prompt-calibration)
-    - [Fine Tuning](#2-fine-tuning)
-    - [Data Agumentation](#3-data-augmentation)
-- [PEFT](#14-peft)
+- [Model Evaluation](#13-model-evaluation)
 - [Adapter Tuning](#16-adapter-tuning)
 - [Hallucination](#17-hallucinations)
 - [Knowledge Distillation](#18-knowledge-distillation)
@@ -776,6 +767,53 @@ Top-P sampling chooses from the smallest set of tokens whose cumulative probabil
     - Use paraphrasing or back-translation to diversify data linguistically.
 
 ## [12. Fine-Tuning](./FineTuning/readme.md)
+## 13. Model Evaluation
+### Modern LLM Evaluation Summary
+#### 1. “LLM metrics measure output quality across dimensions like correctness and relevance”
+### What are LLM Evaluation Metrics?
+#### LLM Evaluation Diagram
+![LLM Evaluation Metrics](./images/LLM_Evaluation_Metrics.png)
+1. **LLM Test Case (Left blue box)**
+- **What it represents**
+2. **LLM Evaluation Metric (Purple box)**
+### Most Important and Common Metrics
+#### 1. Answer Relevancy
+- **“Does the output actually address the input?”**
+- **What it measures**
+    - Whether the response:
+        - stays **on-topic**
+        - answers the **user’s actual question** (not a nearby one)
+        - avoids unnecessary tangents
+        - 
+#### 2. Task Completion
+- **“Did the system actually do what it was asked to do?”**
+##### What it measures
+- This is especially important for **agents** and **multi-step systems**.
+##### Examples:
+- Booking a meeting
+- Producing valid JSON
+- Executing a plan
+- Completing a workflow
+##### Why it’s critical
+- A partially correct answer that doesn’t finish the task is still a **failure** in production.
+#### 3. Correctness
+- **“Is the information actually true?”**
+#### 4. Hallucination
+- **“Is the model making things up?”**
+##### What it measures
+- Whether the output includes:
+    - fabricated facts
+    - unsupported claims
+    - invented citations
+    - details not present in context
+- This is **not the same as incorrectness**:
+    - Incorrect = wrong
+    - Hallucinated = unjustified
+##### Why it’s critical
+- Hallucinations are:
+    - confident
+    - persuasive
+#### 5. Tool Correctness
 
 ## 16. Adapter Tuning
 ### 16.1 Background

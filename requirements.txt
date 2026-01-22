@@ -33,3 +33,6 @@ datasets
 matplotlib
 peft
 rouge_score
+deepeval
+bitsandbytes
+# kaggle_secrets
