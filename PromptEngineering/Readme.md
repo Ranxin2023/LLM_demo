@@ -73,54 +73,56 @@
 | **Importance** | Reduces human postprocessing, improves reliability, and unlocks AI’s full potential    |
 
 ## Core Idea
-- **Generative AI and Its Dependence on Prompts**
-    - Generative AI systems are designed to generate specific outputs based on the quality of provided prompts.
-        - Generative AI refers to systems that can **create new content** — text, images, code, etc.
-        - These models don’t just rely on their internal knowledge; the **prompt** (the user’s input) determines how they interpret and generate the response.
-        - Therefore, **the better the prompt**, **the better the output**.
-- **The Role of Prompt Engineering**
-    - Prompt engineering helps generative AI models better comprehend and respond to a wide range of queries, from the simple to the highly technical.
-    - This means prompt engineering:
-        - Teaches models how to handle **different levels of complexity** in questions or tasks.
-        - Makes AI more **context-aware** and **adaptive**.
-        - Ensures the model produces responses aligned with user intent — whether it’s a simple question or a technical command.
+### **Generative AI and Its Dependence on Prompts**
+- Generative AI systems are designed to generate specific outputs based on the quality of provided prompts.
+    - Generative AI refers to systems that can **create new content** — text, images, code, etc.
+    - These models don’t just rely on their internal knowledge; the **prompt** (the user’s input) determines how they interpret and generate the response.
+    - Therefore, **the better the prompt**, **the better the output**.
+### **The Role of Prompt Engineering**
+- Prompt engineering helps generative AI models better comprehend and respond to a wide range of queries, from the simple to the highly technical.
+- This means prompt engineering:
+    - Teaches models how to handle **different levels of complexity** in questions or tasks.
+    - Makes AI more **context-aware** and **adaptive**.
+    - Ensures the model produces responses aligned with user intent — whether it’s a simple question or a technical command.
 
-- **The Basic Rule: Good Prompts = Good Results**
-    - “The basic rule is that good prompts equal good results.”
-    - This line summarizes the **core principle** of prompt engineering — the **output quality is directly tied to the input design**.
+### **The Basic Rule: Good Prompts = Good Results**
+- “The basic rule is that good prompts equal good results.”
+- This line summarizes the **core principle** of prompt engineering — the **output quality is directly tied to the input design**.
         
-- **Iterative Refinement and Learning**
-    - Generative AI relies on the iterative refinement of different prompt engineering techniques to effectively learn from diverse input data and adapt to minimize biases, confusion, and produce more accurate responses.
-    - This highlights the **process-oriented nature** of prompt engineering:
-        - It’s **iterative** — prompts are continuously refined and tested.
-        - It helps AI models:
-            - Learn from diverse examples
-            - Reduce biases
-            - Avoid confusion or hallucinations
-            - Increase accuracy
-    - So, prompt engineering is not just writing prompts — it’s a **systematic method** of improving model behavior.
-- **The Role of Prompt Engineers**
-    - Prompt engineers play a pivotal role in crafting queries that help generative AI models understand not just the language but also the nuance and intent behind the query.
-    - This part describes **the job of a prompt engineer**:
-        - They design prompts that communicate **both meaning and intention**.
-        - They must understand how the AI interprets text, so they can express instructions in a way that the model “understands.”
-        - A good prompt engineer ensures the output (text, code, summary, etc.) matches the **desired context and tone**.
-- **Impact on Output Quality**
-    - A high-quality, thorough, and knowledgeable prompt, in turn, influences the quality of AI-generated content, whether it’s images, code, data summaries or text.
-    - Here, the document emphasizes that **prompt quality** impacts **all forms of AI output**, not just text.
-    - Whether an AI is generating:
-        - **Text** (e.g., essays, summaries)
-        - **Code** (e.g., Python functions)
-        - **Images** (e.g., using text-to-image models)
-            - the structure and clarity of the prompt determine how effectively it performs.
-- **The Bridge Between Raw Queries and Meaningful Responses**
-    - A thoughtful approach to creating prompts is necessary to bridge the gap between raw queries and meaningful AI-generated responses.
-    - This highlights the **core purpose** of prompt engineering — it acts as a **bridge** between what humans mean and what AI generates.
-    - Without well-engineered prompts, AI might misinterpret or oversimplify the query.
-- **Role of Fine-Tuning and Optimization**
-    - By fine-tuning effective prompts, engineers can significantly optimize the quality and relevance of outputs to solve for both the specific and the general.
-    - Here, the author notes that prompt engineering works similarly to **fine-tuning** a model, but at the **instruction level**.
-    - Instead of retraining the model, prompt engineers **adjust the input** to make the model perform better on different kinds of tasks.
+### **Iterative Refinement and Learning**
+- Generative AI relies on the iterative refinement of different prompt engineering techniques to effectively learn from diverse input data and adapt to minimize biases, confusion, and produce more accurate responses.
+- This highlights the **process-oriented nature** of prompt engineering:
+    - It’s **iterative** — prompts are continuously refined and tested.
+    - It helps AI models:
+        - Learn from diverse examples
+        - Reduce biases
+        - Avoid confusion or hallucinations
+        - Increase accuracy
+- So, prompt engineering is not just writing prompts — it’s a **systematic method** of improving model behavior.
+### **The Role of Prompt Engineers**
+- Prompt engineers play a pivotal role in crafting queries that help generative AI models understand not just the language but also the nuance and intent behind the query.
+- This part describes **the job of a prompt engineer**:
+    - They design prompts that communicate **both meaning and intention**.
+    - They must understand how the AI interprets text, so they can express instructions in a way that the model “understands.”
+    - A good prompt engineer ensures the output (text, code, summary, etc.) matches the **desired context and tone**.
+### **Impact on Output Quality**
+- A high-quality, thorough, and knowledgeable prompt, in turn, influences the quality of AI-generated content, whether it’s images, code, data summaries or text.
+- Here, the document emphasizes that **prompt quality** impacts **all forms of AI output**, not just text.
+- Whether an AI is generating:
+    - **Text** (e.g., essays, summaries)
+    - **Code** (e.g., Python functions)
+    - **Images** (e.g., using text-to-image models)
+        - the structure and clarity of the prompt determine how effectively it performs.
+
+### **The Bridge Between Raw Queries and Meaningful Responses**
+- A thoughtful approach to creating prompts is necessary to bridge the gap between raw queries and meaningful AI-generated responses.
+- This highlights the **core purpose** of prompt engineering — it acts as a **bridge** between what humans mean and what AI generates.
+- Without well-engineered prompts, AI might misinterpret or oversimplify the query.
+
+### **Role of Fine-Tuning and Optimization**
+- By fine-tuning effective prompts, engineers can significantly optimize the quality and relevance of outputs to solve for both the specific and the general.
+- Here, the author notes that prompt engineering works similarly to **fine-tuning** a model, but at the **instruction level**.
+- Instead of retraining the model, prompt engineers **adjust the input** to make the model perform better on different kinds of tasks.
 
 ## Why is Prompt Engineering Important
 ### **Direct Influence on Output Quality**
@@ -359,11 +361,78 @@ Input: ...
 #### Prompt style
 - Polite
 - Explicit
+- Safety-aware
+- Handles long context extremely well
+#### Recommended structure
+```text
+Task:
+<clear task>
+
+Context:
+<relevant background>
+
+Requirements:
+- <requirement 1>
+- <requirement 2>
+
+Output format:
+<format>
+
+```
+#### Example
+```text
+Please provide a neutral and balanced explanation.
+
+Context:
+This explanation is for non-technical readers.
+
+Task:
+Explain what zero-shot learning is.
+
+Guidelines:
+- Avoid jargon
+- Use clear examples
+
+```
 ### 4. Gemini (Google)
 #### Prompt style
 - Instruction-driven
 - Task-oriented
-- 
+- Works well with structured, concise prompts
+- Strong multimodal grounding (text + image + data)
+#### Recommended structure
+```text
+Task:
+<clear task>
+
+Context:
+<relevant background>
+
+Requirements:
+- <requirement 1>
+- <requirement 2>
+
+Output format:
+<format>
+
+```
+
+### 5. LLaMA / LLaMA-2 / LLaMA-3 (Meta, open-source)
+#### Prompt style
+- Template-driven
+- Instruction markers are important
+- Weak without structure
+#### Recommended structure
+```text
+### Instruction:
+<task>
+
+### Input:
+<input data>
+
+### Response:
+
+```
 ## How Prompt Engineering Works
 ### 1. Create an Adequate Prompt
 - This first step focuses on designing a clear, effective initial prompt — the foundation of all subsequent refinement.
