@@ -18,9 +18,10 @@
     - [Prompt](#212-prompt)
     - [Hyperparameters](#213-hyperparameters)
     - [Context Window](#214-context-window)
-- [Common pre-training objectives for LLM](#3-what-are-some-common-pre-training-objectives-for-llms-and-how-do-they-work)
-- [How do you Measure the Performance of an LLM](#4-how-do-you-measure-the-performance-of-an-llm)
-    - [Perplexity](#41--perplexity)
+- [Transformers](#3-transformers)
+- [Common pre-training objectives for LLM](#4-what-are-some-common-pre-training-objectives-for-llms-and-how-do-they-work)
+- [How do you Measure the Performance of an LLM](#5-how-do-you-measure-the-performance-of-an-llm)
+    - [Perplexity](#51--perplexity)
     - [Accuray](#42--accuracy)
     - [F1 Score](#43-f1-score)
     - [BLUE](#44-bleu-bilingual-evaluation-understudy-score)
@@ -216,19 +217,19 @@ They define how the model transforms input tokens into contextual representation
     - Claude 3: up to 200K tokens
 ### 2.15 Embedding Space & Similarity
 
-## 3. What are some common pre-training objectives for LLMs, and how do they work?
-### 3.1  Masked Language Modeling (MLM)
+## [3. Transformers](./Transformer/readme.md)
+## 4. What are some common pre-training objectives for LLMs, and how do they work?
+### 4.1  Masked Language Modeling (MLM)
 - **Used in models like**: BERT, RoBERTa
 - **How it works**:
     - Random tokens in a sentence are masked (replaced with `[MASK]`).
     - The model is trained to predict the masked word using both left and right context (i.e., it's **bidirectional**).
-### 3.2 Autoregressive Language Modeling (AR)
+### 4.2 Autoregressive Language Modeling (AR)
 - **Used in models like**: GPT, GPT-2, GPT-3, GPT-4
 
 
-
-## 4. How do you measure the performance of an LLM?
-### 4.1 🔢 Perplexity
+## 5. How do you measure the performance of an LLM?
+### 5.1 🔢 Perplexity
 - **definition**:
 Perplexity is a measurement of how well a language model predicts a sequence. It is the exponential of the average negative log-likelihood of the predicted tokens.
 - **formula**:
@@ -239,14 +240,14 @@ Perplexity = *e*^Loss
 - **Use Case**:
     - Commonly used for **language modeling** and **text generation** tasks.
 
-### 4.2 🧮 Accuracy
+### 5.2 🧮 Accuracy
 - **definition**:
 Accuracy is the ratio of **correct predictions to total predictions**. It is commonly used in classification tasks (e.g., sentiment analysis, text classification).
 - **formula**:
 Accuracy = Number of Correct Predictions / Total Predictions
 - **Interpretation**:
     - A higher accuracy value indicates better performance, though it can be misleading on **imbalanced datasets** (where some labels dominate).
-### 4.3 F1 Score
+### 5.3 F1 Score
 - **definition**:
 F1 Score is the **harmonic mean** of Precision and Recall. It is especially useful for imbalanced datasets.
 
@@ -257,7 +258,7 @@ F1 Score is the **harmonic mean** of Precision and Recall. It is especially usef
 - **formula**:
 F1=(2*Precision*Recall)/(Precision+Recall)
 
-### 4.4 BLEU (Bilingual Evaluation Understudy) Score
+### 5.4 BLEU (Bilingual Evaluation Understudy) Score
 #### **Definition**:
 - BLEU measures how close the model-generated text is to one or more **reference translations**.
 - It evaluates **machine translation** and **text generation** quality by comparing overlapping **n-grams** (word sequences).
@@ -274,7 +275,7 @@ F1=(2*Precision*Recall)/(Precision+Recall)
 #### Use Case:
 - Commonly used in **machine translation**, **text summarization**, and **paraphrasing models**.
 
-### 4.5 ROUGE (Recall-Oriented Understudy for Gisting Evaluation)
+### 5.5 ROUGE (Recall-Oriented Understudy for Gisting Evaluation)
 - **Definition**
     - ROUGE measures the overlap between **generated text** and **reference text**.
     - It’s primarily used for **summarization** and **text generation** tasks.

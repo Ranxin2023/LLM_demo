@@ -2,6 +2,7 @@
 ## Table of Contennts
 - [What is Prompt Engineering](#what-is-prompt-engineering)
 - [Core Idea](#core-idea)
+    - [Generative AI and its Dependence on Prompts](#generative-ai-and-its-dependence-on-prompts)
 - [Why is Prompt Engineering Important](#why-is-prompt-engineering-important)
 - [Prompt Core Elements](#prompt-elements)
     - [Instructions](#1-instructions)
@@ -55,6 +56,10 @@
     - [How Few-Shot Learning Works in LLMs](#2-how-few-shot-learning-works-in-llms)
     - [Few-Shot Learning vs Zero-Shot Learning vs Fine-Tuning](#3-few-shot-vs-zero-shot-vs-fine-tuning)
     - [Advantages of Few-Shot Learning](#5-advantages-of-few-shot-learning-from-the-question)
+        - [Reduced Data Requirements](#1-reduced-data-requirements)
+        - [Increased Flexibility](#2-increased-flexibility)
+        - [Cost Efficiency](#3-cost-efficiency)
+    - [When Few-Shot Learning is Better than Zero Shot](#6-when-few-shot-learning-is-better-than-zero-shot)
 
 ## What is Prompt Engineering
 - **Prompt engineering** is the process of **designing, refining, and optimizing prompts** — the input instructions given to a large language model (LLM) — to guide it toward producing accurate, relevant, and high-quality outputs for a specific task.
@@ -73,7 +78,7 @@
 | **Importance** | Reduces human postprocessing, improves reliability, and unlocks AI’s full potential    |
 
 ## Core Idea
-### **Generative AI and Its Dependence on Prompts**
+### Generative AI and Its Dependence on Prompts
 - Generative AI systems are designed to generate specific outputs based on the quality of provided prompts.
     - Generative AI refers to systems that can **create new content** — text, images, code, etc.
     - These models don’t just rely on their internal knowledge; the **prompt** (the user’s input) determines how they interpret and generate the response.
@@ -631,6 +636,7 @@ Answer: 12
     """
 
     ```
+
 ## Interview Questions
 
 ### How do you evaluate the effectiveness of a prompt?
@@ -774,6 +780,7 @@ Answer: 12
 1. Write initial prompt
 2. Test on multiple inputs
 3. Evaluate output quality and consistency
+
 ### How do you approach iterative prompt refinement to improve LLM performance?
 #### 1. Initial Design
 - “Start with a basic prompt based on task requirements.”
