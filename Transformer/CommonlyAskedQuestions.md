@@ -19,7 +19,10 @@
     - [Intermediate Questions](#intermediate-questions)
 - [Feed-Forward Network (FFN)](#5-feed-forward-network-ffn)
     - [Basic Questions](#basic-questions-4)
+        - [What is the Role of the Feed-Forward Network](#what-is-the-role-of-the-feed-forward-network)
 - [Residual Connections and Layer Normalization](#6-residual-connections--layer-normalization)
+    - [Basic Questions](#basic-questions-5)
+        - [What Problem does LayerNorm Solve](#what-problem-does-layernorm-solve)
 - [Encoder vs Decoder(Architecture Level)](#7-encoder-vs-decoder-architecture-level)
 ## 1. Input & Embedding Layer (Token + Positional Encoding)
 ### Basic questions
@@ -45,7 +48,7 @@
 #### What is self-attention?
 #### What are Query, Key, and Value?
 ##### Short Answer:
-    - Query, Key, and Value are three learned vector representations of each token that allow the Transformer to compute attention weights—that is, how much each token should focus on other tokens when forming its contextual representation.
+- Query, Key, and Value are three learned vector representations of each token that allow the Transformer to compute attention weights—that is, how much each token should focus on other tokens when forming its contextual representation.
 ##### **Formal explanation (how it actually works)**
 - For each token embedding 𝑥:
 
@@ -80,6 +83,27 @@ $$
 ### Advanced questions
 ## 5. Feed-Forward Network (FFN)
 ### Basic questions
+#### What is the role of the feed-forward network?
+##### Short Answer
+- The **feed-forward network (FFN)** provides **non-linear transformation and feature mixing at each token**, allowing the Transformer to increase representational capacity beyond attention by independently transforming each token’s features.
+##### What the FFN is in a Transformer
+- Inside every Transformer block, after self-attention, there is a **position-wise feed-forward network**:
+$$
+\mathrm{FFN}(x) = W_2 \, \sigma\!\left(W_1 x + b_1\right) + b_2
+$$
+- Same FFN is applied to **every token**
+- Operates **independently per position**
+- Usually much **wider** than the model dimension
+##### Why attention alone is not enough
+##### What the FFN actually does (intuition)
+- Think of a Transformer block as:
+    - **Attention** → “Which tokens should I look at?”
+    - **FFN** → “How should I process what I’ve gathered?”
+- Attention decides **where** to get information.
+- FFN decides **how** to transform it.
+##### Why the FFN is “position-wise”
+- Same parameters for all tokens
+- No token-to-token interaction inside FFN
 ### Intermediate questions
 ### Advanced questions
 
@@ -87,7 +111,30 @@ $$
 ### Basic questions
 #### Why are residual connections used?
 #### What problem does LayerNorm solve?
-
+##### Short answer
+- Layer Normalization solves the problem of **unstable training** caused by changing activation distributions, especially in deep and sequential models, by normalizing activations within each sample/token, independent of batch size.
+##### 1. Internal covariate shift (practical version)
+##### 2. Batch-size dependence (what BatchNorm fails at)
+- BatchNorm:
+    - Depends on batch statistics
+    - Breaks with:
+        - Small batches
+        - Batch size = 1
+        - Variable-length sequences
+        - Autoregressive generation
+- LayerNorm:
+    - Works per token
+    - Same behavior during training and inference
+    - No dependence on other samples
+##### 3. Deep network instability
+- Transformers stack many attention + FFN layers.
+- Without normalization:
+    - Gradients explode or vanish
+    - Training diverges
+    - Deeper models fail to converge
+- LayerNorm:
+    - Stabilizes gradient flow
+    - Enables training of very deep models (100+ layers)
 ### Intermediate questions
 #### Why LayerNorm instead of BatchNorm?
 ##### Short answer:
@@ -147,7 +194,7 @@ $$
         - ALBERT
         - DistilBERT
         - ELECTRA
-    - Typical tasks
+    - **Typical tasks**
         - Text classification
         - Sentiment analysis
         - Named Entity Recognition (NER)
