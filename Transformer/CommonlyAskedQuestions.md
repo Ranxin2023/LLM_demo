@@ -17,10 +17,12 @@
         - [What is Self-Attention](#what-is-self-attention)
         - [What are Query, Key, and Value](#what-are-query-key-and-value)
     - [Intermediate Question](#intermediate-questions-1)
-        - [Why do we divide by √dₖ in scaled dot-product attention?](#why-do-we-divide-by-dₖ-in-scaled-dot-product-attention)
+        - [Why Do We divide by √dₖ in scaled dot-product attention?](#why-do-we-divide-by-dₖ-in-scaled-dot-product-attention)
 - [Multi-Head Attention](#3-multi-head-attention)
     - [Basic Questions](#basic-questions-2)
+        - [Why Do WE Use Multiple Attention Heads](#why-do-we-use-multiple-attention-heads)
     - [Intermediate Questions](#intermediate-questions-2)
+    - [Advanced Question](#advanced-questions-2)
 - [Attention Masking(Encoder vs Decoder)](#4-attention-masking-encoder-vs-decoder)
     - [Basic Questions](#basic-questions-3)
     - [Intermediate Questions](#intermediate-questions)
@@ -30,7 +32,7 @@
 - [Residual Connections and Layer Normalization](#6-residual-connections--layer-normalization)
     - [Basic Questions](#basic-questions-5)
         - [What Problem does LayerNorm Solve](#what-problem-does-layernorm-solve)
-    - [Intermemdiate Question](#intermediate-questions-5)
+    - [Intermediate Question](#intermediate-questions-5)
 - [Encoder vs Decoder(Architecture Level)](#7-encoder-vs-decoder-architecture-level)
     - [Basic Questions](#basic-questions-6)
         - [What's the Difference between Encoder and Decoder?](#whats-the-difference-between-encoder-and-decoder)
@@ -38,7 +40,10 @@
     - [Intermediate Questions](#intermediate-questions-6)
         - [Why is GPT Decoder Only](#why-is-gpt-decoder-only)
         - [Why does Translation Use Encoder-Decoder](#why-does-translation-use-encoderdecoder)
-
+- [Output Layer & Training Objective](#8-output-layer--training-objective)
+    - [Basic Questions](#basic-questions-7)
+    - [Intermediate Question](#intermediate-questions-7)
+    - [Advanced Question](#advanced-questions-7)
 ## 1. Input & Embedding Layer (Token + Positional Encoding)
 ### Basic questions
 #### What is token embedding?
@@ -136,9 +141,36 @@
 ## 3. Multi-Head Attention
 ### Basic questions
 #### Why do we use multiple attention heads?
+- **Short Answer**
+    - We use multiple attention heads so the model can attend to different types of relationships in parallel, increasing expressive power and allowing the Transformer to capture diverse patterns at different subspaces of the representation.
+- **Intuition first**
+    - Think of each attention head as a different lens:
+        - One head focuses on **syntax** (e.g., subject–verb)
+        - Another on **coreference** (pronouns)
+        - Another on **long-range dependencies**
+        - Another on **local context**
+    - Using one head would force all of this into a single view.
+- **How multi-head attention works**
+    - Instead of one big attention:
+        - $$\mathrm{Attention}(Q, K, V)$$
+    - We use ℎ heads:
+        - $$\text{head}_i=\mathrm{Attention}\!\left(Q W_i^{Q},\; K W_i^{K},\; V W_i^{V}\right)$$
+    - Then:
+        - $$\mathrm{MultiHead}(Q, K, V)=\mathrm{Concat}\!\left(\text{head}_1, \ldots, \text{head}_h\right) W^{O}$$
+- **Why not just one big head?**
+    - **1. Expressiveness**
+        - Multiple heads = multiple learned similarity spaces
+        - One head collapses all relationships into a single pattern
+    - **2. Parallel relationship modeling**
+        - Heads specialize independently
+        - Model can reason about multiple aspects **at the same time**
+    - **3. Better inductive bias**
+        - Forces diversity in attention
+        - Encourages disentangled representations
+
 #### What does each head learn differently?
 ### Intermediate questions
-
+### Advanced Questions
 ## 4. Attention Masking (Encoder vs Decoder)
 ### Basic questions
 #### What is an attention mask?
@@ -356,3 +388,22 @@
         - Generates target tokens **autoregressively**
         - Uses **causal self-attention**
         - Uses **cross-attention** to focus on relevant source tokens
+        - At each step, the decoder asks:
+            - “Which parts of the source sentence are relevant for generating the next word?”
+        - That’s exactly what cross-attention enables.
+- **Why decoder-only is not ideal for translation**
+    - A decoder-only model:
+        - Treats translation as one long sequence
+        - Must interleave understanding + generation
+        - Scales poorly for long or complex inputs
+        - Struggles with alignment between languages
+    - Encoder–decoder:
+        - Clean alignment via cross-attention
+        - Better handling of reordering
+        - More stable and interpretable for seq-to-seq tasks
+
+### Advanced Questions
+## 8. Output Layer & Training Objective
+### Basic Questions
+### Intermediate Questions
+### Advanced Questions
