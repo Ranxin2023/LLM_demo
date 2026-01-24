@@ -102,8 +102,9 @@
     - If the components of 𝑄 and 𝐾 have zero mean and unit variance, then:
         
         $$
-        \mathbb{E}[QK^{\top}] \propto d_k
+            \mathbb{E}[QK^{\top}] \propto d_k
         $$
+        
         - Larger 𝑑𝑘 ⇒ larger variance of scores
 
 - Why large scores are bad (softmax saturation)
@@ -196,6 +197,7 @@
 #### Why LayerNorm instead of BatchNorm?
 - **Short answer**:
     - Transformers use Layer Normalization instead of Batch Normalization because LayerNorm is **independent of batch size** and token position, making it stable for variable-length sequences, small or dynamic batches, and autoregressive generation.
+
 - **Core reason (mechanism-level)**
     - BatchNorm normalizes across the batch
         - Computes mean/variance **over batch dimension**
@@ -205,6 +207,7 @@
             - Autoregressive decoding often uses **batch size = 1**
     - LayerNorm normalizes within each token
         - LayerNorm computes statistics across the feature dimension for each token independently:
+        
         $$
             \mu = \frac{1}{d} \sum_{i=1}^{d} x_i,
             \quad
