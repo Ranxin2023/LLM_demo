@@ -74,6 +74,27 @@
 ## 2. Self-Attention
 ### Basic questions
 #### What is self-attention?
+- **Short answer**
+    - **Self-attention** is a mechanism that lets each token in a sequence **dynamically focus on other tokens in the same sequence** to build a context-aware representation.
+- **What self-attention does (intuition)**
+    - When processing a sentence, each token asks:
+        - “Which other tokens are relevant to me, and how much should I care about them?”
+    - Self-attention computes those relevance weights and uses them to combine information from the whole sequence.
+- **How self-attention works (step-by-step)**
+    - 1. Project tokens into Q, K, V
+    - 2. Compute similarity scores
+    - 3. Scale + softmax
+    - 4. Weighted sum of values
+- **Why self-attention is powerful**
+    - 1. Captures long-range dependencies
+        - Any token can attend to any other token in one step
+        - No recurrence needed
+    - 2. Fully parallelizable
+        - All tokens processed at once
+        - Much faster than RNNs during training
+    - 3. Dynamic & data-dependent
+        - Attention weights change depending on context
+        - Same word behaves differently in different sentences
 #### What are Query, Key, and Value?
 - Short Answer:
     - Query, Key, and Value are three learned vector representations of each token that allow the Transformer to compute attention weights—that is, how much each token should focus on other tokens when forming its contextual representation.
@@ -289,7 +310,30 @@
     - **What they are**
         - Use *only the decoder stack
         - Causal (masked) self-attention
+        - Trained autoregressively (next-token prediction)
 
+    - **Common decoder-only models**
+        - GPT (GPT-2 / GPT-3 / GPT-4)
+        - LLaMA
+        - Mistral
+        - Falcon
+        - DeepSeek
+    - **Typical tasks**
+        - Text generation
+        - Chatbots
+        - Code generation
+        - Reasoning
+        - Autocomplete
+    - **Why decoder-only dominates LLMs**
+        - Simple architecture
+        - Scales extremely well
+        - Unified framework: prompt → generate
+        - Perfect for instruction tuning & chat
+- **Encoder–decoder models (for completeness)**
+    - **What they are**
+        - Encoder reads input
+        - Decoder generates output
+        - Cross-attention connects them
 ### Intermediate Questions
 #### Why is GPT decoder-only?
 #### Why does translation use encoder–decoder?
