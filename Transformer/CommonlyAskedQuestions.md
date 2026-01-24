@@ -96,7 +96,7 @@
     - In dot-product attention, scores are:
 
     $$
-    \text{score} = Q K^{\top}
+        \text{score} = Q K^{\top}
     $$
 
     - If the components of 𝑄 and 𝐾 have zero mean and unit variance, then:
@@ -139,7 +139,7 @@
     - Inside every Transformer block, after self-attention, there is a **position-wise feed-forward network**:
 
     $$
-    \mathrm{FFN}(x) = W_2 \, \sigma\!\left(W_1 x + b_1\right) + b_2
+        \mathrm{FFN}(x) = W_2 \, \sigma\!\left(W_1 x + b_1\right) + b_2
     $$
 
     - Same FFN is applied to **every token**
@@ -206,9 +206,9 @@
     - LayerNorm normalizes within each token
         - LayerNorm computes statistics across the feature dimension for each token independently:
         $$
-        \mu = \frac{1}{d} \sum_{i=1}^{d} x_i,
-        \quad
-        \sigma = \sqrt{\frac{1}{d} \sum_{i=1}^{d} (x_i - \mu)^2}
+            \mu = \frac{1}{d} \sum_{i=1}^{d} x_i,
+            \quad
+            \sigma = \sqrt{\frac{1}{d} \sum_{i=1}^{d} (x_i - \mu)^2}
         $$
 
         - Why this works for Transformers:
