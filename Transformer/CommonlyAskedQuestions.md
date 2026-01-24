@@ -11,6 +11,8 @@
     - [Basic Questions](#basic-questions-1)
         - [What is Self-Attention](#what-is-self-attention)
         - [What are Query, Key, and Value](#what-are-query-key-and-value)
+    - [Intermediate Question](#intermediate-questions-1)
+        - [Why do we divide by √dₖ in scaled dot-product attention?](#why-do-we-divide-by-dₖ-in-scaled-dot-product-attention)
 - [Multi-Head Attention](#3-multi-head-attention)
     - [Basic Questions](#basic-questions-2)
     - [Intermediate Questions](#intermediate-questions-2)
@@ -23,7 +25,9 @@
 - [Residual Connections and Layer Normalization](#6-residual-connections--layer-normalization)
     - [Basic Questions](#basic-questions-5)
         - [What Problem does LayerNorm Solve](#what-problem-does-layernorm-solve)
+    - [Interdemdiate Question](#intermediate-questions-5)
 - [Encoder vs Decoder(Architecture Level)](#7-encoder-vs-decoder-architecture-level)
+    - [Basic Questions](#basic-questions-6)
 ## 1. Input & Embedding Layer (Token + Positional Encoding)
 ### Basic questions
 #### What is token embedding?
@@ -61,6 +65,23 @@ $$
 #### Why is it called self-attention?
 ### Intermediate questions
 #### Why do we divide by √dₖ in scaled dot-product attention?
+##### Short answer (interview-ready):
+- We divide by **√dₖ** to keep dot-product magnitudes **numerically stable**. Without this scaling, attention scores grow with dimension, pushing softmax into saturation, which causes **vanishing gradients** and unstable training.
+##### What’s going wrong without scaling?
+- In dot-product attention, scores are:
+
+$$
+\text{score} = Q K^{\top}
+$$
+
+- If the components of 𝑄 and 𝐾 have zero mean and unit variance, then:
+    - 
+
+    $$
+    \mathbb{E}[QK^{\top}] \propto d_k
+    $$
+    - Larger 𝑑𝑘 ⇒ larger variance of scores
+
 #### What does the softmax do in attention?
 #### How is attention different from convolution or RNNs?
 ### Advanced questions
@@ -88,6 +109,7 @@ $$
 - The **feed-forward network (FFN)** provides **non-linear transformation and feature mixing at each token**, allowing the Transformer to increase representational capacity beyond attention by independently transforming each token’s features.
 ##### What the FFN is in a Transformer
 - Inside every Transformer block, after self-attention, there is a **position-wise feed-forward network**:
+
 $$
 \mathrm{FFN}(x) = W_2 \, \sigma\!\left(W_1 x + b_1\right) + b_2
 $$
@@ -148,6 +170,7 @@ $$
     - Autoregressive decoding often uses **batch size = 1**
 ##### LayerNorm normalizes within each token
 - LayerNorm computes statistics across the feature dimension for each token independently:
+
 $$
 \mu = \frac{1}{d} \sum_{i=1}^{d} x_i,
 \quad
