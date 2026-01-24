@@ -53,34 +53,36 @@
 #### What are Query, Key, and Value?
 ##### Short Answer:
 - Query, Key, and Value are three learned vector representations of each token that allow the Transformer to compute attention weights—that is, how much each token should focus on other tokens when forming its contextual representation.
-##### **Formal explanation (how it actually works)**
-- For each token embedding 𝑥:
+- **Formal explanation (how it actually works)**
+    - For each token embedding 𝑥:
 
-$$
-    Q = x W_Q,\quad K = x W_K,\quad V = x W_V
-$$
+    $$
+        Q = x W_Q,\quad K = x W_K,\quad V = x W_V
+    $$
 
-- WQ,WK,WV are learned projection matrices
-- Q, K, V live in lower-dimensional spaces for efficiency
+    - WQ,WK,WV are learned projection matrices
+    - Q, K, V live in lower-dimensional spaces for efficiency
 #### Why is it called self-attention?
 ### Intermediate questions
 #### Why do we divide by √dₖ in scaled dot-product attention?
 ##### Short answer (interview-ready):
 - We divide by **√dₖ** to keep dot-product magnitudes **numerically stable**. Without this scaling, attention scores grow with dimension, pushing softmax into saturation, which causes **vanishing gradients** and unstable training.
-##### What’s going wrong without scaling?
-- In dot-product attention, scores are:
-
-$$
-\text{score} = Q K^{\top}
-$$
-
-- If the components of 𝑄 and 𝐾 have zero mean and unit variance, then:
-    - 
+- What’s going wrong without scaling?
+    - In dot-product attention, scores are:
 
     $$
-    \mathbb{E}[QK^{\top}] \propto d_k
+    \text{score} = Q K^{\top}
     $$
-    - Larger 𝑑𝑘 ⇒ larger variance of scores
+
+    - If the components of 𝑄 and 𝐾 have zero mean and unit variance, then:
+        - 
+
+        $$
+        \mathbb{E}[QK^{\top}] \propto d_k
+        $$
+        - Larger 𝑑𝑘 ⇒ larger variance of scores
+
+- Why large scores are bad (softmax saturation)
 
 #### What does the softmax do in attention?
 #### How is attention different from convolution or RNNs?
@@ -107,25 +109,26 @@ $$
 #### What is the role of the feed-forward network?
 ##### Short Answer
 - The **feed-forward network (FFN)** provides **non-linear transformation and feature mixing at each token**, allowing the Transformer to increase representational capacity beyond attention by independently transforming each token’s features.
-##### What the FFN is in a Transformer
-- Inside every Transformer block, after self-attention, there is a **position-wise feed-forward network**:
+-  What the FFN is in a Transformer
+    - Inside every Transformer block, after self-attention, there is a **position-wise feed-forward network**:
 
-$$
-\mathrm{FFN}(x) = W_2 \, \sigma\!\left(W_1 x + b_1\right) + b_2
-$$
-- Same FFN is applied to **every token**
-- Operates **independently per position**
-- Usually much **wider** than the model dimension
-##### Why attention alone is not enough
-##### What the FFN actually does (intuition)
-- Think of a Transformer block as:
-    - **Attention** → “Which tokens should I look at?”
-    - **FFN** → “How should I process what I’ve gathered?”
-- Attention decides **where** to get information.
-- FFN decides **how** to transform it.
-##### Why the FFN is “position-wise”
-- Same parameters for all tokens
-- No token-to-token interaction inside FFN
+    $$
+    \mathrm{FFN}(x) = W_2 \, \sigma\!\left(W_1 x + b_1\right) + b_2
+    $$
+
+    - Same FFN is applied to **every token**
+    - Operates **independently per position**
+    - Usually much **wider** than the model dimension
+- Why attention alone is not enough
+- What the FFN actually does (intuition)
+    - Think of a Transformer block as:
+        - **Attention** → “Which tokens should I look at?”
+        - **FFN** → “How should I process what I’ve gathered?”
+    - Attention decides **where** to get information.
+    - FFN decides **how** to transform it.
+- Why the FFN is “position-wise”
+    - Same parameters for all tokens
+    - No token-to-token interaction inside FFN
 ### Intermediate questions
 ### Advanced questions
 
@@ -135,8 +138,13 @@ $$
 #### What problem does LayerNorm solve?
 ##### Short answer
 - Layer Normalization solves the problem of **unstable training** caused by changing activation distributions, especially in deep and sequential models, by normalizing activations within each sample/token, independent of batch size.
-##### 1. Internal covariate shift (practical version)
-##### 2. Batch-size dependence (what BatchNorm fails at)
+1. **Internal covariate shift (practical version)**
+- As a network trains:
+    - Earlier layers keep changing
+    - Later layers constantly receive inputs with **shifting distributions**
+    - This makes optimization slow and unstable
+- LayerNorm **re-centers** and **re-scales** activations at every layer, keeping them in a stable range.
+2. **Batch-size dependence (what BatchNorm fails at)**
 - BatchNorm:
     - Depends on batch statistics
     - Breaks with:
@@ -148,7 +156,7 @@ $$
     - Works per token
     - Same behavior during training and inference
     - No dependence on other samples
-##### 3. Deep network instability
+3. **Deep network instability**
 - Transformers stack many attention + FFN layers.
 - Without normalization:
     - Gradients explode or vanish
@@ -157,37 +165,42 @@ $$
 - LayerNorm:
     - Stabilizes gradient flow
     - Enables training of very deep models (100+ layers)
+
 ### Intermediate questions
 #### Why LayerNorm instead of BatchNorm?
 ##### Short answer:
 - Transformers use Layer Normalization instead of Batch Normalization because LayerNorm is **independent of batch size** and token position, making it stable for variable-length sequences, small or dynamic batches, and autoregressive generation.
-##### Core reason (mechanism-level)
-##### BatchNorm normalizes across the batch
-- Computes mean/variance **over batch dimension**
-- This breaks in NLP because:
-    - Batch sizes are often **small or variable**
-    - Sequences have **different lengths**
-    - Autoregressive decoding often uses **batch size = 1**
-##### LayerNorm normalizes within each token
-- LayerNorm computes statistics across the feature dimension for each token independently:
+- **Core reason (mechanism-level)**
+    - BatchNorm normalizes across the batch
+        - Computes mean/variance **over batch dimension**
+        - This breaks in NLP because:
+            - Batch sizes are often **small or variable**
+            - Sequences have **different lengths**
+            - Autoregressive decoding often uses **batch size = 1**
+    - LayerNorm normalizes within each token
+        - LayerNorm computes statistics across the feature dimension for each token independently:
 
-$$
-\mu = \frac{1}{d} \sum_{i=1}^{d} x_i,
-\quad
-\sigma = \sqrt{\frac{1}{d} \sum_{i=1}^{d} (x_i - \mu)^2}
-$$
+        $$
+        \mu = \frac{1}{d} \sum_{i=1}^{d} x_i,
+        \quad
+        \sigma = \sqrt{\frac{1}{d} \sum_{i=1}^{d} (x_i - \mu)^2}
+        $$
 
-- Why this works for Transformers:
-    - No dependence on batch size
-##### What breaks if we use BatchNorm in Transformers?
-1. Training–inference mismatch
-- BatchNorm uses batch statistics during training
-- Uses running averages during inference
-- Autoregressive generation has different statistics → instability
-2. Batch size sensitivity
-3. Sequence length variability
-4. Hard to parallelize across time
-- BN assumes spatial consistency (good for CNNs, bad for sequences)
+        - Why this works for Transformers:
+            - No dependence on batch size
+- **What breaks if we use BatchNorm in Transformers?**
+    - 1. Training–inference mismatch
+        - BatchNorm uses batch statistics during training
+        - Uses running averages during inference
+        - Autoregressive generation has different statistics → instability
+    - 2. Batch size sensitivity
+    - 3. Sequence length variability
+    - 4. Hard to parallelize across time
+        - BN assumes spatial consistency (good for CNNs, bad for sequences)
+- **Transformer-specific reasons (important)**
+    - Self-attention outputs vary **per token**
+    - Tokens in the same batch are **not aligned semantically**
+    - LayerNorm treats each token independently → perfect match
 ##### Quick comparison table
 | **Feature**             |**LayerNorm**| **BatchNorm**|
 | ----------------------- | ----------  | ------------ |
