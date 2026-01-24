@@ -91,7 +91,7 @@
 #### Why do we divide by √dₖ in scaled dot-product attention?
 - **Short answer (interview-ready)**:
     - We divide by **√dₖ** to keep dot-product magnitudes **numerically stable**. Without this scaling, attention scores grow with dimension, pushing softmax into saturation, which causes **vanishing gradients** and unstable training.
-    
+
 - **What’s going wrong without scaling?**
     - In dot-product attention, scores are:
 
@@ -205,7 +205,6 @@
             - Autoregressive decoding often uses **batch size = 1**
     - LayerNorm normalizes within each token
         - LayerNorm computes statistics across the feature dimension for each token independently:
-
         $$
         \mu = \frac{1}{d} \sum_{i=1}^{d} x_i,
         \quad
