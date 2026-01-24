@@ -95,15 +95,11 @@
 - **What’s going wrong without scaling?**
     - In dot-product attention, scores are:
 
-    $$
-        \text{score} = Q K^{\top}
-    $$
+    $$\text{score} = Q K^{\top}$$
 
     - If the components of 𝑄 and 𝐾 have zero mean and unit variance, then:
         
-    $$
-        \mathbb{E}[QK^{\top}] \propto d_k
-    $$
+    $$\mathbb{E}[QK^{\top}] \propto d_k$$
 
     - Larger 𝑑𝑘 ⇒ larger variance of scores
 
