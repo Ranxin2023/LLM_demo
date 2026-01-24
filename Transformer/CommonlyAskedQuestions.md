@@ -1,12 +1,17 @@
 # Commonly Asked Questions
 ## Table Of Contents
-- [Input and EMbedding Layer](#1-input--embedding-layer-token--positional-encoding)
+- [Input and Embedding Layer](#1-input--embedding-layer-token--positional-encoding)
     - [Basic Questions](#basic-questions)
         - [What is Token Embedding](#what-is-token-embedding)
         - [Why do we Need Positional Encoding in Transformers](#why-do-we-need-positional-encoding-in-transformers)
         - [What Happens is We Remove Positional Encoding](#what-happens-if-we-remove-positional-encoding)
     - [Intermediate Questions](#intermediate-questions)
         - [Why Can't Self-attention Alone Capture Word Order](#why-cant-self-attention-alone-capture-word-order)
+        - [What's the Difference Between Sinusoidal and Learned Positional Embeddings](#whats-the-difference-between-sinusoidal-and-learned-positional-embeddings)
+    - [Advanced Questions](#advanced-questions)
+        - [How does RoPE (Rotary Positional Embedding) differ from absolute positional encoding?](#how-does-rope-rotary-positional-embedding-differ-from-absolute-positional-encoding)
+        - [Why Do modern LLMs prefer relative position encodings?](#why-do-modern-llms-prefer-relative-position-encodings)
+        - [How Does Positional Encoding Affect Extrapolation to Longer Sequences](#how-does-positional-encoding-affect-extrapolation-to-longer-sequences)
 - [Self-Attention](#2-self-attention)
     - [Basic Questions](#basic-questions-1)
         - [What is Self-Attention](#what-is-self-attention)
@@ -25,18 +30,32 @@
 - [Residual Connections and Layer Normalization](#6-residual-connections--layer-normalization)
     - [Basic Questions](#basic-questions-5)
         - [What Problem does LayerNorm Solve](#what-problem-does-layernorm-solve)
-    - [Interdemdiate Question](#intermediate-questions-5)
+    - [Intermemdiate Question](#intermediate-questions-5)
 - [Encoder vs Decoder(Architecture Level)](#7-encoder-vs-decoder-architecture-level)
     - [Basic Questions](#basic-questions-6)
+        - [What's the Difference between Encoder and Decoder?](#whats-the-difference-between-encoder-and-decoder)
+        - [Which Models use Encoder only vs Decoder Only?](#which-models-use-encoder-only-vs-decoder-only)
+    - [Intermediate Questions](#intermediate-questions-6)
+        - [Why is GPT Decoder Only](#why-is-gpt-decoder-only)
+        - [Why does Translation Use Encoder-Decoder](#why-does-translation-use-encoderdecoder)
+
 ## 1. Input & Embedding Layer (Token + Positional Encoding)
 ### Basic questions
 #### What is token embedding?
-
+- **Short Answer**
+    - **Token embedding** is the process of mapping discrete tokens (words, subwords, or symbols) into **dense**, **continuous vectors** that capture semantic meaning and can be processed by neural networks.
+- **Why token embedding is needed**
+    - Neural networks cannot work directly with text. Tokens like:
+    - must be converted into numbers that:
+        - Preserve semantic similarity
+        - Are differentiable
+        - Can be learned end-to-end
+    - Token embeddings provide this representation.
 #### Why do we need positional encoding in Transformers?
-##### Short Answer
-- We need **positional encoding** because the Transformer’s self-attention mechanism is order-agnostic. 
-- Without positional information, the model would treat a sentence as a bag of tokens and would not know **which word comes first, last, or next**.
-##### Detailed Answer
+- **Short Answer**
+    - We need **positional encoding** because the Transformer’s self-attention mechanism is order-agnostic. 
+    - Without positional information, the model would treat a sentence as a bag of tokens and would not know **which word comes first, last, or next**.
+- **Detailed Answer**
 1. Self-attention has no notion of order
 2. Positional encoding injects sequence order
 3. Why positional encoding is added, not concatenated
@@ -47,12 +66,17 @@
 #### What’s the difference between sinusoidal and learned positional embeddings?
 #### Why are positional embeddings added, not concatenated?
 
+### Advanced Questions
+#### How does RoPE (Rotary Positional Embedding) differ from absolute positional encoding?
+#### Why do modern LLMs prefer relative position encodings?
+#### How does positional encoding affect extrapolation to longer sequences?
+
 ## 2. Self-Attention
 ### Basic questions
 #### What is self-attention?
 #### What are Query, Key, and Value?
-##### Short Answer:
-- Query, Key, and Value are three learned vector representations of each token that allow the Transformer to compute attention weights—that is, how much each token should focus on other tokens when forming its contextual representation.
+- Short Answer:
+    - Query, Key, and Value are three learned vector representations of each token that allow the Transformer to compute attention weights—that is, how much each token should focus on other tokens when forming its contextual representation.
 - **Formal explanation (how it actually works)**
     - For each token embedding 𝑥:
 
@@ -65,9 +89,10 @@
 #### Why is it called self-attention?
 ### Intermediate questions
 #### Why do we divide by √dₖ in scaled dot-product attention?
-##### Short answer (interview-ready):
-- We divide by **√dₖ** to keep dot-product magnitudes **numerically stable**. Without this scaling, attention scores grow with dimension, pushing softmax into saturation, which causes **vanishing gradients** and unstable training.
-- What’s going wrong without scaling?
+- **Short answer (interview-ready)**:
+    - We divide by **√dₖ** to keep dot-product magnitudes **numerically stable**. Without this scaling, attention scores grow with dimension, pushing softmax into saturation, which causes **vanishing gradients** and unstable training.
+    
+- **What’s going wrong without scaling?**
     - In dot-product attention, scores are:
 
     $$
@@ -75,8 +100,7 @@
     $$
 
     - If the components of 𝑄 and 𝐾 have zero mean and unit variance, then:
-        - 
-
+        
         $$
         \mathbb{E}[QK^{\top}] \propto d_k
         $$
@@ -88,6 +112,8 @@
 #### How is attention different from convolution or RNNs?
 ### Advanced questions
 #### What happens if we remove the scaling factor √dₖ?
+#### Why does attention have O(n²) complexity?
+#### How does attention help with long-range dependencies?
 
 ## 3. Multi-Head Attention
 ### Basic questions
@@ -107,8 +133,8 @@
 ## 5. Feed-Forward Network (FFN)
 ### Basic questions
 #### What is the role of the feed-forward network?
-##### Short Answer
-- The **feed-forward network (FFN)** provides **non-linear transformation and feature mixing at each token**, allowing the Transformer to increase representational capacity beyond attention by independently transforming each token’s features.
+- **Short Answer**
+    - The **feed-forward network (FFN)** provides **non-linear transformation** and **feature mixing at each token**, allowing the Transformer to increase representational capacity beyond attention by independently transforming each token’s features.
 -  What the FFN is in a Transformer
     - Inside every Transformer block, after self-attention, there is a **position-wise feed-forward network**:
 
@@ -136,8 +162,8 @@
 ### Basic questions
 #### Why are residual connections used?
 #### What problem does LayerNorm solve?
-##### Short answer
-- Layer Normalization solves the problem of **unstable training** caused by changing activation distributions, especially in deep and sequential models, by normalizing activations within each sample/token, independent of batch size.
+- **Short answer**:
+    - Layer Normalization solves the problem of **unstable training** caused by changing activation distributions, especially in deep and sequential models, by normalizing activations within each sample/token, independent of batch size.
 1. **Internal covariate shift (practical version)**
 - As a network trains:
     - Earlier layers keep changing
@@ -168,8 +194,8 @@
 
 ### Intermediate questions
 #### Why LayerNorm instead of BatchNorm?
-##### Short answer:
-- Transformers use Layer Normalization instead of Batch Normalization because LayerNorm is **independent of batch size** and token position, making it stable for variable-length sequences, small or dynamic batches, and autoregressive generation.
+- **Short answer**:
+    - Transformers use Layer Normalization instead of Batch Normalization because LayerNorm is **independent of batch size** and token position, making it stable for variable-length sequences, small or dynamic batches, and autoregressive generation.
 - **Core reason (mechanism-level)**
     - BatchNorm normalizes across the batch
         - Computes mean/variance **over batch dimension**
@@ -218,6 +244,35 @@
 
 ### Basic Questions
 #### What’s the difference between encoder and decoder?
+- **Short Answer**
+    - The encoder reads and understands an entire input sequence using bidirectional attention, while the decoder generates an output sequence token-by-token using causal (masked) attention.
+- **Encoder**
+    - **What the encoder does**
+        - Takes the **full input sequence at once**
+        - Builds **contextual representations** of every token
+        - Uses **bidirectional self-attention**
+    - **Encoder block components**
+        - 1. Self-attention (no causal mask)
+        - 2. Feed-forward network
+        - 3. Residual connections + LayerNorm
+    - **Key properties**:
+        - Full context available
+        - 
+    - **Example models**:
+        - BERT
+        - RoBERTa
+        - DistilBERT
+- **Decoder**
+    - **What the decoder does**
+        - Generates text **one token at a time**
+        - Uses **causal (look-ahead) masking**
+        - Can only attend to **past tokens**
+    - Decoder block components
+        - 1. Masked self-attention
+        - 2. (Optional) cross-attention to encoder outputs
+        - 3. Feed-forward network
+        - 4. Residual connections + LayerNorm
+    
 #### Which models use encoder-only vs decoder-only?
 - **Encoder-only models**
     - **What they are**
@@ -236,6 +291,8 @@
         - Named Entity Recognition (NER)
         - Semantic search / embeddings
         - Extractive QA
+    
+
 - **Decoder-only models**
     - **What they are**
         - Use *only the decoder stack
@@ -244,3 +301,22 @@
 ### Intermediate Questions
 #### Why is GPT decoder-only?
 #### Why does translation use encoder–decoder?
+- **Short answer**:
+    - Translation uses an **encoder–decoder** architecture because the model must first **fully understand the source sentence** (encoder) and then generate a target sentence of different length and structure (decoder), conditioning every output token on the encoded source.
+- **The core reason (intuition)**
+    - Translation is not a one-to-one mapping:
+        - Word order changes
+        - Sentence lengths differ
+        - Grammar and morphology differ
+    - So the model needs:
+        - A **global understanding** of the entire source sentence
+        - A **step-by-step generation process** for the target language
+- **What each part does (mechanically)**
+    - Encoder (understanding)
+        - Reads the entire source sentence
+        - Uses **bidirectional attention**
+        - Produces contextual representations for all source tokens
+    - Decoder (generation)
+        - Generates target tokens **autoregressively**
+        - Uses **causal self-attention**
+        - Uses **cross-attention** to focus on relevant source tokens
