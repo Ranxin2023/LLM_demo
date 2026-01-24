@@ -101,11 +101,11 @@
 
     - If the components of 𝑄 and 𝐾 have zero mean and unit variance, then:
         
-        $$
-            \mathbb{E}[QK^{\top}] \propto d_k
-        $$
-        
-        - Larger 𝑑𝑘 ⇒ larger variance of scores
+    $$
+        \mathbb{E}[QK^{\top}] \propto d_k
+    $$
+
+    - Larger 𝑑𝑘 ⇒ larger variance of scores
 
 - Why large scores are bad (softmax saturation)
 
