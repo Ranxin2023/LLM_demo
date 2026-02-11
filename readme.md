@@ -43,7 +43,7 @@
 - [Semantic Gap in RAG](#10-semantic-gap-in-rag)
 - [How can bias in prompt-based learning be mitigated?](#11-how-can-bias-in-prompt-based-learning-be-mitigated)
 - [Fine Tuning](#12-fine-tuning)
-- [Model Evaluation](#13-model-evaluation)
+- [Model Evaluation](#14-model-evaluation)
 - [Adapter Tuning](#16-adapter-tuning)
 - [Hallucination](#17-hallucinations)
 - [Knowledge Distillation](#18-knowledge-distillation)
@@ -768,7 +768,7 @@ Top-P sampling chooses from the smallest set of tokens whose cumulative probabil
     - Use paraphrasing or back-translation to diversify data linguistically.
 
 ## [12. Fine-Tuning](./FineTuning/readme.md)
-## 13. Model Evaluation
+## 14. Model Evaluation
 ### Modern LLM Evaluation Summary
 #### 1. “LLM metrics measure output quality across dimensions like correctness and relevance”
 ### What are LLM Evaluation Metrics?
@@ -975,8 +975,21 @@ $O(n^2)$
 #### Examples
 - **Reformer**: reversible layers → lower memory
 - **Longformer**: sparse attention → long context
-- ALBERT: parameter sharing → fewer weights
-- Mobile-style transformers: optimized for edge devices
+- **ALBERT**: parameter sharing → fewer weights
+- **Mobile-style transformers**: optimized for edge devices
+#### Why this matters
+- Structural efficiency > post-hoc optimization
+- Enables scaling to long sequences and low-resource devices
+
+### Big-Picture Summary
+| Technique               | Saves Memory | Saves Compute | Used in Training | Used in Inference |
+| ----------------------- | ------------ | ------------- | ---------------- | ----------------- |
+| Pruning                 | ✅            | ✅             | Sometimes        | Yes               |
+| Quantization            | ✅✅           | ✅✅            | Mixed precision  | Yes               |
+| Distillation            | ✅✅           | ✅✅            | Yes              | Yes               |
+| Sparse Attention        | ❌            | ✅✅            | Yes              | Yes               |
+| Efficient Architectures | ✅            | ✅             | Yes              | Yes               |
+
 ## 21Extra. What is the purpose of quantization in training large language models?
 ### Quantization is mainly about resource efficiency, but there are two common contexts:
 #### **A)During training (less common, but important)**

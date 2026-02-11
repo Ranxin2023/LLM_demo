@@ -3,7 +3,6 @@
 # ----------------------------
 from langchain_openai import ChatOpenAI, OpenAIEmbeddings
 from sklearn.metrics.pairwise import cosine_similarity
-import numpy as np
 from dotenv import load_dotenv
 from contextlib import redirect_stdout
 
