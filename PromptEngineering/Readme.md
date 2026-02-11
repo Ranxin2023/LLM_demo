@@ -47,6 +47,7 @@
         - [Analysis](#3-analysis)
         - [Refinement](#4-refinement)
         - [Repeat](#5-repeat)
+    - [How Does the Choice of a Tokenizer Impact Prompt Engineering and Model Performance](#how-does-the-choice-of-a-tokenizer-impact-prompt-engineering-and-model-performance)
 - [What is Zero Shot Learning and How Does It Apply to LLMs](#what-is-zero-shot-learning-and-how-does-it-apply-to-llms)
     - [What is Zero SHot Learning](#1-what-is-zero-shot-learning)
     - [Why Zero Shot Learning Works for LLMs](#2-why-zero-shot-learning-works-for-llms)
@@ -842,6 +843,54 @@ Answer: 12
         - Consistency is acceptable
         - Performance meets production needs
 
+### How does the choice of a tokenizer impact prompt engineering and model performance?
+#### 1. First: What a Tokenizer Actually Does
+- Before an LLM sees text, it does not read words.
+- It sees:
+```arduino
+text → tokenizer → tokens → embeddings → model
+
+```
+#### 2. Why Tokenizers Matter for Prompt Engineering
+- Prompt engineering assumes:
+    - “The model understands my wording.”
+- But in reality:
+    - The model understands token sequences.
+- So if your prompt is tokenized poorly:
+    - Meaning can shift
+    - Emphasis changes
+    - Costs increase
+    - Context window fills faster
+
+#### 3. Types of Tokenizers (And Why They Matter)
+- **Word-Based Tokenizers**
+    - Example:
+    ```arduino
+    "transformers are powerful"
+    → ["transformers", "are", "powerful"]
+
+    ```
+    - Problem:
+        - Out-of-vocabulary (OOV) words become unknown
+        - Technical terms may fail
+    - Rare word:
+        ```ardiono
+        "electroencephalographically" 
+        → [UNK]
+        ```
+    - That destroys semantic precision.
+- **Subword Tokenizers (Most Modern LLMs)**
+    - examples
+        - BPE (Byte Pair Encoding)
+        - SentencePiece
+        - WordPiece
+
+    - example
+    ```arduino
+    electroencephalographically
+    → ["electro", "encephalo", "graphically"]
+
+    ```
 ## What is zero-shot learning, and how does it apply to LLMs?
 ### 1. What Is Zero-Shot Learning?
 - **General Definition**
@@ -1026,3 +1075,4 @@ Text: "The service was okay, nothing special." → Sentiment:
 
 ### 9. Interview-Ready Summary
 - Few-shot learning in LLMs refers to the model’s ability to perform new tasks by learning from a small number of examples provided directly in the prompt. By leveraging extensive pre-trained knowledge, the model generalizes task patterns without retraining. The main advantages include reduced data requirements, increased flexibility across tasks, and cost efficiency compared to fine-tuning, while offering better reliability than zero-shot learning.
+

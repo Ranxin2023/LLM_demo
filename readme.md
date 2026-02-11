@@ -34,15 +34,16 @@
     - [Fine Tuning](#73-fine-tuning-with-domain-specific-data)
     - [Prompt Engineering](#74-prompt-engineering)
 - [Comparison Between RAG and Fine-tuning](#7extra-comparison-between-rag-and-fine-tuning)
-- [Agentic RAG](#8-agentic-rag)
+- [Vanilla RAG](#8-vanilla-rag)
+- [Agentic RAG](#9-agentic-rag)
     - [What is Agentic RAG](#what-is-agentic-rag)
     - [How does Agentic RAG Work](#how-does-agentic-rag-work)
     - [Comparison between Agentic RAG and Traditional RAG](#comparison-between-agentic-rag-and-traditional-rag)
 - [Planner](#9extra-planner)
-- [Three famous GraphRAG frameworks](#9-three-famous-graphrag-framekworks)
+- [Three famous GraphRAG frameworks](#10-three-famous-graphrag-framekworks)
 - [Semantic Gap in RAG](#10-semantic-gap-in-rag)
 - [How can bias in prompt-based learning be mitigated?](#11-how-can-bias-in-prompt-based-learning-be-mitigated)
-- [Fine Tuning](#12-fine-tuning)
+- [Fine Tuning](#13-fine-tuning)
 - [Model Evaluation](#14-model-evaluation)
 - [Adapter Tuning](#16-adapter-tuning)
 - [Hallucination](#17-hallucinations)
@@ -564,7 +565,55 @@ Top-P sampling chooses from the smallest set of tokens whose cumulative probabil
 2. **Custom Behavior Control** – Tailors model tone, format, and reasoning style for specialized applications.
 3. **Offline Operation** – Once trained, fine-tuned models can operate without external knowledge sources.
 
-## 8. Agentic RAG
+## 8. Vanilla RAG
+### What Is Vanilla RAG?
+- Vanilla RAG = the original, basic Retrieval-Augmented Generation framework introduced by Lewis et al., 2020/2021.
+- It is the simplest and cleanest form of RAG without extra tricks like:
+    - Self-reflection
+    - Query decomposition
+    - Iterative retrieval
+    - Entropy correction
+    - Tool usage
+- It’s just:
+    - 🔍 Retrieve relevant documents →
+    - ✍️ Feed them into LLM →
+    - 📖 Generate grounded answer
+### Vanilla RAG Architecture
+#### 1. Retriever (Non-Generative)
+```css
+Query → Top-k documents
+
+```
+- using similarity: 
+sim(q,d)=q⋅d
+#### 2. Generator (LLM)
+- The generator receives:
+```css
+[Query] + [Retrieved Documents]
+
+```
+### Vanilla RAG Pipeline (Step-by-Step)
+#### Step 1: User asks question
+#### Step 2: Retriever searches vector DB
+- Returns top-3 passages:
+    - Passage 1: Iron deficiency explanation
+    - Passage 2: Blood loss
+    - Passage 3: Chronic disease
+#### Step 3: Prompt Construction
+```csharp
+Context:
+[Passage 1]
+[Passage 2]
+[Passage 3]
+
+Question:
+What causes anemia?
+
+Answer:
+
+```
+
+## 9. Agentic RAG
 ### What is Agentic-RAG
 #### **🧠 Overview**
 - Agentic RAG (Retrieval-Augmented Generation) is an advanced evolution of the traditional RAG framework.
@@ -657,7 +706,7 @@ Top-P sampling chooses from the smallest set of tokens whose cumulative probabil
 5. **Budgeting & guardrails**
     - It enforces limits (tokens, calls, top-k) and uses early-stop criteria when confidence is high enough—important for cost and latency.
 
-## 9. Three Famous GraphRAG Framekworks
+## 10. Three Famous GraphRAG Framekworks
 ### Microsoft GraphRAG
 - **GitHub**: [microsoft/graphrag](https://github.com/microsoft/graphrag)
 - **Overview**
@@ -767,7 +816,7 @@ Top-P sampling chooses from the smallest set of tokens whose cumulative probabil
     - If 70% of your data says “doctor → he,” generate more examples with “doctor → she.”
     - Use paraphrasing or back-translation to diversify data linguistically.
 
-## [12. Fine-Tuning](./FineTuning/readme.md)
+## [13. Fine-Tuning](./FineTuning/readme.md)
 ## 14. Model Evaluation
 ### Modern LLM Evaluation Summary
 #### 1. “LLM metrics measure output quality across dimensions like correctness and relevance”
